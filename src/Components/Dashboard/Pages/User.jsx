@@ -10,27 +10,27 @@ const User = () => {
       const data = [
         {
           id: 1,
-          name: "John Doe",
-          email: "john@example.com",
+          name: "Muqtadir Sajid",
+          email: "sajid@example.com",
           role: "Admin",
           mobileNo: "01794212131",
           status: "Active",
         },
         {
           id: 2,
-          name: "Jane Smith",
-          email: "jane@example.com",
+          name: "Ashraful Alam",
+          email: "ashraf@example.com",
           role: "Editor",
           mobileNo: "01601792131",
-          status: "Deactivated",
+          status: "Active",
         },
         {
           id: 3,
-          name: "Mike Johnson",
-          email: "mike@example.com",
+          name: "Md. Riduanul haque",
+          email: "riduan@example.com",
           role: "Viewer",
           mobileNo: "01794212131",
-          status: "Active",
+          status: "Deactivated",
         },
         // Add more users as needed
       ];
@@ -43,13 +43,13 @@ const User = () => {
   return (
     <div className="container mx-auto px-4 sm:px-8 py-8">
       <div className="py-2">
-        <h2 className="text-2xl font-semibold leading-tight pb-4 text-green-600">
+        <h2 className="text-2xl font-bold leading-tight pb-4 text-green-600">
           User Management
         </h2>
       </div>
-      <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th
                 scope="col"
@@ -85,7 +85,10 @@ const User = () => {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {users.map((user) => (
-              <tr key={user.id}>
+              <tr
+                key={user.id}
+                className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
+              >
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm font-medium text-gray-900">
                     {user.name}

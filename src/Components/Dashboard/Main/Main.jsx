@@ -1,3 +1,4 @@
+import GameManagement from "../Pages/GameManagement";
 import Images from "../Pages/Images";
 import User from "../Pages/User";
 import Grid from "./Grid";
@@ -13,6 +14,7 @@ function Main() {
         <Route path="main" element={<Grid />} />
         <Route path="user" element={<User />} />
         <Route path="images" element={<Images />} />
+        <Route path="games" element={<GameManagement />} />
       </Routes>
     </div>
   );

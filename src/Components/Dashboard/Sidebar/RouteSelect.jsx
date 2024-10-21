@@ -72,7 +72,7 @@ const NavItem = ({ selected, Icon, title }) => {
           : "hover:bg-stone-700 bg-transparent text-stone-500 shadow-none"
       }`}
     >
-      <Icon className={selected ? "text-violet-500" : ""} />
+      <Icon className={selected ? "text-green-500" : ""} />
       <span>{title}</span>
     </button>
   );
