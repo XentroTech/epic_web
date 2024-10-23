@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 
 const LiveImages = () => {
-  const [users, setUsers] = useState([]);
-
+  const [images, setImages] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   // Simulate fetching data from an API
   useEffect(() => {
-    // Example user data
+    // Example image data
     const fetchData = async () => {
       const data = [
         {
@@ -41,13 +41,18 @@ const LiveImages = () => {
           sold: 41,
           likes: 2,
         },
-        // Add more users as needed
       ];
-      setUsers(data);
+      setImages(data);
     };
 
     fetchData();
   }, []);
+
+  const filteredImages = images.filter(
+    (image) =>
+      image.userId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      image.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="container mx-auto px-4 sm:px-8 py-8">
@@ -56,6 +61,17 @@ const LiveImages = () => {
           Live Images
         </h3>
       </div>
+
+      <div className="relative w-full mb-4">
+        <input
+          type="text"
+          placeholder="Search images by name, email "
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+        />
+      </div>
+
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -105,43 +121,43 @@ const LiveImages = () => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {users.map((user) => (
+            {filteredImages.map((image) => (
               <tr
-                key={user.id}
+                key={image.id}
                 className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
               >
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm font-medium text-gray-900">
-                    <img src={user.image} alt="image" width={50} height={50} />
+                    <img src={image.image} alt="image" width={50} height={50} />
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-500">{user.userId}</div>
+                  <div className="text-sm text-gray-500">{image.userId}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ">
-                    {user.email}
+                    {image.email}
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span
                     className={`px-3 py-1  inline-flex text-xs leading-5 font-semibold rounded-full  ${
-                      user.status === "Live"
+                      image.status === "Live"
                         ? "text-green-800 bg-green-100"
                         : "text-red-800 bg-red-100"
                     } `}
                   >
-                    {user.status}
+                    {image.status}
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ">
-                    {user.sold}
+                    {image.sold}
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ">
-                    {user.likes}
+                    {image.likes}
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

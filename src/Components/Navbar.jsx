@@ -1,6 +1,26 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useLogoutMutation } from "../features/user/userApi";
 
 export default function Navbar() {
+  const { user } = useSelector((state) => state.userAuth || {});
+
+  const email = user?.email;
+  console.log(email);
+  const navigate = useNavigate();
+  const [logout] = useLogoutMutation();
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
+        dispatch(logout());
+      })
+      .catch((err) => console.log(err.message));
+    navigate("/");
+  };
+
   return (
     <div>
       <header className="bg-white">
@@ -31,14 +51,14 @@ export default function Navbar() {
                 className="h-6 w-6"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="currentColor"
                 aria-hidden="true"
                 data-slot="icon"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
                 />
               </svg>
@@ -69,12 +89,15 @@ export default function Navbar() {
             >
               Company
             </a>
-            <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+            <div
+              className="hidden lg:flex lg:flex-1 lg:justify-end"
+              onClick={handleSignOut}
+            >
               <a
-                href="#"
+                href="/login"
                 className="text-sm font-semibold leading-6 text-gray-900"
               >
-                Log in <span aria-hidden="true">&rarr;</span>
+                {email ? "Logout" : "Login"}
               </a>
             </div>
           </div>
@@ -102,14 +125,14 @@ export default function Navbar() {
                   className="h-6 w-6"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
                   data-slot="icon"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M6 18 18 6M6 6l12 12"
                   />
                 </svg>
@@ -139,9 +162,9 @@ export default function Navbar() {
                         data-slot="icon"
                       >
                         <path
-                          fill-rule="evenodd"
+                          fillRule="evenodd"
                           d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
-                          clip-rule="evenodd"
+                          clipRule="evenodd"
                         />
                       </svg>
                     </button>
@@ -212,10 +235,11 @@ export default function Navbar() {
                 </div>
                 <div className="py-6">
                   <a
-                    href="#"
+                    onClick={handleSignOut}
+                    href="/login"
                     className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                   >
-                    Log in
+                    {email ? "Logout" : "Login"}
                   </a>
                 </div>
               </div>

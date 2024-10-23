@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 const Prizes = () => {
   const allData = [
@@ -24,7 +24,7 @@ const Prizes = () => {
     },
     {
       name: "250 PicCoin",
-      prize: "5h Prize",
+      prize: "5th Prize",
       img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaOkZo5lDpjUybyftsu5T36uEI5BZoBGEguA&s",
     },
     {
@@ -53,6 +53,13 @@ const Prizes = () => {
       img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaOkZo5lDpjUybyftsu5T36uEI5BZoBGEguA&s",
     },
   ];
+
+  const [showAll, setShowAll] = useState(false);
+
+  const toggleShowAll = () => {
+    setShowAll(!showAll);
+  };
+
   return (
     <div className="container mx-auto px-4 sm:px-8 py-8">
       <div className="py-2">
@@ -85,7 +92,6 @@ const Prizes = () => {
               >
                 Title
               </th>
-
               <th
                 scope="col"
                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -95,36 +101,45 @@ const Prizes = () => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {allData.map((data) => (
-              <tr
-                key={data.id}
-                className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
-              >
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm font-medium text-gray-900">
-                    <img src={data.img} alt="image" width={50} />
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-500">{data.prize}</div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ">
-                    {data.name}
-                  </span>
-                </td>
-
-                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <div className="flex gap-3">
-                    <button className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800  shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-xs px-5 py-2.5 text-center me-2 mb-2">
-                      Update
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
+            {allData
+              .slice(0, showAll ? allData.length : 3)
+              .map((data, index) => (
+                <tr
+                  key={index}
+                  className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
+                >
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm font-medium text-gray-900">
+                      <img src={data.img} alt={data.name} width={50} />
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm text-gray-500">{data.prize}</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ">
+                      {data.name}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <div className="flex gap-3">
+                      <button className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800  shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-xs px-5 py-2.5 text-center me-2 mb-2">
+                        Update
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
+      </div>
+      <div className="flex justify-center mt-4">
+        <button
+          onClick={toggleShowAll}
+          className="text-white bg-green-600 hover:bg-green-700 font-medium rounded-lg text-sm px-5 py-2.5"
+        >
+          {showAll ? "Show Less" : "Show More"}
+        </button>
       </div>
     </div>
   );

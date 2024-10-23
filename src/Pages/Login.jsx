@@ -1,80 +1,105 @@
-import React from "react";
+import React, { useState } from "react";
+import loginImg from "../assets/login.avif";
+import { useLoginUserMutation } from "../features/user/userApi";
+import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
+  const [loginUser, { isLoading }] = useLoginUserMutation();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const userData = { email, password };
+      const result = await loginUser(userData).unwrap();
+      console.log("Login successful", result);
+      // Redirect to home page after login success
+      navigate("/");
+    } catch (err) {
+      if (err.originalStatus === 429) {
+        setError("Too many login request, please try again later.");
+      }
+      console.error("Failed to login", err);
+      setError("Invalid email or password. Please try again.");
+    }
+  };
+
   return (
-    <div>
-      <div className="grid grid-cols-12">
-        <div
-          className="banner col-span-8 text-white font-sans font-bold bg-cover bg-no-repeat"
-          style={{
-            backgroundImage:
-              "url('https://cdn.pixabay.com/photo/2018/09/23/18/30/drop-3698073_640.jpg')",
-          }}
-        >
-          {/* <!-- Aquí iría algún comentario --> */}
-        </div>
-        <div className="col-span-4 text-white font-sans font-bold bg-black min-h-screen pl-7">
-          <div className="grid grid-rows-6 grid-flow-col min-h-screen items-center justify-items-start">
-            <div className="row-span-4 row-start-2 text-4xl">
-              Sign In
-              <div className="pt-10 pr-20">
-                <label className="text-sm font-sans font-medium">
-                  Username
-                </label>
-                <input
-                  type="text"
-                  name="username"
-                  placeholder="Write your username"
-                  className="w-full bg-black py-3 px-12 border hover: border-gray-500 rounded shadow text-base font-sans"
-                />
-              </div>
-              <div className="pt-2 pr-20">
-                <label className="text-sm font-sans font-medium">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Write your password"
-                  className=" w-full bg-black py-3 px-12 border hover: border-gray-500 rounded shadow text-base font-sans"
-                />
-                <a
-                  href=""
-                  className="text-sm font-sans font-medium text-gray-600 underline"
-                >
-                  Forgot password?
-                </a>
-              </div>
-              {/* <!-- Button --> */}
-              <div className="text-sm font-sans font-medium w-full pr-20 pt-14">
-                <button
-                  type="button"
-                  className="text-center w-full py-4 bg-blue-700 hover:bg-blue-400 rounded-md text-white"
-                >
-                  SIGN IN
-                </button>
-              </div>
-            </div>
-
-            <a
-              href=""
-              className="text-sm font-sans font-medium text-gray-400 underline"
-            >
-              Don´t have an account? Sign up
-            </a>
-          </div>
-        </div>
-
-        {/* <!-- Second column image --> */}
+    <div className="flex h-screen">
+      <div className="hidden lg:flex flex-1 bg-cover bg-center">
+        <img src={loginImg} alt="Login" />
       </div>
 
-      {/* <style>
-    .banner {{
-        background: url( 'https://s1.1zoom.me/b6058/448/Dogs_Svetlana_Shelemeteva_Hug_Little_girls_568770_1920x1080.jpg' );
-        background-repeat: no-repeat;
-        background-size: cover;        
-    }}
-</style> */}
+      <div className="flex items-center justify-center flex-1 p-6">
+        <form
+          onSubmit={handleSubmit}
+          className="w-full max-w-lg h-[500px] space-y-4 bg-white p-10 rounded-lg shadow-lg"
+        >
+          <h2 className="text-2xl font-bold text-green-600 text-center">
+            Login
+          </h2>
+          {error && (
+            <div className="bg-red-100 text-red-500 p-3 rounded text-center">
+              {error}
+            </div>
+          )}
+          <div>
+            <label className="block mb-1 text-sm font-medium" htmlFor="email">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-200"
+              required
+            />
+          </div>
+          <div>
+            <label
+              className="block mb-1 text-sm font-medium"
+              htmlFor="password"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-200"
+              required
+            />
+          </div>
+          <p className="text-sm text-right">
+            <a href="#" className="text-green-600 hover:underline">
+              Forgot Password
+            </a>
+          </p>
+          <button
+            type="submit"
+            className="w-full bg-green-600 text-white py-3 rounded hover:bg-green-700 transition"
+            disabled={isLoading}
+          >
+            {isLoading ? "Logging in..." : "Login"}
+          </button>
+          <p className="text-sm text-center">
+            Don't have an account?{" "}
+            <a href="/signup" className="text-green-600 hover:underline">
+              Sign up
+            </a>
+          </p>
+        </form>
+      </div>
     </div>
   );
-}
+};
+
+export default Login;
