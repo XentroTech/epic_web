@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import loginImg from "../assets/login.avif";
 import { useLoginUserMutation } from "../features/user/userApi";
 import { useNavigate } from "react-router-dom";
-
+import { toast } from "react-toastify";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const [loginUser, { isLoading }] = useLoginUserMutation();
+  const [loginUser, { isLoading, isError, error: loginError }] =
+    useLoginUserMutation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,12 +21,12 @@ const Login = () => {
       console.log("Login successful", result);
       // Redirect to home page after login success
       navigate("/");
+      toast.success("Login Successfull!", { position: "top-right" });
     } catch (err) {
-      if (err.originalStatus === 429) {
-        setError("Too many login request, please try again later.");
-      }
+      const newError =
+        err.data?.message || "Too many login request please try later";
+      setError(newError);
       console.error("Failed to login", err);
-      setError("Invalid email or password. Please try again.");
     }
   };
 
@@ -61,25 +63,26 @@ const Login = () => {
               required
             />
           </div>
-          <div>
-            <label
-              className="block mb-1 text-sm font-medium"
-              htmlFor="password"
-            >
-              Password
-            </label>
+          <div className="relative mb-4">
             <input
-              type="password"
-              id="password"
-              name="password"
+              type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-200"
               required
+              className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+            <span
+              className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
           </div>
           <p className="text-sm text-right">
-            <a href="#" className="text-green-600 hover:underline">
+            <a
+              href="/forgotPassword"
+              className="text-green-600 hover:underline"
+            >
               Forgot Password
             </a>
           </p>

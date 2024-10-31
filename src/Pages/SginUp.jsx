@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import signupImg from "../assets/register.avif";
 import { useSignupMutation } from "../features/user/userApi";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const ShinUp = () => {
   const [signupData, setSignupData] = useState({
@@ -10,6 +13,7 @@ const ShinUp = () => {
     password: "",
     mobileNo: "",
   });
+  const navigate = useNavigate();
 
   const [signup, { isLoading, isError, error }] = useSignupMutation();
 
@@ -21,12 +25,24 @@ const ShinUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await signup(signupData).unwrap();
-      alert("Signup successful!");
+      await signup(signupData)
+        .unwrap()
+        .then((data) => {
+          if (data.success) {
+            toast.success(`SignUp successful!`, {
+              position: "top-right",
+            });
+            navigate("/login");
+          }
+        })
+        .catch((error) =>
+          toast.error(error.data.message, { position: "top-right" })
+        );
     } catch (err) {
       console.error(err);
-
-      alert(`Signup failed: ${error?.data?.message || error.message}`);
+      toast.error(`${error?.data?.message || error.message}`, {
+        position: top - right,
+      });
     }
   };
 

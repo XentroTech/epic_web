@@ -1,5 +1,5 @@
 import React from "react";
-
+import appImg from "../assets/appImage.jpg";
 export default function Features() {
   return (
     <div>
@@ -8,8 +8,8 @@ export default function Features() {
           <div className="lg:w-1/2 w-full mb-10 lg:mb-0 rounded-lg overflow-hidden">
             <img
               alt="feature"
-              className="object-cover object-center h-full w-full"
-              src="https://dummyimage.com/460x500"
+              className="object-cover object-center h-[600px]"
+              src={appImg}
             />
           </div>
           <div className="flex flex-col flex-wrap lg:py-6 -mb-10 lg:w-1/2 lg:pl-12 lg:text-left text-center">

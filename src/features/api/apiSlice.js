@@ -6,13 +6,13 @@ export const apiSlice = createApi({
     baseUrl: "http://localhost:3000/api/v1",
     prepareHeaders: async (headers, { getState, endpoint }) => {
       const token = getState()?.auth?.token;
-
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }
       return headers;
     },
   }),
+  tagTypes: ["Images, PendingImages, LiveImages"],
 
   endpoints: (builder) => ({}),
 });

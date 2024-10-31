@@ -47,10 +47,50 @@ export const userApi = apiSlice.injectEndpoints({
         }
       },
     }),
+    forgotPassword: builder.mutation({
+      query: (email) => ({
+        url: "/forgotPassword",
+        method: "POST",
+        body: email,
+      }),
+    }),
+    verifyOtp: builder.mutation({
+      query: (otp) => ({
+        url: "/verify/resetPasswordOtp",
+        method: "POST",
+        body: otp,
+      }),
+    }),
+    resetPassword: builder.mutation({
+      query: ({ email, password }) => ({
+        url: `/password/reset/${email}`,
+        method: "PATCH",
+        body: { password },
+      }),
+    }),
     logout: builder.mutation({
       query: () => ({
         url: "/logout",
         method: "POST",
+      }),
+    }),
+
+    allUsers: builder.query({
+      query: ({ searchQuery = "", currentPage = 1 }) =>
+        `/getUsers?query=${searchQuery}&page=${currentPage}&limit=10`,
+      providesTags: ["Users"],
+    }),
+
+    getUser: builder.query({
+      query: (id) => ({
+        url: `getUser/${id}`,
+      }),
+    }),
+    updateUserProfile: builder.mutation({
+      query: (formData) => ({
+        url: `/updateProfile`,
+        method: "PATCH",
+        body: formData,
       }),
     }),
     updateUser: builder.mutation({
@@ -60,8 +100,14 @@ export const userApi = apiSlice.injectEndpoints({
         body: user,
       }),
     }),
-    allUsers: builder.query({
-      query: () => `/getAllUser`,
+
+    updateUserRole: builder.mutation({
+      query: ({ id, role }) => ({
+        url: `/admin/update/role/${id}`,
+        method: "PUT",
+        body: { role },
+      }),
+      invalidatesTags: ["Users"],
     }),
 
     deleteUser: builder.mutation({
@@ -69,6 +115,14 @@ export const userApi = apiSlice.injectEndpoints({
         url: `/deleteUser/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Users"],
+    }),
+    activateOrDeactivateUser: builder.mutation({
+      query: (id) => ({
+        url: `/activeOrDeactivateUser/${id}`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Users"],
     }),
   }),
 });
@@ -80,4 +134,11 @@ export const {
   useAllUsersQuery,
   useDeleteUserMutation,
   useLogoutMutation,
+  useUpdateUserRoleMutation,
+  useActivateOrDeactivateUserMutation,
+  useGetUserQuery,
+  useForgotPasswordMutation,
+  useVerifyOtpMutation,
+  useResetPasswordMutation,
+  useUpdateUserProfileMutation,
 } = userApi;

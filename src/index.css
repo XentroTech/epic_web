@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-.clip-path-triangle {
-  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+.clip-diagonal {
+  clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+}
+.bg-theme {
+  background-image: linear-gradient(
+    0.2deg,
+    rgba(40, 173, 222, 1) 4.8%,
+    rgb(27, 76, 224) 85.5%
+  );
 }

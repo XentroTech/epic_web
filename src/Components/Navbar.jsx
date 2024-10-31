@@ -1,252 +1,174 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../features/user/userApi";
+import { userLoggedOut } from "../features/user/userAuthSlice";
+import { FiUser } from "react-icons/fi"; // Import an icon for profile if desired
 
 export default function Navbar() {
-  const { user } = useSelector((state) => state.userAuth || {});
-
-  const email = user?.email;
-  console.log(email);
+  const { user } = useSelector((state) => state.auth || {});
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [logout] = useLogoutMutation();
-  const handleSignOut = () => {
-    signOut(auth)
-      .then(() => {
-        localStorage.removeItem("token");
-        sessionStorage.removeItem("token");
-        dispatch(logout());
-      })
-      .catch((err) => console.log(err.message));
-    navigate("/");
+
+  // State to manage submenu visibility
+  const [isMenuOpen, setMenuOpen] = useState(false);
+
+  // Handle logout
+  const handleSignOut = async () => {
+    try {
+      await logout().unwrap();
+      dispatch(userLoggedOut());
+      navigate("/login");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
-    <div>
-      <header className="bg-white">
-        <nav
-          className="mx-auto flex  items-center justify-between p-6 lg:px-8"
-          aria-label="Global"
-        >
-          <div className="flex  lg:flex-1">
-            <a
-              href="#"
-              className="-m-1.5 p-1.5 flex items-center justify-between space-x-2"
-            >
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
-                alt=""
-              />
-              <span className="font-bold">Epic</span>
-            </a>
-          </div>
-          <div className="flex lg:hidden">
-            <button
-              type="button"
-              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-            >
-              <span className="sr-only">Open main menu</span>
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                aria-hidden="true"
-                data-slot="icon"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                />
-              </svg>
-            </button>
-          </div>
-          <div className="hidden lg:flex lg:gap-x-12">
-            <a
-              href="#"
-              className="text-sm font-semibold leading-6 text-gray-900"
-            >
-              Home
-            </a>
-            <a
-              href="#"
-              className="text-sm font-semibold leading-6 text-gray-900"
-            >
-              Images
-            </a>
-            <a
-              href="/dashboard"
-              className="text-sm font-semibold leading-6 text-gray-900"
-            >
-              Dashboard
-            </a>
-            <a
-              href="#"
-              className="text-sm font-semibold leading-6 text-gray-900"
-            >
-              Company
-            </a>
-            <div
-              className="hidden lg:flex lg:flex-1 lg:justify-end"
-              onClick={handleSignOut}
-            >
-              <a
-                href="/login"
-                className="text-sm font-semibold leading-6 text-gray-900"
-              >
-                {email ? "Logout" : "Login"}
-              </a>
-            </div>
-          </div>
-        </nav>
-        {/* <!-- Mobile menu, show/hide based on menu open state. --> */}
-        <div className="lg:hidden" role="dialog" aria-modal="true">
-          {/* <!-- Background backdrop, show/hide based on slide-over state. --> */}
-          <div className="fixed inset-0 z-10"></div>
-          <div className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-            <div className="flex items-center justify-between">
-              <a href="#" className="-m-1.5 p-1.5">
-                <span className="sr-only">Your Company</span>
-                <img
-                  className="h-8 w-auto"
-                  src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
-                  alt=""
-                />
-              </a>
+    <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+      <div className="max-w-screen-3xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <img
+            src="https://flowbite.com/docs/images/logo.svg"
+            className="h-8"
+            alt="Flowbite Logo"
+          />
+          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+            Epic
+          </span>
+        </a>
+        <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+          {user ? (
+            // Circular image with dropdown for logged in users
+            <div className="relative">
               <button
-                type="button"
-                className="-m-2.5 rounded-md p-2.5 text-gray-700"
+                onClick={() => setMenuOpen(!isMenuOpen)}
+                className="w-10 h-10 rounded-full overflow-hidden focus:outline-none"
               >
-                <span className="sr-only">Close menu</span>
-                <svg
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                  data-slot="icon"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18 18 6M6 6l12 12"
+                {user.profile_pic ? (
+                  <img
+                    src={user.profile_pic} // Assume you have a profile picture URL
+                    alt="User"
+                    className="size-8 rounded-full shrink-0 bg-theme shadow"
                   />
-                </svg>
+                ) : (
+                  <img
+                    src="https://api.dicebear.com/9.x/notionists/svg" // Assume you have a profile picture URL
+                    alt="User"
+                    className="size-8 rounded-full shrink-0 bg-theme shadow"
+                  />
+                )}
               </button>
-            </div>
-            <div className="mt-6 flow-root">
-              <div className="-my-6 divide-y divide-gray-500/10">
-                <div className="space-y-2 py-6">
-                  <div className="-mx-3">
-                    <button
-                      type="button"
-                      className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                      aria-controls="disclosure-1"
-                      aria-expanded="false"
-                    >
-                      Product
-                      {/* <!--
-                  Expand/collapse icon, toggle classNamees based on menu open state.
-
-                  Open: "rotate-180", Closed: ""
-                --> */}
-                      <svg
-                        className="h-5 w-5 flex-none"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        aria-hidden="true"
-                        data-slot="icon"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </button>
-                    {/* <!-- 'Product' sub-menu, show/hide based on menu state. --> */}
-                    <div className="mt-2 space-y-2" id="disclosure-1">
+              {isMenuOpen && (
+                <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md z-10">
+                  <ul className="py-2">
+                    <li>
                       <a
-                        href="#"
-                        className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                        href="/profile" // Link to the user's profile
+                        className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
                       >
-                        Analytics
+                        <FiUser className="inline mr-1" /> Profile
                       </a>
-                      <a
-                        href="#"
-                        className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    </li>
+                    <li>
+                      <button
+                        onClick={handleSignOut}
+                        className="block px-4 py-2 text-gray-800 hover:bg-gray-100 w-full text-left"
                       >
-                        Engagement
-                      </a>
-                      <a
-                        href="#"
-                        className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                      >
-                        Security
-                      </a>
-                      <a
-                        href="#"
-                        className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                      >
-                        Integrations
-                      </a>
-                      <a
-                        href="#"
-                        className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                      >
-                        Automations
-                      </a>
-                      <a
-                        href="#"
-                        className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                      >
-                        Watch demo
-                      </a>
-                      <a
-                        href="#"
-                        className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                      >
-                        Contact sales
-                      </a>
-                    </div>
-                  </div>
-                  <a
-                    href="#"
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  >
-                    Features
-                  </a>
-                  <a
-                    href="#"
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  >
-                    Marketplace
-                  </a>
-                  <a
-                    href="#"
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  >
-                    Company
-                  </a>
+                        Logout
+                      </button>
+                    </li>
+                  </ul>
                 </div>
-                <div className="py-6">
-                  <a
-                    onClick={handleSignOut}
-                    href="/login"
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  >
-                    {email ? "Logout" : "Login"}
-                  </a>
-                </div>
-              </div>
+              )}
             </div>
-          </div>
+          ) : (
+            <button
+              onClick={() => navigate("/login")}
+              type="button"
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Login
+            </button>
+          )}
+          <button
+            data-collapse-toggle="navbar-sticky"
+            type="button"
+            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            aria-controls="navbar-sticky"
+            aria-expanded="false"
+          >
+            <span className="sr-only">Open main menu</span>
+            <svg
+              className="w-5 h-5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 17 14"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M1 1h15M1 7h15M1 13h15"
+              />
+            </svg>
+          </button>
         </div>
-      </header>
-    </div>
+        <div
+          className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+          id="navbar-sticky"
+        >
+          <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+            <li>
+              <a
+                href="/"
+                className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
+                aria-current="page"
+              >
+                Home
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+              >
+                About
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+              >
+                Services
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+              >
+                Contact
+              </a>
+            </li>
+            {user?.role &&
+              ["superadmin", "admin", "moderator"].includes(user.role) && (
+                <li>
+                  <a
+                    href="/dashboard"
+                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  >
+                    Dashboard
+                  </a>
+                </li>
+              )}
+          </ul>
+        </div>
+      </div>
+    </nav>
   );
 }

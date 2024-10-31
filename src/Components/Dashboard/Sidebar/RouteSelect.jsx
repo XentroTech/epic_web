@@ -6,28 +6,34 @@ import {
   FiPlay,
   FiUser,
 } from "react-icons/fi";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 // Rename the Route component to avoid conflict with react-router-dom's Route component
 function RouteSelect() {
+  const { user } = useSelector((state) => state.auth || {});
   const location = useLocation();
 
   return (
-    <div className="flex flex-col gap-4 ">
-      <Link to="/dashboard/main">
+    <div className="flex flex-col gap-4">
+      <Link to="/dashboard">
         <NavItem
           Icon={FiHome}
-          selected={location.pathname === "/dashboard/main"}
+          selected={location.pathname === "/dashboard"}
           title="Dashboard"
         />
       </Link>
-      <Link to="/dashboard/user">
-        <NavItem
-          Icon={FiUser}
-          selected={location.pathname === "/dashboard/user"}
-          title="User Management"
-        />
-      </Link>
+
+      {["admin", "superadmin"].includes(user.role) && ( // Show for admin and superadmin
+        <Link to="/dashboard/user">
+          <NavItem
+            Icon={FiUser}
+            selected={location.pathname === "/dashboard/user"}
+            title="User Management"
+          />
+        </Link>
+      )}
+
       <Link to="/dashboard/images">
         <NavItem
           Icon={FiImage}
@@ -35,27 +41,36 @@ function RouteSelect() {
           title="Image Management"
         />
       </Link>
-      <Link to="/dashboard/games">
-        <NavItem
-          Icon={FiPlay}
-          selected={location.pathname === "/dashboard/games"}
-          title="Game Management"
-        />
-      </Link>
-      <Link to="/dashboard/integration">
-        <NavItem
-          Icon={FiLink}
-          selected={location.pathname === "/dashboard/integration"}
-          title="Integration"
-        />
-      </Link>
-      <Link to="/dashboard/finance">
-        <NavItem
-          Icon={FiDollarSign}
-          selected={location.pathname === "/dashboard/finance"}
-          title="Finance"
-        />
-      </Link>
+
+      {["admin", "superadmin"].includes(user.role) && ( // Show for admin and superadmin
+        <Link to="/dashboard/games">
+          <NavItem
+            Icon={FiPlay}
+            selected={location.pathname === "/dashboard/games"}
+            title="Game Management"
+          />
+        </Link>
+      )}
+
+      {["admin", "superadmin"].includes(user.role) && ( // Show for admin and superadmin
+        <Link to="/dashboard/integration">
+          <NavItem
+            Icon={FiLink}
+            selected={location.pathname === "/dashboard/integration"}
+            title="Integration"
+          />
+        </Link>
+      )}
+
+      {["admin", "superadmin"].includes(user.role) && ( // Show for admin and superadmin
+        <Link to="/dashboard/finance">
+          <NavItem
+            Icon={FiDollarSign}
+            selected={location.pathname === "/dashboard/finance"}
+            title="Finance"
+          />
+        </Link>
+      )}
     </div>
   );
 }
