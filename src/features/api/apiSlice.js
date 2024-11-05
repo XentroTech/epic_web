@@ -12,7 +12,7 @@ export const apiSlice = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Images, PendingImages, LiveImages"],
+  tagTypes: ["Images, PendingImages, LiveImages, ImagesSpace", "Coin"],
 
   endpoints: (builder) => ({}),
 });

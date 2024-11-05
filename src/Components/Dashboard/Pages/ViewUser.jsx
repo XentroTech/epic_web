@@ -53,7 +53,9 @@ const ViewUser = () => {
 
           <div className="mt-16 text-center space-y-4">
             <h2 className="text-2xl font-bold text-gray-800">{user.name}</h2>
+            <p className="text-gray-600">@{user.username}</p>
             <p className="text-gray-600">{user.email}</p>
+            <p className="text-gray-600">{user.uploaded_images}</p>
             <p className="text-gray-500">Mobile: {user.mobileNo}</p>
           </div>
 

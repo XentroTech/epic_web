@@ -85,6 +85,7 @@ export const userApi = apiSlice.injectEndpoints({
       query: (id) => ({
         url: `getUser/${id}`,
       }),
+      providesTags: ["User"],
     }),
     updateUserProfile: builder.mutation({
       query: (formData) => ({
@@ -92,6 +93,7 @@ export const userApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: formData,
       }),
+      invalidatesTags: ["User"],
     }),
     updateUser: builder.mutation({
       query: ({ id, user }) => ({

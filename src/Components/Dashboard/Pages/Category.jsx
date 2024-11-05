@@ -2,59 +2,57 @@ import React, { useState, useEffect } from "react";
 import coinImg from "../../../assets/epic_coin.png";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {
-  useCreatePrizeInfoMutation,
-  useDeletePrizeInfoMutation,
-  useGetPrizeInfoQuery,
-  useUpdatePrizeInfoMutation,
-} from "../../../features/game/prizeApi";
+
 import { BiPlus } from "react-icons/bi";
-function Prize() {
+import {
+  useCreateCategoryMutation,
+  useDeleteCategoryMutation,
+  useGetCategoryQuery,
+  useUpdateCategoryMutation,
+} from "../../../features/images/categoryApi";
+function Category() {
   const [showModal, setShowModal] = useState(false);
-  const [title, setTitle] = useState("");
-  const [position, setPosition] = useState("");
+  const [name, setName] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [editingIndex, setEditingIndex] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [showAll, setShowAll] = useState(false);
   const [error, setError] = useState("");
 
-  const { data, refetch } = useGetPrizeInfoQuery();
-  const prizeInfo = data?.prizeInfo || [];
-  const displayedPrizeInfo = showAll ? prizeInfo : prizeInfo.slice(0, 3);
+  const { data, refetch } = useGetCategoryQuery();
+  const categories = data?.categories || [];
+  const displayedCategories = showAll ? categories : categories.slice(0, 3);
 
   const [
-    createPrizeInfo,
+    createCategory,
     { isError: createIsError, error: createError, isLoading: createIsLoading },
-  ] = useCreatePrizeInfoMutation();
-  const [deletePrizeInfo] = useDeletePrizeInfoMutation();
-  const [updatePrizeInfo] = useUpdatePrizeInfoMutation();
+  ] = useCreateCategoryMutation();
+  const [deleteCategory] = useDeleteCategoryMutation();
+  const [updateCategory] = useUpdateCategoryMutation();
 
   //handle create
   const handleCreate = async () => {
-    if (title && position && imageFile) {
-      const newPrizeInfo = new FormData();
-      newPrizeInfo.append("title", title);
-      newPrizeInfo.append("position", position);
+    if (name && imageFile) {
+      const newCategory = new FormData();
+      newCategory.append("name", name);
       if (imageFile) {
-        newPrizeInfo.append("image_url", imageFile);
+        newCategory.append("image_url", imageFile);
       }
       try {
         if (editingIndex !== null) {
-          await updatePrizeInfo({
+          await updateCategory({
             id: editingId,
-            data: newPrizeInfo,
+            data: newCategory,
           }).unwrap();
-          toast.success("Prize Info Updated Successfully!", {
+          toast.success("Category Updated Successfully!", {
             position: "top-right",
           });
         } else {
-          await createPrizeInfo(newPrizeInfo).unwrap();
-          toast.success("Prize Info Created!", { position: "top-right" });
+          await createCategory(newCategory).unwrap();
+          toast.success("Category Created!", { position: "top-right" });
         }
 
-        setTitle("");
-        setPosition("");
+        setName("");
         setImageFile(null);
         setShowModal(false);
         setEditingIndex(null);
@@ -68,16 +66,15 @@ function Prize() {
   };
   // handle delete
   const handleDelete = async (id) => {
-    await deletePrizeInfo(id).unwrap();
-    toast.success("Prize Info Deleted!", { position: "top-right" });
+    await deleteCategory(id).unwrap();
+    toast.success("Category Deleted!", { position: "top-right" });
     refetch();
   };
   //handle update
   const handleUpdate = (index, id) => {
     setEditingIndex(index);
     setEditingId(id);
-    setTitle(prizeInfo[index].title);
-    setPosition(prizeInfo[index].position);
+    setName(categories[index].name);
     setImageFile(null);
     setShowModal(true);
   };
@@ -85,8 +82,7 @@ function Prize() {
   const handleCloseModal = () => {
     setShowModal(false);
     setEditingIndex(null);
-    setTitle("");
-    setPosition("");
+    setName("");
     setImageFile(null);
   };
   // handle image change
@@ -95,16 +91,14 @@ function Prize() {
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold text-green-600 p-4">
-        Prize Management
-      </h1>
-      <div className="flex justify-center items-center mx-auto">
+    <div className="p-4 container mx-auto px-4 sm:px-8 py-8">
+      <h1 className="text-xl font-bold text-slate-500 p-4">Categories</h1>
+      <div className="flex justify-center items-center mx-auto py-2">
         <button
           onClick={() => setShowModal(true)}
           className="text-xl  text-green-600 font-bold border border-green-600 rounded px-8 py-4 hover:bg-green-600 hover:text-white  transform hover:scale-105 transition duration-500"
         >
-          <span>Create Prize</span> +
+          <span>Create Category</span> +
         </button>
       </div>
 
@@ -114,7 +108,7 @@ function Prize() {
           {error && <p className="bg-red-500 text-white">{error}</p>}
           <div className="bg-white rounded-lg p-6 w-80">
             <h2 className="text-xl font-bold mb-4 text-green-600">
-              {editingIndex !== null ? "Update" : "Create"} Prize
+              {editingIndex !== null ? "Update" : "Create"} Category
             </h2>
 
             <div className="mb-4">
@@ -140,16 +134,9 @@ function Prize() {
 
             <input
               type="text"
-              placeholder="Enter Title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="w-full border border-gray-300 rounded-md p-2 mb-4"
-            />
-            <input
-              type="text"
-              placeholder="Enter Position"
-              value={position}
-              onChange={(e) => setPosition(e.target.value)}
+              placeholder="Enter Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="w-full border border-gray-300 rounded-md p-2 mb-4"
             />
 
@@ -172,50 +159,52 @@ function Prize() {
       )}
 
       {/* Table of coin management */}
-      <div className="mt-6 overflow-x-auto shadow-md">
-        <table className="min-w-full bg-white border border-gray-200">
-          <thead>
+      <div className=" overflow-x-auto shadow-md sm:rounded-lg ">
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
+              <th className="px-6 py-3 border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-semibold">
+                SL
+              </th>
               <th className="px-6 py-3 border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-semibold">
                 Image
               </th>
               <th className="px-6 py-3 border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-semibold">
-                Title
+                Name
               </th>
-              <th className="px-6 py-3 border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-semibold">
-                Position
-              </th>
+
               <th className="px-6 py-3 border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-semibold">
                 Actions
               </th>
             </tr>
           </thead>
           <tbody>
-            {displayedPrizeInfo.map((prize, index) => (
-              <tr key={prize._id}>
+            {displayedCategories.map((category, index) => (
+              <tr key={category._id}>
+                <td className="px-6 py-4 border-b border-gray-200">
+                  {index + 1}
+                </td>
                 <td className="px-6 py-4 border-b border-gray-200">
                   <img
-                    src={prize.image_url}
-                    alt="Prize"
+                    src={category.image_url}
+                    alt="Category"
                     className="w-10 h-10 object-cover rounded-md"
                   />
                 </td>
                 <td className="px-6 py-4 border-b border-gray-200 text-gray-700">
-                  {prize.title}
+                  {category.name}
                 </td>
-                <td className="px-6 py-4 border-b border-gray-200 text-gray-500">
-                  {prize.position}
-                </td>
+
                 <td className="px-6 py-4 border-b border-gray-200">
                   <button
-                    onClick={() => handleUpdate(index, prize._id)}
-                    className="bg-yellow-500 text-white px-3 py-1 rounded mr-2 hover:bg-yellow-700 transform hover:scale-105 transition duration-300"
+                    onClick={() => handleUpdate(index, category._id)}
+                    className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800  shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-xs px-5 py-2.5 text-center me-2 mb-2 transform hover:scale-105 transition duration-300"
                   >
                     Update
                   </button>
                   <button
-                    onClick={() => handleDelete(prize._id)}
-                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700 transform hover:scale-105 transition duration-300"
+                    onClick={() => handleDelete(category._id)}
+                    className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800  shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-xs px-5 py-2.5 text-center me-2 mb-2 transform hover:scale-105 transition duration-300"
                   >
                     Delete
                   </button>
@@ -225,7 +214,7 @@ function Prize() {
           </tbody>
         </table>
       </div>
-      {prizeInfo.length > 3 && !showAll && (
+      {categories.length > 3 && !showAll && (
         <div className="flex justify-center mt-4">
           <button
             onClick={() => setShowAll(true)}
@@ -249,4 +238,4 @@ function Prize() {
   );
 }
 
-export default Prize;
+export default Category;

@@ -1,24 +1,50 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { useUpdateUserProfileMutation } from "../features/user/userApi";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  useGetUserQuery,
+  useUpdateUserProfileMutation,
+} from "../features/user/userApi";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+import { userLoggedIn } from "../features/user/userAuthSlice";
 
 const UserProfile = () => {
-  const { user } = useSelector((state) => state.auth);
+  const { user: authUser } = useSelector((state) => state.auth);
+  const {
+    data,
+    isLoading: isUserLoading,
+    error: userError,
+    refetch,
+  } = useGetUserQuery(authUser?._id);
+  const user = data?.user;
   const [updateUserProfile, { isLoading, error }] =
     useUpdateUserProfileMutation();
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
-    name: user.name || "",
-    username: user.username || "",
-    email: user.email || "",
+    name: "",
+    username: "",
+    email: "",
     password: "",
-    mobileNo: user.mobileNo || "",
-    country: user.country || "",
-    profile_pic: null, // Added field for profile picture
-    cover_pic: null, // Added field for cover picture
+    mobileNo: "",
+    country: "",
+    profile_pic: null,
+    cover_pic: null,
   });
+
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        name: user.name || "",
+        username: user.username || "",
+        email: user.email || "",
+        mobileNo: user.mobileNo || "",
+        country: user.country || "",
+        profile_pic: user.profile_pic || null,
+        cover_pic: user.cover_pic || null,
+      });
+    }
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,10 +57,10 @@ const UserProfile = () => {
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     if (files && files.length > 0) {
-      console.log(`File selected for ${name}:`, files[0]); // Log the selected file
+      console.log(`File selected for ${name}:`, files[0]);
       setFormData({
         ...formData,
-        [name]: files[0], // Save the file object
+        [name]: files[0],
       });
     } else {
       console.log(`${name} input is empty.`);
@@ -44,36 +70,19 @@ const UserProfile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const data = new FormData();
-
     // Append all form data, including files
+    const data = new FormData();
     Object.keys(formData).forEach((key) => {
       if (formData[key]) {
-        // Only append if it's not null or empty
         data.append(key, formData[key]);
       }
     });
 
-    // Log each entry in FormData
-    for (let [key, value] of data.entries()) {
-      console.log(`${key}:`, value); // This will show the content of each field in FormData
-    }
-
     try {
-      // const response = await fetch(
-      //   "http://localhost:3000/api/v1/updateProfile",
-      //   {
-      //     method: "PATCH",
-      //     body: data,
-      //     credentials: "Authorization", // If you're using cookies for auth
-      //   }
-      // );
-      // const result = await response.json();
-      updateUserProfile().unwrap(data);
+      updateUserProfile(data).unwrap();
       toast.success(`Profile Updated Successfully!`, {
         position: "top-right",
       });
-      // console.log("Response from server:", result);
     } catch (error) {
       console.error("Error:", error);
       toast.error(`${error.message}`, {
@@ -81,13 +90,18 @@ const UserProfile = () => {
       });
     }
   };
-
+  {
+    isUserLoading && <p>Loading...</p>;
+  }
+  {
+    userError && <p>Error: {userError.message}</p>;
+  }
   return (
     <div className="w-full max-w-4xl mx-auto p-4 mt-20">
       {/* Cover Picture */}
       <div className="relative w-full h-48 bg-gray-200 rounded-md overflow-hidden">
         <img
-          src={user.cover_pic || "/default-cover.jpg"}
+          src={user?.cover_pic || "/default-cover.jpg"}
           alt="Cover"
           className="object-cover w-full h-full"
         />
@@ -110,7 +124,7 @@ const UserProfile = () => {
       {/* Profile Picture */}
       <div className="relative w-24 h-24 mx-auto -mt-12 border-4 border-white rounded-full overflow-hidden">
         <img
-          src={user.profile_pic || "/default-profile.jpg"}
+          src={user?.profile_pic || "/default-profile.jpg"}
           alt="Profile"
           className="object-cover w-full h-full"
         />

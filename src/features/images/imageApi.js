@@ -22,20 +22,21 @@ export const imageApi = apiSlice.injectEndpoints({
       query: (id) => ({
         url: `/getAnImage/${id}`,
       }),
+      providesTags: ["Images"],
     }),
     deleteImage: builder.mutation({
       query: (id) => ({
         url: `/image/delete/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["LiveImages", "PendingImages"],
+      invalidatesTags: ["LiveImages", "PendingImages", "Images"],
     }),
     approveImage: builder.mutation({
       query: (id) => ({
         url: `/image/approveImage/${id}`,
         method: "PATCH",
       }),
-      invalidatesTags: ["LiveImages", "PendingImages"],
+      invalidatesTags: ["LiveImages", "PendingImages", "Images"],
     }),
   }),
 });

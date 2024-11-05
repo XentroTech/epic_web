@@ -5,6 +5,7 @@ import {
   FiLink,
   FiPlay,
   FiUser,
+  FiBell,
 } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -55,9 +56,9 @@ function RouteSelect() {
       {["admin", "superadmin"].includes(user.role) && ( // Show for admin and superadmin
         <Link to="/dashboard/integration">
           <NavItem
-            Icon={FiLink}
+            Icon={FiBell}
             selected={location.pathname === "/dashboard/integration"}
-            title="Integration"
+            title="Notification"
           />
         </Link>
       )}

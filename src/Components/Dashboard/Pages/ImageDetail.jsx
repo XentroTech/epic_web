@@ -53,7 +53,7 @@ const ImageDetail = () => {
                 <img
                   src={image?.image_url}
                   alt={image?.title}
-                  className="w-full h-full object-cover rounded-lg shadow-xl transform hover:scale-105 transition duration-500"
+                  className="w-full h-[500px] object-cover rounded-lg shadow-xl transform hover:scale-105 transition duration-500"
                 />
               </div>
 

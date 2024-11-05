@@ -1,3 +1,4 @@
+import Finance from "../Pages/Finance";
 import GameManagement from "../Pages/GameManagement";
 import ImageDetail from "../Pages/ImageDetail";
 import Images from "../Pages/Images";
@@ -19,6 +20,7 @@ function Main() {
         <Route path="games" element={<GameManagement />} />
         <Route path="user/profile/:id" element={<ViewUser />} />
         <Route path="user/imageDetail/:id" element={<ImageDetail />} />
+        <Route path="/finance" element={<Finance />} />
       </Routes>
     </div>
   );
