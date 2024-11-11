@@ -151,7 +151,7 @@ const UserProfile = () => {
           <input
             type="text"
             name="name"
-            value={formData.name}
+            value={formData?.name || ""}
             onChange={handleChange}
             className="p-2 border border-gray-300 rounded-md"
           />
@@ -163,7 +163,7 @@ const UserProfile = () => {
           <input
             type="text"
             name="username"
-            value={formData.username}
+            value={formData?.username || ""}
             onChange={handleChange}
             className="p-2 border border-gray-300 rounded-md"
           />
@@ -173,7 +173,7 @@ const UserProfile = () => {
           <input
             type="email"
             name="email"
-            value={formData.email}
+            value={formData?.email || ""}
             onChange={handleChange}
             className="p-2 border border-gray-300 rounded-md"
           />
@@ -185,7 +185,7 @@ const UserProfile = () => {
           <input
             type="password"
             name="password"
-            value={formData.password}
+            value={formData?.password || ""}
             onChange={handleChange}
             className="p-2 border border-gray-300 rounded-md"
           />
@@ -207,7 +207,7 @@ const UserProfile = () => {
           <input
             type="text"
             name="country"
-            value={formData.country}
+            value={formData?.country || ""}
             onChange={handleChange}
             className="p-2 border border-gray-300 rounded-md"
           />

@@ -77,19 +77,19 @@ export const userApi = apiSlice.injectEndpoints({
 
     allUsers: builder.query({
       query: ({ searchQuery = "", currentPage = 1 }) =>
-        `/getUsers?query=${searchQuery}&page=${currentPage}&limit=10`,
+        `/user?query=${searchQuery}&page=${currentPage}&limit=10`,
       providesTags: ["Users"],
     }),
 
     getUser: builder.query({
       query: (id) => ({
-        url: `getUser/${id}`,
+        url: `user/${id}`,
       }),
       providesTags: ["User"],
     }),
     updateUserProfile: builder.mutation({
       query: (formData) => ({
-        url: `/updateProfile`,
+        url: `/user`,
         method: "PATCH",
         body: formData,
       }),
@@ -97,7 +97,7 @@ export const userApi = apiSlice.injectEndpoints({
     }),
     updateUser: builder.mutation({
       query: ({ id, user }) => ({
-        url: `/updateUser/${id}`,
+        url: `/user/${id}`,
         method: "PATCH",
         body: user,
       }),
@@ -114,14 +114,14 @@ export const userApi = apiSlice.injectEndpoints({
 
     deleteUser: builder.mutation({
       query: (id) => ({
-        url: `/deleteUser/${id}`,
+        url: `/user/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Users"],
     }),
     activateOrDeactivateUser: builder.mutation({
       query: (id) => ({
-        url: `/activeOrDeactivateUser/${id}`,
+        url: `/user/activation/${id}`,
         method: "POST",
       }),
       invalidatesTags: ["Users"],

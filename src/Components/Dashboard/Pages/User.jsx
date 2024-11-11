@@ -221,7 +221,7 @@ const User = () => {
                     {/* Action buttons for Deactivate/Activate, Delete, and View */}
                     <div className="flex gap-3 ">
                       <button
-                        className="bg-cyan-500 text-white rounded-lg px-5 py-2 transform hover:scale-105 transition duration-300"
+                        className="text-white bg-gradient-to-r from-cyan-500 via-blue-cyan to-cyan-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800  shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-xs px-5 py-2.5 text-center me-2 mb-2 transform hover:scale-105 transition duration-300"
                         onClick={() =>
                           handleActiveOrDeactivateUser(user, user._id)
                         }

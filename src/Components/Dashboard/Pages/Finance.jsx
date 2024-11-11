@@ -1,5 +1,5 @@
 import React from "react";
-import CoinManagement from "./coinManagement";
+import CoinManagement from "./CoinManagement";
 import ImageSpace from "./imageSpace";
 
 function Finance() {

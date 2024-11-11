@@ -3,7 +3,6 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import AppInfo from "./AppInfo";
 import Features from "./Features";
-import Test from "./test";
 import Banner from "./Banner";
 import Sections from "./Sections";
 import Contact from "./Contact";

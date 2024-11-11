@@ -31,6 +31,13 @@ export const coinApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Coin"],
     }),
+    purchaseCoin: builder.mutation({
+      query: (id) => ({
+        url: `/coin/purchase`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Coin"],
+    }),
   }),
 });
 
@@ -39,4 +46,5 @@ export const {
   useDeleteCoinInfoMutation,
   useGetCoinInfoQuery,
   useUpdateCoinInfoMutation,
+  usePurchaseCoinMutation,
 } = coinApi;
