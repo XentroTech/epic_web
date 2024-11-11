@@ -92,7 +92,7 @@ function ImageSpace() {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 container mx-auto">
       <h1 className="text-2xl font-bold text-green-600 p-4">
         Image Space Management
       </h1>

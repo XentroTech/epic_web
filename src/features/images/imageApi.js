@@ -4,23 +4,23 @@ export const imageApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getImages: builder.query({
       query: ({ searchQuery = "", currentPage = 1 }) =>
-        `/getImages?query=${searchQuery}&page=${currentPage}&limit=10`,
+        `/image/all?query=${searchQuery}&page=${currentPage}&limit=10`,
       providesTags: ["Images"],
     }),
     getPendingImages: builder.query({
       query: ({ searchQuery = "", currentPage = 1 }) => ({
-        url: `/getPendingImages?query=${searchQuery}&page=${currentPage}&limit=10`,
+        url: `/image/pending?query=${searchQuery}&page=${currentPage}&limit=10`,
       }),
       providesTags: ["PendingImages"],
     }),
     getLiveImages: builder.query({
       query: ({ searchQuery = "", currentPage = 1 }) =>
-        `/getLiveImages?query=${searchQuery}&page=${currentPage}&limit=10`,
+        `/image/live?query=${searchQuery}&page=${currentPage}&limit=10`,
       providesTags: ["LiveImages"],
     }),
     getImage: builder.query({
       query: (id) => ({
-        url: `/getAnImage/${id}`,
+        url: `/image/${id}`,
       }),
       providesTags: ["Images"],
     }),
@@ -37,6 +37,20 @@ export const imageApi = apiSlice.injectEndpoints({
         method: "PATCH",
       }),
       invalidatesTags: ["LiveImages", "PendingImages", "Images"],
+    }),
+    likeImage: builder.mutation({
+      query: (id) => ({
+        url: `/image/like/${id}`,
+        method: "POST",
+      }),
+      invalidatesTags: ["LiveImages", "Images"],
+    }),
+    purchaseImage: builder.mutation({
+      query: (id) => ({
+        url: `/image/purchase/`,
+        method: "POST",
+      }),
+      invalidatesTags: ["LiveImages", "Images"],
     }),
   }),
 });

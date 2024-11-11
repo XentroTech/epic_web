@@ -1,8 +1,7 @@
 import AccountToggle from "../Main/AccountToggle";
 import Search from "./Search";
 import RouteSelect from "./RouteSelect";
-import Logo from "./logo";
-
+import Logo from "./Logo";
 function Sidebar() {
   return (
     <div>

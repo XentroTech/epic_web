@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import coinImg from "../../../assets/epic_coin.png";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,6 +13,8 @@ function CoinManagement() {
   const [showModal, setShowModal] = useState(false);
   const [price, setPrice] = useState("");
   const [coin, setCoin] = useState("");
+  const [extraCoins, setExtraCoins] = useState(0); // New state for extra coins
+  const [promoExpiration, setPromoExpiration] = useState(""); // New state for expiration date
   const [editingIndex, setEditingIndex] = useState(null);
   const [editingId, setEditingId] = useState(null);
 
@@ -30,6 +31,8 @@ function CoinManagement() {
         price,
         coin,
         image_url: "https://via.placeholder.com/150",
+        extraCoins,
+        promoExpiration,
       };
 
       try {
@@ -58,6 +61,8 @@ function CoinManagement() {
 
         setPrice("");
         setCoin("");
+        setExtraCoins(0);
+        setPromoExpiration("");
         setShowModal(false);
         setEditingIndex(null);
         setEditingId(null);
@@ -83,6 +88,8 @@ function CoinManagement() {
     setEditingId(id);
     setPrice(coinInfo[index].price);
     setCoin(coinInfo[index].coin);
+    setExtraCoins(coinInfo[index].extraCoins || 0);
+    setPromoExpiration(coinInfo[index].promoExpiration || "");
     setShowModal(true);
   };
 
@@ -91,12 +98,14 @@ function CoinManagement() {
     setEditingIndex(null);
     setPrice("");
     setCoin("");
+    setExtraCoins(0);
+    setPromoExpiration("");
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 container mx-auto">
       <h1 className="text-2xl font-bold text-green-600 p-4">Coin Management</h1>
-      <div className=" flex justify-center items-center mx-auto">
+      <div className="flex justify-center items-center mx-auto">
         <button
           onClick={() => setShowModal(true)}
           className="text-xl text-green-600 border-green-600 font-bold border rounded px-8 py-4 hover:bg-green-600 hover:text-white transform hover:scale-105 transition duration-500"
@@ -125,6 +134,23 @@ function CoinManagement() {
               placeholder="Enter coin"
               value={coin}
               onChange={(e) => setCoin(e.target.value)}
+              className="w-full border border-gray-300 rounded-md p-2 mb-4"
+            />
+
+            {/* Extra Coins Field */}
+            <input
+              type="number"
+              placeholder="Enter extra coins (for promo)"
+              value={extraCoins}
+              onChange={(e) => setExtraCoins(Number(e.target.value))}
+              className="w-full border border-gray-300 rounded-md p-2 mb-4"
+            />
+
+            {/* Promo Expiration Date Field */}
+            <input
+              type="date"
+              value={promoExpiration}
+              onChange={(e) => setPromoExpiration(e.target.value)}
               className="w-full border border-gray-300 rounded-md p-2 mb-4"
             />
 
@@ -161,6 +187,12 @@ function CoinManagement() {
                 Coin
               </th>
               <th className="px-6 py-3 border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-semibold">
+                Extra Coins (Promo)
+              </th>
+              <th className="px-6 py-3 border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-semibold">
+                Promo Expiration
+              </th>
+              <th className="px-6 py-3 border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-semibold">
                 Actions
               </th>
             </tr>
@@ -171,7 +203,7 @@ function CoinManagement() {
                 <td className="px-6 py-4 border-b border-gray-200">
                   <img
                     src={coinImg}
-                    alt="Space"
+                    alt="Coin"
                     className="w-10 h-10 object-cover rounded-md"
                   />
                 </td>
@@ -180,6 +212,18 @@ function CoinManagement() {
                 </td>
                 <td className="px-6 py-4 border-b border-gray-200 text-gray-500">
                   {coin.coin}
+                </td>
+                <td className="px-6 py-4 border-b border-gray-200 text-gray-500">
+                  {coin.extraCoins || "No Promo"}
+                </td>
+                <td className="px-6 py-4 border-b border-gray-200 text-gray-500">
+                  {coin.promoExpiration ? (
+                    <span>
+                      {new Date(coin.promoExpiration).toLocaleDateString()}
+                    </span>
+                  ) : (
+                    "No Expiration"
+                  )}
                 </td>
                 <td className="px-6 py-4 border-b border-gray-200">
                   <button
