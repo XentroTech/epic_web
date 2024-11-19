@@ -129,8 +129,8 @@ const User = () => {
               </tr>
             ) : isError ? (
               <tr>
-                <td colSpan="5" className="text-center py-4">
-                  Error: {error.message}
+                <td colSpan="5" className="text-center py-4 ">
+                  Error: {error?.message || "Image not found"}
                 </td>
               </tr>
             ) : filteredImages.length > 0 ? (

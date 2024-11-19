@@ -6,8 +6,8 @@ import GameTime from "./GameTime";
 const GameManagement = () => {
   return (
     <div>
-      <Prizes />
       <LeaderBoard />
+      <Prizes />
       <GameTime />
     </div>
   );

@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-const ShinUp = () => {
+const SignUp = () => {
   const [signupData, setSignupData] = useState({
     name: "",
     username: "",
@@ -36,11 +36,11 @@ const ShinUp = () => {
           }
         })
         .catch((error) =>
-          toast.error(error.data.message, { position: "top-right" })
+          toast.error(error?.data?.message, { position: "top-right" })
         );
     } catch (err) {
       console.error(err);
-      toast.error(`${error?.data?.message || error.message}`, {
+      toast.error(`${error?.data?.message || err.message}`, {
         position: top - right,
       });
     }
@@ -170,4 +170,4 @@ const ShinUp = () => {
   );
 };
 
-export default ShinUp;
+export default SignUp;

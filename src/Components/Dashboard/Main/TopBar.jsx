@@ -24,7 +24,7 @@ const formatDate = (date) => {
     }
   };
 
-  return formattedDate.replace(/\d+/, day + ordinalSuffix(day));
+  return formattedDate.replace(/\d+/, day);
 };
 
 function TopBar() {
