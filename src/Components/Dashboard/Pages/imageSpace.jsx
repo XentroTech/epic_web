@@ -24,7 +24,6 @@ function ImageSpace() {
   const [updateImageSpacesInfo] = useUpdateImageSpacesInfoMutation();
 
   const handleCreate = async () => {
-    console.log("Creating with:", { price, space });
     if (price && space) {
       const newImageSpace = {
         price,
@@ -94,7 +93,7 @@ function ImageSpace() {
   return (
     <div className="p-4 container mx-auto">
       <h1 className="text-2xl font-bold text-green-600 p-4">
-        Image Space Management
+        Space Management
       </h1>
       <div className=" flex justify-center items-center mx-auto">
         <button

@@ -117,7 +117,7 @@ const User = () => {
       {isLoading && <p>Loading...</p>}
       {isError && (
         <p className="text-center p-4 bg-red-500 text-white">
-          {error.data.message}
+          {error?.data?.message}
         </p>
       )}
 

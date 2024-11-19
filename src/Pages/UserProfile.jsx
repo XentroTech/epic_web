@@ -110,7 +110,7 @@ const UserProfile = () => {
           name="cover_pic"
           onChange={handleFileChange}
           accept="image/*"
-          className="absolute top-2 right-2 "
+          className="absolute top-2 right-2 hidden"
           id="coverPicInput"
         />
         <label

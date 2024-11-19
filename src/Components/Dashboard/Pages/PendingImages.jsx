@@ -148,7 +148,7 @@ const PendingImages = () => {
             ) : isError ? (
               <tr>
                 <td colSpan="5" className="text-center py-4">
-                  Error: {error.message}
+                  Error: {error.message || "Image Not Found"}
                 </td>
               </tr>
             ) : filteredImages.length > 0 ? (

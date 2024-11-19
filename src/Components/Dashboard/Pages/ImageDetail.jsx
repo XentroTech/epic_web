@@ -80,6 +80,10 @@ const ImageDetail = () => {
                   Sold: <span className="font-light"> {image?.sold_count}</span>
                 </p>
                 <p className="text-lg font-semibold mb-3 text-gray-700">
+                  Uploaded At:{" "}
+                  <span className="font-light"> {image?.uploaded_at}</span>
+                </p>
+                <p className="text-lg font-semibold mb-3 text-gray-700">
                   <AiFillCamera className="inline-block mr-2 text-gray-600" />
                   Camera: <span className="font-light"> {image?.camera}</span>
                 </p>
