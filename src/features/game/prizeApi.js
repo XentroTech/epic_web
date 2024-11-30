@@ -31,6 +31,22 @@ export const prizeApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Prize"],
     }),
+    getWinnersInfo: builder.query({
+      query: ({ date, type }) => ({
+        url: `/prize/winners?date=${date}&type=${type}`,
+        method: "GET",
+        // body: { date },
+      }),
+      providesTags: ["Prize"],
+    }),
+    prizeDistribute: builder.mutation({
+      query: ({ date, type }) => ({
+        url: `/prize/distribute`,
+        method: "POST",
+        body: { date, type },
+      }),
+      invalidatesTags: ["Prize"],
+    }),
   }),
 });
 
@@ -39,4 +55,6 @@ export const {
   useDeletePrizeInfoMutation,
   useGetPrizeInfoQuery,
   useUpdatePrizeInfoMutation,
+  useGetWinnersInfoQuery,
+  usePrizeDistributeMutation,
 } = prizeApi;

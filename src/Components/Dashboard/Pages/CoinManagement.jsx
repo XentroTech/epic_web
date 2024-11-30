@@ -13,8 +13,8 @@ function CoinManagement() {
   const [showModal, setShowModal] = useState(false);
   const [price, setPrice] = useState("");
   const [coin, setCoin] = useState("");
-  const [extraCoins, setExtraCoins] = useState(0); // New state for extra coins
-  const [promoExpiration, setPromoExpiration] = useState(""); // New state for expiration date
+  const [extraCoins, setExtraCoins] = useState(0);
+  const [promoExpiration, setPromoExpiration] = useState("");
   const [editingIndex, setEditingIndex] = useState(null);
   const [editingId, setEditingId] = useState(null);
 

@@ -25,7 +25,7 @@ function RouteSelect() {
         />
       </Link>
 
-      {["admin", "superadmin"].includes(user.role) && ( // Show for admin and superadmin
+      {["admin", "superadmin"].includes(user.role) && (
         <Link to="/dashboard/user">
           <NavItem
             Icon={FiUser}
@@ -43,7 +43,7 @@ function RouteSelect() {
         />
       </Link>
 
-      {["admin", "superadmin"].includes(user.role) && ( // Show for admin and superadmin
+      {["admin", "superadmin"].includes(user.role) && (
         <Link to="/dashboard/games">
           <NavItem
             Icon={FiPlay}
@@ -53,22 +53,31 @@ function RouteSelect() {
         </Link>
       )}
 
-      {["admin", "superadmin"].includes(user.role) && ( // Show for admin and superadmin
-        <Link to="/dashboard/integration">
+      {["admin", "superadmin"].includes(user.role) && (
+        <Link to="/dashboard/notification">
           <NavItem
             Icon={FiBell}
-            selected={location.pathname === "/dashboard/integration"}
+            selected={location.pathname === "/dashboard/notification"}
             title="Notification"
           />
         </Link>
       )}
 
-      {["admin", "superadmin"].includes(user.role) && ( // Show for admin and superadmin
+      {["admin", "superadmin"].includes(user.role) && (
         <Link to="/dashboard/finance">
           <NavItem
             Icon={FiDollarSign}
             selected={location.pathname === "/dashboard/finance"}
             title="Finance"
+          />
+        </Link>
+      )}
+      {["admin", "superadmin"].includes(user.role) && (
+        <Link to="/dashboard/support">
+          <NavItem
+            Icon={FiDollarSign}
+            selected={location.pathname === "/dashboard/support"}
+            title="Support & Contact"
           />
         </Link>
       )}

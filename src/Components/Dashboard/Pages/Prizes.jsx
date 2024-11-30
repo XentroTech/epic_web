@@ -11,14 +11,18 @@ import {
 import { BiPlus } from "react-icons/bi";
 function Prize() {
   const [showModal, setShowModal] = useState(false);
-  const [title, setTitle] = useState("");
+  const [name, setName] = useState("");
+  const [rank, setRank] = useState("");
+  const [value, setValue] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [type, setType] = useState("");
   const [position, setPosition] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [editingIndex, setEditingIndex] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [showAll, setShowAll] = useState(false);
   const [error, setError] = useState("");
-
+  console.log(name, rank, value, type, price, position);
   const { data, refetch } = useGetPrizeInfoQuery();
   const prizeInfo = data?.prizeInfo || [];
   const displayedPrizeInfo = showAll ? prizeInfo : prizeInfo.slice(0, 3);
@@ -33,9 +37,13 @@ function Prize() {
 
   //handle create
   const handleCreate = async () => {
-    if (title && position && imageFile) {
+    if (type && name && rank && value && imageFile && position && price) {
       const newPrizeInfo = new FormData();
-      newPrizeInfo.append("title", title);
+      newPrizeInfo.append("type", type);
+      newPrizeInfo.append("name", name);
+      newPrizeInfo.append("rank", rank);
+      newPrizeInfo.append("value", value);
+      newPrizeInfo.append("price", price);
       newPrizeInfo.append("position", position);
       if (imageFile) {
         newPrizeInfo.append("image_url", imageFile);
@@ -54,16 +62,18 @@ function Prize() {
           toast.success("Prize Info Created!", { position: "top-right" });
         }
 
-        setTitle("");
+        setName("");
+        setRank("");
+        setValue("");
         setPosition("");
+        setPrice(0);
+        setType("");
         setImageFile(null);
         setShowModal(false);
         setEditingIndex(null);
         setEditingId(null);
         refetch();
-        console.log(`clicked on update button`);
       } catch (error) {
-        console.log(`clicked on update button`);
         if (updateError) {
           setError(updateError);
         }
@@ -82,7 +92,11 @@ function Prize() {
   const handleUpdate = (index, id) => {
     setEditingIndex(index);
     setEditingId(id);
-    setTitle(prizeInfo[index].title);
+    setName(prizeInfo[index].name);
+    setRank(prizeInfo[index].rank);
+    setValue(prizeInfo[index].value);
+    setType(prizeInfo[index].type);
+    setPrice(prizeInfo[index].price);
     setPosition(prizeInfo[index].position);
     setImageFile(null);
     setShowModal(true);
@@ -91,8 +105,12 @@ function Prize() {
   const handleCloseModal = () => {
     setShowModal(false);
     setEditingIndex(null);
-    setTitle("");
+    setName("");
+    setType("");
+    setValue("");
+    setRank("");
     setPosition("");
+    setPrice(0);
     setImageFile(null);
   };
   // handle image change
@@ -146,20 +164,76 @@ function Prize() {
 
             <input
               type="text"
-              placeholder="Enter Title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Enter Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="w-full border border-gray-300 rounded-md p-2 mb-4"
             />
             <input
               type="text"
+              placeholder="Enter Rank"
+              value={rank}
+              onChange={(e) => setRank(e.target.value)}
+              className="w-full border border-gray-300 rounded-md p-2 mb-4"
+            />
+            <label htmlFor="value" className="text-slate-400 pb-2">
+              Enter Coin Value
+            </label>
+            <br></br>
+            <input
+              type="Number"
+              placeholder="Enter Coin Value"
+              value={value}
+              id="value"
+              onChange={(e) => setValue(e.target.value)}
+              className="w-full border border-gray-300 rounded-md p-2 mb-4"
+            />
+            <label htmlFor="position" className="text-slate-400 pb-2">
+              Enter Position
+            </label>
+            <br></br>
+            <input
+              type="text"
               placeholder="Enter Position"
               value={position}
+              id="value"
               onChange={(e) => setPosition(e.target.value)}
               className="w-full border border-gray-300 rounded-md p-2 mb-4"
             />
+            <label htmlFor="price" className="text-slate-400 pb-2">
+              Enter Price
+            </label>
+            <br></br>
+            <input
+              type="Number"
+              placeholder="Enter Prize Value"
+              value={price}
+              id="value"
+              onChange={(e) => setPrice(e.target.value)}
+              className="w-full border border-gray-300 rounded-md p-2 mb-4"
+            />
+            <label htmlFor="type" className="text-slate-400 p-2">
+              Select Prize type
+            </label>
+            <select
+              value={type}
+              id="type"
+              onChange={(e) => setType(e.target.value)}
+              className="border rounded-md p-1 "
+              placeholder="Select Type"
+            >
+              <option value="coin" className="text-slate-400">
+                Select
+              </option>
+              <option value="coin" className="text-slate-400">
+                coin
+              </option>
+              <option value="physical" className="text-slate-400">
+                physical
+              </option>
+            </select>
 
-            <div className="flex items-center justify-center gap-3">
+            <div className="flex items-center justify-center gap-3 pt-2">
               <button
                 onClick={handleCreate}
                 className="w-full bg-yellow-500 text-white p-2 rounded-md hover:bg-yellow-700"
@@ -186,10 +260,16 @@ function Prize() {
                 Image
               </th>
               <th className="px-6 py-3 border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-semibold">
-                Title
+                Name
               </th>
               <th className="px-6 py-3 border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-semibold">
-                Position
+                Rank
+              </th>
+              <th className="px-6 py-3 border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-semibold">
+                Value
+              </th>
+              <th className="px-6 py-3 border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-semibold">
+                Type
               </th>
               <th className="px-6 py-3 border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-semibold">
                 Actions
@@ -207,10 +287,16 @@ function Prize() {
                   />
                 </td>
                 <td className="px-6 py-4 border-b border-gray-200 text-gray-700">
-                  {prize.title}
+                  {prize.name}
                 </td>
                 <td className="px-6 py-4 border-b border-gray-200 text-gray-500">
-                  {prize.position}
+                  {prize.rank}
+                </td>
+                <td className="px-6 py-4 border-b border-gray-200 text-gray-500">
+                  {prize.value}
+                </td>
+                <td className="px-6 py-4 border-b border-gray-200 text-gray-500">
+                  {prize.type}
                 </td>
                 <td className="px-6 py-4 border-b border-gray-200">
                   <button
