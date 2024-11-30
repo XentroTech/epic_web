@@ -147,21 +147,21 @@ function GameTime() {
               </tr>
             </thead>
             <tbody>
-              {gameTimes.map((game, index) => (
-                <tr key={game._id}>
+              {gameTimes.map((time, index) => (
+                <tr key={time._id}>
                   <td className="px-6 py-4 border-b border-gray-200 text-gray-700">
-                    {game.gameTime}
+                    {time.gameTime}
                   </td>
 
                   <td className="px-6 py-4 border-b border-gray-200">
                     <button
-                      onClick={() => handleUpdate(index, game._id)}
+                      onClick={() => handleUpdate(index, time._id)}
                       className="bg-yellow-500 text-white px-3 py-1 rounded mr-2 hover:bg-yellow-700 transform hover:scale-105 transition duration-300"
                     >
                       Update
                     </button>
                     <button
-                      onClick={() => handleDelete(game._id)}
+                      onClick={() => handleDelete(time._id)}
                       className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700 transform hover:scale-105 transition duration-300"
                     >
                       Delete

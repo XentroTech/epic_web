@@ -15,7 +15,6 @@ const CompetitionLeaderBoard = () => {
   const { data, error, isLoading } = useGetCompetitionLeaderBoardQuery({
     date: formattedDate,
   });
-  console.log(data);
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg">
