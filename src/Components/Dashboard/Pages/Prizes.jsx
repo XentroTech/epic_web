@@ -59,6 +59,7 @@ function Prize() {
           });
         } else {
           await createPrizeInfo(newPrizeInfo).unwrap();
+          console.log("clicked");
           toast.success("Prize Info Created!", { position: "top-right" });
         }
 

@@ -53,7 +53,7 @@ function CoinManagement() {
               position: "top-right",
             });
           } catch (err) {
-            toast.error(`${err.message}`, {
+            toast.error(`${err?.data?.message}`, {
               position: "top-right",
             });
           }
