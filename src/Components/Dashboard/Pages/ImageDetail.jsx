@@ -103,6 +103,9 @@ const ImageDetail = () => {
                   Captured Date:{" "}
                   <span className="font-light"> {image?.captured_date}</span>
                 </p>
+                <p className="text-lg font-semibold mb-3 text-gray-700">
+                  Image Id: <span className="font-light"> {image?._id}</span>
+                </p>
 
                 <button
                   onClick={() => handleDeleteImage(image?._id)}

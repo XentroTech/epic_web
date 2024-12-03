@@ -22,7 +22,7 @@ const Messages = ({ data }) => {
           {data.map((item, index) => (
             <li
               key={index}
-              className={`flex items-center p-4 cursor-pointer hover:bg-gray-100 ${
+              className={`flex items-center p-4 cursor-pointer hover:bg-gray-100  ${
                 selectedMessage === item ? "bg-gray-200" : ""
               }`}
               onClick={() => handleIsRead(item._id, item)}
@@ -35,8 +35,14 @@ const Messages = ({ data }) => {
                 alt={item.name}
                 className="w-10 h-10 rounded-full mr-4"
               />
-              <div className="">
-                <h3 className="text-sm font-medium">{item.name}</h3>
+              <div>
+                <h3
+                  className={`text-sm font-medium ${
+                    item.isRead ? "fond-bold" : ""
+                  }`}
+                >
+                  {item.name}
+                </h3>
                 <p className="text-xs text-gray-500">{item.date}</p>
               </div>
             </li>
