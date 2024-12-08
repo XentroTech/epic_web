@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FiCircle, FiImage } from "react-icons/fi";
+import { FiImage } from "react-icons/fi";
 import {
   BarChart,
   Bar,
@@ -14,6 +14,11 @@ import {
   useGetImageRevenueQuery,
   useGetSpaceRevenueQuery,
 } from "../../../features/dashboardStat/revenueApi";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setImageTotals,
+  setSpaceTotals,
+} from "../../../features/dashboardStat/totalSlice";
 
 function ImageSpaceGraph() {
   const [interval, setInterval] = useState("daily");
@@ -23,12 +28,34 @@ function ImageSpaceGraph() {
     useGetImageRevenueQuery(interval);
   const { data: spaceData, refetch: refetchSpace } =
     useGetSpaceRevenueQuery(interval);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     // Refetch data when the interval changes
     refetchImage();
     refetchSpace();
   }, [interval]);
+
+  useEffect(() => {
+    // Update Redux state when data changes
+
+    if (imageData?.totals) {
+      dispatch(
+        setImageTotals({
+          count: imageData.totals.totalCount,
+          earnings: imageData.totals.totalEarnings,
+        })
+      );
+    }
+
+    if (spaceData?.totals) {
+      dispatch(
+        setSpaceTotals({
+          count: spaceData.totals.totalCount,
+          earnings: spaceData.totals.totalEarnings,
+        })
+      );
+    }
+  }, [imageData, spaceData, dispatch]);
 
   // Combine and process the data
   const processChartData = (imageData, spaceData, interval) => {

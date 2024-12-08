@@ -21,7 +21,6 @@ const ImageDetail = () => {
       .unwrap()
       .then((data) => {
         if (data.success) {
-          pendingImagesRefecth();
           toast.success("Image deleted successfully!", {
             position: "top-right",
           });
@@ -80,6 +79,10 @@ const ImageDetail = () => {
                   Sold: <span className="font-light"> {image?.sold_count}</span>
                 </p>
                 <p className="text-lg font-semibold mb-3 text-gray-700">
+                  Category:{" "}
+                  <span className="font-light"> {image?.category}</span>
+                </p>
+                <p className="text-lg font-semibold mb-3 text-gray-700">
                   Uploaded At:{" "}
                   <span className="font-light"> {image?.uploaded_at}</span>
                 </p>
@@ -101,10 +104,20 @@ const ImageDetail = () => {
                 </p>
                 <p className="text-lg font-semibold mb-3 text-gray-700">
                   Captured Date:{" "}
-                  <span className="font-light"> {image?.captured_date}</span>
+                  <span className="font-light">
+                    {" "}
+                    {new Date(image?.captured_date).toLocaleDateString()}
+                  </span>
                 </p>
                 <p className="text-lg font-semibold mb-3 text-gray-700">
                   Image Id: <span className="font-light"> {image?._id}</span>
+                </p>
+                <p className="text-lg font-semibold mb-3 text-gray-700">
+                  Country:{" "}
+                  <span className="font-light">
+                    {" "}
+                    {image?.country == "BD" ? "Bangladesh" : "Malaysia"}
+                  </span>
                 </p>
 
                 <button

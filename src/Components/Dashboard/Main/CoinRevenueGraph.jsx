@@ -12,15 +12,13 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useDispatch } from "react-redux";
-import {
-  useGetCoinRevenueQuery,
-  useGetImageRevenueQuery,
-  useGetSpaceRevenueQuery,
-} from "../../../features/dashboardStat/revenueApi";
+import { useGetCoinRevenueQuery } from "../../../features/dashboardStat/revenueApi";
+import { setCoinTotals } from "../../../features/dashboardStat/totalSlice";
 
 function CoinRevenueGraph() {
   const [loading, setLoading] = useState(false);
   const [interval, setInterval] = useState("daily");
+  const dispatch = useDispatch();
 
   const { data, refetch } = useGetCoinRevenueQuery(interval);
   const chartData = data?.chartData || [];
@@ -28,6 +26,18 @@ function CoinRevenueGraph() {
     // Fetch data when the interval changes
     refetch();
   }, [interval]);
+  useEffect(() => {
+    // Update Redux state when data changes
+
+    if (data?.totals) {
+      dispatch(
+        setCoinTotals({
+          count: data.totals.totalCount,
+          earnings: data.totals.totalEarnings,
+        })
+      );
+    }
+  }, [data, dispatch]);
 
   const processChartData = (chartData, interval) => {
     switch (interval) {
@@ -118,11 +128,11 @@ function CoinRevenueGraph() {
               <Legend />
               <Line
                 type="monotone"
-                dataKey="count"
+                dataKey="earnings"
                 stroke="#8884d8"
                 activeDot={{ r: 8 }}
               />
-              <Line type="monotone" dataKey="earnings" stroke="#82ca9d" />
+              <Line type="monotone" dataKey=" Coin earnings" stroke="#82ca9d" />
             </LineChart>
           </ResponsiveContainer>
         )}

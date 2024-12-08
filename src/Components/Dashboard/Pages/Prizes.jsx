@@ -22,7 +22,6 @@ function Prize() {
   const [editingId, setEditingId] = useState(null);
   const [showAll, setShowAll] = useState(false);
   const [error, setError] = useState("");
-  console.log(name, rank, value, type, price, position);
   const { data, refetch } = useGetPrizeInfoQuery();
   const prizeInfo = data?.prizeInfo || [];
   const displayedPrizeInfo = showAll ? prizeInfo : prizeInfo.slice(0, 3);
@@ -78,7 +77,7 @@ function Prize() {
         if (updateError) {
           setError(updateError);
         }
-        toast.error(`${error.message}`, { position: "top-right" });
+        toast.error(`${error?.data.message}`, { position: "top-right" });
         setError(error.message);
       }
     }
@@ -223,7 +222,7 @@ function Prize() {
               className="border rounded-md p-1 "
               placeholder="Select Type"
             >
-              <option value="coin" className="text-slate-400">
+              <option value="select" className="text-slate-400">
                 Select
               </option>
               <option value="coin" className="text-slate-400">

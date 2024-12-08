@@ -24,7 +24,6 @@ function Sponsor() {
   const { data, refetch } = useGetSponsorQuery();
   const sponsor = data?.sponsorships || [];
   const displayedSponsorInfo = showAll ? sponsor : sponsor.slice(0, 3);
-
   const [createSponsor] = useCreateSponsorMutation();
   const [deleteSponsor] = useDeleteSponsorMutation();
   const [updateSponsor] = useUpdateSponsorMutation();
@@ -66,8 +65,8 @@ function Sponsor() {
         setEditingId(null);
         refetch();
       } catch (error) {
-        toast.error(`${error.message}`, { position: "top-right" });
-        setError(error.message);
+        toast.error(`${error?.data.message}`, { position: "top-right" });
+        setError(error?.data.message);
       }
     }
   };

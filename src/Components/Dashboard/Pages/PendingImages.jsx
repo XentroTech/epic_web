@@ -20,7 +20,7 @@ const PendingImages = () => {
     isLoading,
     isError,
     error,
-    refetch: pendingImagesRefecth,
+    refetch: pendingImagesRefetch,
   } = useGetPendingImagesQuery({
     searchQuery: searchTerm,
     currentPage,
@@ -36,7 +36,7 @@ const PendingImages = () => {
       .unwrap()
       .then((data) => {
         if (data.success) {
-          pendingImagesRefecth();
+          pendingImagesRefetch();
           toast.success(`Image deleted successfully!`, {
             position: "top-right",
           });
@@ -94,7 +94,7 @@ const PendingImages = () => {
       <div className="relative w-full mb-4">
         <input
           type="text"
-          placeholder="Search images by name, email "
+          placeholder="Search images by title, email "
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
@@ -148,9 +148,11 @@ const PendingImages = () => {
             ) : isError ? (
               <tr>
                 <td colSpan="5" className="text-center py-4">
-                  Error: {error.message || "Image Not Found"}
+                  {error.message}
                 </td>
               </tr>
+            ) : filteredImages.length == 0 ? (
+              <p className="text-green-600 text-center">No Image Found</p>
             ) : filteredImages.length > 0 ? (
               filteredImages.map((image) => (
                 <tr

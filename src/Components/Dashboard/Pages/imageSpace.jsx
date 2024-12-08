@@ -114,14 +114,14 @@ function ImageSpace() {
             </h2>
 
             <input
-              type="text"
+              type="Number"
               placeholder="Enter price"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
               className="w-full border border-gray-300 rounded-md p-2 mb-4"
             />
             <input
-              type="text"
+              type="Number"
               placeholder="Enter space"
               value={space}
               onChange={(e) => setSpace(e.target.value)}

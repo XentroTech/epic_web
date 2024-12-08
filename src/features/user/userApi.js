@@ -76,8 +76,8 @@ export const userApi = apiSlice.injectEndpoints({
     }),
 
     allUsers: builder.query({
-      query: ({ searchQuery = "", currentPage = 1 }) =>
-        `/user?query=${searchQuery}&page=${currentPage}&limit=10`,
+      query: ({ searchQuery = "", role, currentPage = 1 }) =>
+        `/user?query=${searchQuery}&role=${role}&page=${currentPage}&limit=10`,
       providesTags: ["Users"],
     }),
 
