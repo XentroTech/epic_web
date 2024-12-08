@@ -130,9 +130,11 @@ const User = () => {
             ) : isError ? (
               <tr>
                 <td colSpan="5" className="text-center py-4 ">
-                  Error: {error?.message || "Image not found"}
+                  {error?.message}
                 </td>
               </tr>
+            ) : filteredImages.length == 0 ? (
+              <p className="text-red-600 text-center">No Image Found</p>
             ) : filteredImages.length > 0 ? (
               filteredImages.map((image) => (
                 <tr

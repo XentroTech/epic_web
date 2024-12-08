@@ -13,12 +13,13 @@ import { useSelector } from "react-redux";
 const User = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [role, setRole] = useState("");
   const { user: currentUser } = useSelector((state) => state.auth);
-  const navigate = useNavigate();
 
   // Fetch users from API
   const { data, isLoading, isError, error } = useAllUsersQuery({
     searchQuery: searchTerm,
+    role,
     currentPage,
   });
 
@@ -104,14 +105,36 @@ const User = () => {
         </h2>
       </div>
 
-      <div className="relative w-full mb-4">
+      <div className="relative w-full mb-4 flex justify-between items-center">
         <input
           type="text"
           placeholder="Search users by name, email or mobile no..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+          className=" lg:w-2/3 md:w-2/4 px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-green-400"
         />
+        <label htmlFor="role">Choose Role:</label>
+        <select
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+          className="border rounded-md p-1 w-[300px] h-[50px] focus:outline-none focus:ring focus:border-green-400"
+        >
+          {currentUser.role === "superadmin" ? (
+            <>
+              <option value="all">All</option>
+              <option value="superadmin">Super Admin</option>
+              <option value="admin">Admin</option>
+              <option value="moderator">Moderator</option>
+              <option value="user">User</option>
+            </>
+          ) : (
+            <>
+              <option value="all">All</option>
+              <option value="moderator">Moderator</option>
+              <option value="user">User</option>
+            </>
+          )}
+        </select>
       </div>
 
       {isLoading && <p>Loading...</p>}

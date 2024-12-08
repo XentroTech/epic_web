@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3000/api/v1/",
+    baseUrl: "http://dev.e-pic.co/api/v1/",
     prepareHeaders: async (headers, { getState, endpoint }) => {
       const token = getState()?.auth?.token;
       if (token) {
@@ -16,3 +16,7 @@ export const apiSlice = createApi({
 
   endpoints: (builder) => ({}),
 });
+
+// sudo cp -R /home/riduanal/dist /var/www/epic-web/
+// sudo chown -R www-data:www-data /var/www/epic-web/dist
+// sudo chmod -R 755 /var/www/epic-web
