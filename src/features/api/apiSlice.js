@@ -17,6 +17,6 @@ export const apiSlice = createApi({
   endpoints: (builder) => ({}),
 });
 
-// sudo cp -R /home/riduanal/dist /var/www/epic-web/
+// sudo cp -R /home/riduanal/frontend/dist /var/www/epic-web/
 // sudo chown -R www-data:www-data /var/www/epic-web/dist
 // sudo chmod -R 755 /var/www/epic-web

@@ -8,14 +8,14 @@ export const imageApi = apiSlice.injectEndpoints({
       providesTags: ["Images"],
     }),
     getPendingImages: builder.query({
-      query: ({ searchQuery = "", currentPage = 1 }) => ({
-        url: `/image/pending?query=${searchQuery}&page=${currentPage}&limit=10`,
+      query: ({ searchQuery = "", currentPage = 1, country }) => ({
+        url: `/image/pending?query=${searchQuery}&page=${currentPage}&limit=10&country=${country}`,
       }),
       providesTags: ["PendingImages"],
     }),
     getLiveImages: builder.query({
-      query: ({ searchQuery = "", currentPage = 1 }) =>
-        `/image/live?query=${searchQuery}&page=${currentPage}&limit=10`,
+      query: ({ searchQuery = "", currentPage = 1, country }) =>
+        `/image/live?query=${searchQuery}&page=${currentPage}&limit=10&country=${country}`,
       providesTags: ["LiveImages"],
     }),
     getImage: builder.query({

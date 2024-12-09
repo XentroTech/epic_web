@@ -8,12 +8,13 @@ import {
   useDeleteImageMutation,
   useGetPendingImagesQuery,
 } from "../../../features/images/imageApi";
+import { useSelector } from "react-redux";
 
 const PendingImages = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const navigate = useNavigate();
-
+  const [country, setCountry] = useState("BD");
+  const { user: currentUser } = useSelector((state) => state.auth);
   // Fetch users from API
   const {
     data,
@@ -24,6 +25,7 @@ const PendingImages = () => {
   } = useGetPendingImagesQuery({
     searchQuery: searchTerm,
     currentPage,
+    country: country,
   });
 
   const images = data?.images || [];
@@ -87,18 +89,35 @@ const PendingImages = () => {
       </h2>
       <div className="py-2">
         <h3 className="text-xl font-semibold leading-tight pb-4 text-slate-600 text-left">
-          Pending Images
+          Pending Images({images.length})
         </h3>
       </div>
 
-      <div className="relative w-full mb-4">
+      <div className=" w-full mb-4 flex justify-between items-center">
         <input
           type="text"
           placeholder="Search images by title, email "
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+          className="lg:w-2/3 md:w-2/4 px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-green-400"
         />
+
+        {currentUser?.role === "superadmin" ? (
+          <div className="div">
+            <label htmlFor="role">Choose Role: </label>
+            <select
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+              className="border rounded-md p-1 w-[300px] h-[50px] focus:outline-none focus:ring focus:border-green-400"
+            >
+              <option value="all">All</option>
+              <option value="BD">Bangladesh</option>
+              <option value="MY">Malaysia</option>
+            </select>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
 
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">

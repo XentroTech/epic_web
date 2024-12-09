@@ -26,11 +26,6 @@ const AppNotification = () => {
 
   return (
     <div className="container mx-auto px-4 sm:px-8 py-8">
-      <div className="py-2">
-        <h2 className="text-2xl font-bold leading-tight pb-4 text-green-600">
-          Notification Management
-        </h2>
-      </div>
       <h2 className="text-xl font-bold leading-tight pb-4 text-red-600">
         Send Notification to all user
       </h2>

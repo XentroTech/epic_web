@@ -1,29 +1,42 @@
 import { FiTrendingDown, FiTrendingUp } from "react-icons/fi";
 import { useSelector } from "react-redux";
+import convertCoins from "../../../utils/converter";
 
 function StatCards() {
   // Totals from Redux
   const totals = useSelector((state) => state.totals);
   const { user } = useSelector((state) => state.auth);
   const { coin, image, space } = totals;
+  const coinRevenue = convertCoins(coin.earnings);
+  const imageRevenue = convertCoins(image.earnings);
+  const spaceRevenue = convertCoins(space.earnings);
 
   return (
     <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
       <Card
         title="Coin Revenue"
-        value={`${coin?.earnings} ${user.country === "BD" ? "BDT" : "MYR"}`}
+        value={`${coin?.earnings} coins`}
+        revenue={`${
+          user.country === "BD" ? coinRevenue.bdt : coinRevenue.myr
+        } ${user.country === "BD" ? "BDT" : "MYR"}`}
         pillText="2.75%"
         trend={coin?.earnings > 0 ? "up" : "down"}
       />
       <Card
         title="Image Revenue"
-        value={`${image?.earnings} ${user.country === "BD" ? "BDT" : "MYR"}`}
+        value={`${image?.earnings} coins`}
+        revenue={`${
+          user.country === "BD" ? imageRevenue.bdt : imageRevenue.myr
+        } ${user.country === "BD" ? "BDT" : "MYR"}`}
         pillText="1.01%"
         trend={image?.earnings > 0 ? "up" : "down"}
       />
       <Card
         title="Space Revenue"
-        value={`${space?.earnings} ${user.country === "BD" ? "BDT" : "MYR"}`}
+        value={`${space?.earnings} coins`}
+        revenue={`${
+          user.country === "BD" ? spaceRevenue.bdt : spaceRevenue.myr
+        } ${user.country === "BD" ? "BDT" : "MYR"}`}
         pillText="60.75%"
         trend={space?.earnings > 0 ? "up" : "down"}
       />
@@ -31,15 +44,14 @@ function StatCards() {
   );
 }
 
-const Card = ({ title, value, pillText, trend }) => {
+const Card = ({ title, value, revenue, pillText, trend }) => {
   return (
     <div className="p-4 rounded border border-stone-300">
-      <div className="flex mb-8 items-start justify-between">
+      <div className="flex mb-4 items-start justify-between">
         <div>
-          <h3 className="flex items-start text-stone-500 mb-2 text-sm">
-            {title}
-          </h3>
-          <p className="text-3xl font-semibold">{value}</p>
+          <h3 className="text-sm text-stone-500 mb-2">{title}</h3>
+          <p className=" text-md text-stone-500">{value}</p>
+          <p className="text-xl font-semibold">{revenue}</p>
         </div>
         <span
           className={`text-xs flex items-center gap-1 font-medium px-2 py-1 rounded ${

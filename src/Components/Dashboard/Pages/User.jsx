@@ -7,7 +7,7 @@ import {
   useDeleteUserMutation,
   useUpdateUserRoleMutation,
 } from "../../../features/user/userApi";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const User = () => {
@@ -97,11 +97,28 @@ const User = () => {
       user.mobileNo.includes(searchTerm)
   );
 
+  const userCount = (users) => {
+    const superadmin = users.filter((u) => u.role === "superadmin");
+    const admin = users.filter((u) => u.role === "admin");
+    const moderator = users.filter((u) => u.role === "moderator");
+    const user = users.filter((u) => u.role === "user");
+    return { superadmin, admin, moderator, user };
+  };
+  const { superadmin, admin, moderator, user } = userCount(users);
+
   return (
     <div className="container mx-auto px-4 sm:px-8 py-8">
       <div className="py-2">
         <h2 className="text-2xl font-bold leading-tight pb-4 text-green-600">
           User Management
+        </h2>
+        <h2 className="text-sm font-bold leading-tight pb-4 text-green-600">
+          Total User :<span className="text-gray-600"> ({users.length})</span>{" "}
+          Super Admin:{" "}
+          <span className="text-gray-600">({superadmin.length})</span> Admin:{" "}
+          <span className="text-gray-600">({admin.length})</span> Moderator:{" "}
+          <span className="text-gray-600">({moderator.length})</span> User:{" "}
+          <span className="text-gray-600">({user.length})</span>
         </h2>
       </div>
 

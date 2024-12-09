@@ -84,7 +84,11 @@ const ImageDetail = () => {
                 </p>
                 <p className="text-lg font-semibold mb-3 text-gray-700">
                   Uploaded At:{" "}
-                  <span className="font-light"> {image?.uploaded_at}</span>
+                  <span className="font-light">
+                    {image?.uploaded_at
+                      ? new Date(image.uploaded_at).toLocaleString()
+                      : "N/A"}
+                  </span>
                 </p>
                 <p className="text-lg font-semibold mb-3 text-gray-700">
                   <AiFillCamera className="inline-block mr-2 text-gray-600" />
@@ -104,10 +108,7 @@ const ImageDetail = () => {
                 </p>
                 <p className="text-lg font-semibold mb-3 text-gray-700">
                   Captured Date:{" "}
-                  <span className="font-light">
-                    {" "}
-                    {new Date(image?.captured_date).toLocaleDateString()}
-                  </span>
+                  <span className="font-light">{image?.captured_date}</span>
                 </p>
                 <p className="text-lg font-semibold mb-3 text-gray-700">
                   Image Id: <span className="font-light"> {image?._id}</span>
