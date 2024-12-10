@@ -9,6 +9,8 @@ import ForgotPasswordEmail from "./Pages/ForgotPasswordEmail";
 import VerifyOtp from "./Pages/VerifyOtp";
 import ResetPassword from "./Pages/ResetPassword";
 import UserProfile from "./Pages/UserProfile";
+import PrivacyPolicy from "./Components/PrivacyPolicy";
+import TermsOfUse from "./Components/TermsOfUse";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
           <Route path="/verifyOtp" element={<VerifyOtp />} />
           <Route path="/resetPassword" element={<ResetPassword />} />
           <Route path="/profile" element={<UserProfile />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsOfUse />} />
         </Routes>
         <ToastContainer />
       </Router>

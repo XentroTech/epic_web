@@ -42,6 +42,7 @@ function DashboardStats() {
         setCoinTotals({
           count: coin.totalCount,
           earnings: coin.totalEarnings,
+          amount: coin.totalAmount,
         })
       );
     }

@@ -22,18 +22,23 @@ import {
 
 function ImageSpaceGraph() {
   const [interval, setInterval] = useState("daily");
-
+  const [country, setCountry] = useState("BD");
+  const { user: currentUser } = useSelector((state) => state.auth);
   // Fetch data for image and space revenues
-  const { data: imageData, refetch: refetchImage } =
-    useGetImageRevenueQuery(interval);
-  const { data: spaceData, refetch: refetchSpace } =
-    useGetSpaceRevenueQuery(interval);
+  const { data: imageData, refetch: refetchImage } = useGetImageRevenueQuery(
+    interval,
+    country
+  );
+  const { data: spaceData, refetch: refetchSpace } = useGetSpaceRevenueQuery({
+    interval,
+    country,
+  });
   const dispatch = useDispatch();
   useEffect(() => {
-    // Refetch data when the interval changes
+    // Refetch data when the interval or country changes
     refetchImage();
     refetchSpace();
-  }, [interval]);
+  }, [interval, country]);
 
   useEffect(() => {
     // Update Redux state when data changes
@@ -89,39 +94,63 @@ function ImageSpaceGraph() {
         <h3 className="flex items-center gap-1.5 font-medium">
           <FiImage /> Image and Space Revenue
         </h3>
-        <div className="mt-2">
-          <button
-            className={`px-4 py-1 mr-2 ${
-              interval === "daily" ? "bg-green-600 text-white" : "bg-gray-200"
-            }`}
-            onClick={() => setInterval("daily")}
-          >
-            Daily
-          </button>
-          <button
-            className={`px-4 py-1 ${
-              interval === "weekly" ? "bg-green-600 text-white" : "bg-gray-200"
-            }`}
-            onClick={() => setInterval("weekly")}
-          >
-            Weekly
-          </button>
-          <button
-            className={`px-4 py-1 mr-2 ${
-              interval === "monthly" ? "bg-green-600 text-white" : "bg-gray-200"
-            }`}
-            onClick={() => setInterval("monthly")}
-          >
-            Monthly
-          </button>
-          <button
-            className={`px-4 py-1 mr-2 ${
-              interval === "yearly" ? "bg-green-600 text-white" : "bg-gray-200"
-            }`}
-            onClick={() => setInterval("yearly")}
-          >
-            Yearly
-          </button>
+        <div className="mt-2 flex justify-between items-center">
+          <div className="div">
+            <button
+              className={`px-4 py-1 mr-2 ${
+                interval === "daily" ? "bg-green-600 text-white" : "bg-gray-200"
+              }`}
+              onClick={() => setInterval("daily")}
+            >
+              Daily
+            </button>
+            <button
+              className={`px-4 py-1 ${
+                interval === "weekly"
+                  ? "bg-green-600 text-white"
+                  : "bg-gray-200"
+              }`}
+              onClick={() => setInterval("weekly")}
+            >
+              Weekly
+            </button>
+            <button
+              className={`px-4 py-1 mr-2 ${
+                interval === "monthly"
+                  ? "bg-green-600 text-white"
+                  : "bg-gray-200"
+              }`}
+              onClick={() => setInterval("monthly")}
+            >
+              Monthly
+            </button>
+            <button
+              className={`px-4 py-1 mr-2 ${
+                interval === "yearly"
+                  ? "bg-green-600 text-white"
+                  : "bg-gray-200"
+              }`}
+              onClick={() => setInterval("yearly")}
+            >
+              Yearly
+            </button>
+          </div>
+          <div className="country">
+            {currentUser?.role === "superadmin" ? (
+              <div className="div w-[80px]">
+                <select
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  className="border rounded-md p-1 w-[80px] h-[50px] focus:outline-none focus:ring focus:border-green-400"
+                >
+                  <option value="BD">BD</option>
+                  <option value="MY">MY</option>
+                </select>
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
         </div>
       </div>
       <div className="h-64 px-4">

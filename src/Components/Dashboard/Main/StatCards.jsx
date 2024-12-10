@@ -7,15 +7,14 @@ function StatCards() {
   const totals = useSelector((state) => state.totals);
   const { user } = useSelector((state) => state.auth);
   const { coin, image, space } = totals;
-  const coinRevenue = convertCoins(coin.earnings);
+  const coinRevenue = convertCoins(coin.amount);
   const imageRevenue = convertCoins(image.earnings);
   const spaceRevenue = convertCoins(space.earnings);
-
   return (
     <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
       <Card
         title="Coin Revenue"
-        value={`${coin?.earnings} coins`}
+        value={`${coin?.amount} coins`}
         revenue={`${
           user.country === "BD" ? coinRevenue.bdt : coinRevenue.myr
         } ${user.country === "BD" ? "BDT" : "MYR"}`}
