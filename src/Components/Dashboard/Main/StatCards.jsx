@@ -16,8 +16,26 @@ function StatCards() {
         title="Coin Revenue"
         value={`${coin?.amount} coins`}
         revenue={`${
-          user.country === "BD" ? coinRevenue.bdt : coinRevenue.myr
-        } ${user.country === "BD" ? "BDT" : "MYR"}`}
+          user.role === "superadmin"
+            ? coin.county === "BD"
+              ? coinRevenue.bdt
+              : coinRevenue.myr
+            : user.role === "admin"
+            ? user.country === "BD"
+              ? coinRevenue.bdt
+              : coinRevenue.myr
+            : ""
+        } ${
+          user.role === "superadmin"
+            ? coin.country === "BD"
+              ? "BDT"
+              : "MYR"
+            : user.role === "admin"
+            ? user.country === "BD"
+              ? "BDT"
+              : "MYR"
+            : ""
+        }`}
         pillText="2.75%"
         trend={coin?.earnings > 0 ? "up" : "down"}
       />
@@ -25,8 +43,26 @@ function StatCards() {
         title="Image Revenue"
         value={`${image?.earnings} coins`}
         revenue={`${
-          user.country === "BD" ? imageRevenue.bdt : imageRevenue.myr
-        } ${user.country === "BD" ? "BDT" : "MYR"}`}
+          user.role === "superadimn"
+            ? image.county === "BD"
+              ? imageRevenue.bdt
+              : imageRevenue.myr
+            : user.role === "admin"
+            ? user.country === "BD"
+              ? imageRevenue.bdt
+              : imageRevenue.myr
+            : ""
+        } ${
+          user.role === "superadmin"
+            ? image.country === "BD"
+              ? "BDT"
+              : "MYR"
+            : user.role === "admin"
+            ? user.country === "BD"
+              ? "BDT"
+              : "MYR"
+            : ""
+        }`}
         pillText="1.01%"
         trend={image?.earnings > 0 ? "up" : "down"}
       />
@@ -34,8 +70,26 @@ function StatCards() {
         title="Space Revenue"
         value={`${space?.earnings} coins`}
         revenue={`${
-          user.country === "BD" ? spaceRevenue.bdt : spaceRevenue.myr
-        } ${user.country === "BD" ? "BDT" : "MYR"}`}
+          user.role === "superadimn"
+            ? space.county === "BD"
+              ? spaceRevenue.bdt
+              : spaceRevenue.myr
+            : user.role === "admin"
+            ? user.country === "BD"
+              ? spaceRevenue.bdt
+              : spaceRevenue.myr
+            : ""
+        } ${
+          user.role === "superadmin"
+            ? space.country === "BD"
+              ? "BDT"
+              : "MYR"
+            : user.role === "admin"
+            ? user.country === "BD"
+              ? "BDT"
+              : "MYR"
+            : ""
+        }`}
         pillText="60.75%"
         trend={space?.earnings > 0 ? "up" : "down"}
       />

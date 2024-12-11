@@ -36,6 +36,7 @@ function CoinRevenueGraph() {
           count: data.totals.totalCount,
           earnings: data.totals.totalEarnings,
           amount: data.totals.totalAmount,
+          country: country,
         })
       );
     }

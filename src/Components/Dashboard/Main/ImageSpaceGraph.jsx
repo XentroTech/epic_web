@@ -48,6 +48,7 @@ function ImageSpaceGraph() {
         setImageTotals({
           count: imageData.totals.totalCount,
           earnings: imageData.totals.totalEarnings,
+          country: country,
         })
       );
     }
@@ -57,6 +58,7 @@ function ImageSpaceGraph() {
         setSpaceTotals({
           count: spaceData.totals.totalCount,
           earnings: spaceData.totals.totalEarnings,
+          country: country,
         })
       );
     }

@@ -104,7 +104,7 @@ const PendingImages = () => {
 
         {currentUser?.role === "superadmin" ? (
           <div className="div">
-            <label htmlFor="role">Choose Role: </label>
+            <label htmlFor="role">Country: </label>
             <select
               value={country}
               onChange={(e) => setCountry(e.target.value)}
