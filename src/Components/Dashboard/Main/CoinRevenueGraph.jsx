@@ -23,7 +23,6 @@ function CoinRevenueGraph() {
   const { user: currentUser } = useSelector((state) => state.auth);
   const { data, refetch } = useGetCoinRevenueQuery({ interval, country });
   const chartData = data?.chartData || [];
-  console.log(country);
   useEffect(() => {
     // Fetch data when the interval or  country changes
     refetch();

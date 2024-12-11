@@ -25,10 +25,10 @@ function ImageSpaceGraph() {
   const [country, setCountry] = useState("BD");
   const { user: currentUser } = useSelector((state) => state.auth);
   // Fetch data for image and space revenues
-  const { data: imageData, refetch: refetchImage } = useGetImageRevenueQuery(
+  const { data: imageData, refetch: refetchImage } = useGetImageRevenueQuery({
     interval,
-    country
-  );
+    country,
+  });
   const { data: spaceData, refetch: refetchSpace } = useGetSpaceRevenueQuery({
     interval,
     country,
