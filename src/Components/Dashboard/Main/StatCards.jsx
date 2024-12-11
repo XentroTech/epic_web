@@ -43,7 +43,7 @@ function StatCards() {
         title="Image Revenue"
         value={`${image?.earnings} coins`}
         revenue={`${
-          user.role === "superadimn"
+          user.role === "superadmin"
             ? image.county === "BD"
               ? imageRevenue.bdt
               : imageRevenue.myr
@@ -52,7 +52,7 @@ function StatCards() {
               ? imageRevenue.bdt
               : imageRevenue.myr
             : ""
-        } ${
+        }  ${
           user.role === "superadmin"
             ? image.country === "BD"
               ? "BDT"
@@ -70,7 +70,7 @@ function StatCards() {
         title="Space Revenue"
         value={`${space?.earnings} coins`}
         revenue={`${
-          user.role === "superadimn"
+          user.role === "superadmin"
             ? space.county === "BD"
               ? spaceRevenue.bdt
               : spaceRevenue.myr
@@ -79,7 +79,7 @@ function StatCards() {
               ? spaceRevenue.bdt
               : spaceRevenue.myr
             : ""
-        } ${
+        }  ${
           user.role === "superadmin"
             ? space.country === "BD"
               ? "BDT"
