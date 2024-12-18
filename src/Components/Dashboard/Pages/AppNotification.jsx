@@ -6,9 +6,14 @@ const AppNotification = () => {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [sendNotification] = useSendNotificationMutation();
+  let image = "https://dev.e-pic.co/uploads/epic_logo.png";
   //handle send notification
   const handleSendNotification = async () => {
-    await sendNotification({ title, message })
+    await sendNotification({
+      title,
+      message,
+      image,
+    })
       .unwrap()
       .then((data) => {
         if (data.success) {
