@@ -5,7 +5,6 @@ import { useGetGameLeaderBoardQuery } from "../../../features/game/gameTimeApi";
 
 const GameLeaderBoard = () => {
   let now = new Date();
-  now.setDate(now.getDate() - 1);
   const [selectedDate, setSelectedDate] = useState(now);
   // Format date as 'YYYY-MM-DD'
   const formattedDate = selectedDate

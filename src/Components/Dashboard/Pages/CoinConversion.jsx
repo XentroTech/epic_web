@@ -1,31 +1,36 @@
 import React, { useState } from "react";
-import {
-  useCreateGameTimeMutation,
-  useDeleteGameTimeMutation,
-  useGetGameTimeQuery,
-  useUpdateGameTimeMutation,
-} from "../../../features/game/gameTimeApi";
+
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {
+  useCreateCoinConversionMutation,
+  useDeleteCoinConversionMutation,
+  useGetCoinConversionQuery,
+  useUpdateCoinConversionMutation,
+} from "../../../features/coin/coinConversionApi";
 
-function GameTime() {
+function CoinConversion() {
   const [showModal, setShowModal] = useState(false);
-  const [gameTime, setGameTime] = useState(0);
+  const [currency, setCurrency] = useState(0);
+  const [coin, setCoin] = useState(0);
   const [editingIndex, setEditingIndex] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [error, setError] = useState("");
 
-  const { data, refetch } = useGetGameTimeQuery();
-  const gameTimes = data?.gameTime || [];
+  const { data, refetch } = useGetCoinConversionQuery();
+  const coinConversion = data?.coinConversionInfo || [];
 
-  const [createGameTime] = useCreateGameTimeMutation();
-  const [deleteGameTime] = useDeleteGameTimeMutation();
-  const [updateGameTime, { error: updateError }] = useUpdateGameTimeMutation();
+  const [createCoinConversion] = useCreateCoinConversionMutation();
+  const [deleteCoinConversion] = useDeleteCoinConversionMutation();
+  const [updateCoinConversion, { error: updateError }] =
+    useUpdateCoinConversionMutation();
 
   //handle create
   const handleCreate = async () => {
-    if (!gameTime) {
-      toast.error("Game time cannot be empty!", { position: "top-right" });
+    if (!currency || !coin) {
+      toast.error("coin and currency cannot be empty!", {
+        position: "top-right",
+      });
       return;
     }
 
@@ -33,14 +38,20 @@ function GameTime() {
 
     try {
       if (editingIndex !== null) {
-        await updateGameTime({ id: editingId, data: { gameTime } }).unwrap();
-        toast.success("Game time has been Updated", { position: "top-right" });
+        await updateCoinConversion({
+          id: editingId,
+          data: { currency, coin },
+        }).unwrap();
+        toast.success("coin conversion has been Updated", {
+          position: "top-right",
+        });
       } else {
-        await createGameTime({ gameTime }).unwrap();
-        toast.success("Game Time Created!", { position: "top-right" });
+        await createCoinConversion({ currency, coin }).unwrap();
+        toast.success("Coin conversion Created!", { position: "top-right" });
       }
 
-      setGameTime("");
+      setCurrency("");
+      setCoin("");
       setShowModal(false);
       setEditingIndex(null);
       setEditingId(null);
@@ -65,22 +76,26 @@ function GameTime() {
 
   // handle delete
   const handleDelete = async (id) => {
-    await deleteGameTime(id).unwrap();
-    toast.success("Game time has been Deleted!", { position: "top-right" });
+    await deleteCoinConversion(id).unwrap();
+    toast.success("Coin Conversion has been Deleted!", {
+      position: "top-right",
+    });
     refetch();
   };
   //handle update
   const handleUpdate = (index, id) => {
     setEditingIndex(index);
     setEditingId(id);
-    setGameTime(gameTimes[index].gameTime);
+    setCurrency(coinConversion[index].currency);
+    setCoin(coinConversion[index].coin);
     setShowModal(true);
   };
   //handle close modal
   const handleCloseModal = () => {
     setShowModal(false);
     setEditingIndex(null);
-    setGameTime("");
+    setCurrency("");
+    setCoin("");
   };
 
   return (
@@ -92,7 +107,7 @@ function GameTime() {
             onClick={() => setShowModal(true)}
             className="text-xl  text-green-600 font-bold border border-green-600 rounded px-8 py-4 hover:bg-green-600 hover:text-white  transform hover:scale-105 transition duration-500"
           >
-            <span>Set Game Time</span> +
+            <span>Set Coin Conversion Rate</span> +
           </button>
         </div>
 
@@ -102,14 +117,21 @@ function GameTime() {
             {error && <p className="bg-red-500 text-white">{error}</p>}
             <div className="bg-white rounded-lg p-6 w-80">
               <h2 className="text-xl font-bold mb-4 text-green-600">
-                {editingIndex !== null ? "Update" : "Create"} Game Time
+                {editingIndex !== null ? "Update" : "Create"} Conversion Rate
               </h2>
 
               <input
                 type="Number"
-                placeholder="Enter Game Time"
-                value={gameTime}
-                onChange={(e) => setGameTime(Number(e.target.value))}
+                placeholder="Enter Conversion Rate"
+                value={currency}
+                onChange={(e) => setCurrency(Number(e.target.value))}
+                className="w-full border border-gray-300 rounded-md p-2 mb-4"
+              />
+              <input
+                type="Number"
+                placeholder="Enter Coin"
+                value={coin}
+                onChange={(e) => setCoin(Number(e.target.value))}
                 className="w-full border border-gray-300 rounded-md p-2 mb-4"
               />
 
@@ -137,7 +159,10 @@ function GameTime() {
             <thead>
               <tr>
                 <th className="px-6 py-3 border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-semibold">
-                  Game Time
+                  Conversion rate
+                </th>
+                <th className="px-6 py-3 border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-semibold">
+                  Coin
                 </th>
 
                 <th className="px-6 py-3 border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-semibold">
@@ -146,21 +171,24 @@ function GameTime() {
               </tr>
             </thead>
             <tbody>
-              {gameTimes.map((time, index) => (
-                <tr key={time._id}>
+              {coinConversion.map((item, index) => (
+                <tr key={item._id}>
                   <td className="px-6 py-4 border-b border-gray-200 text-gray-700">
-                    {time.gameTime}
+                    {item.currency}
+                  </td>
+                  <td className="px-6 py-4 border-b border-gray-200 text-gray-700">
+                    {item.coin}
                   </td>
 
                   <td className="px-6 py-4 border-b border-gray-200">
                     <button
-                      onClick={() => handleUpdate(index, time._id)}
+                      onClick={() => handleUpdate(index, item._id)}
                       className="bg-yellow-500 text-white px-3 py-1 rounded mr-2 hover:bg-yellow-700 transform hover:scale-105 transition duration-300"
                     >
                       Update
                     </button>
                     <button
-                      onClick={() => handleDelete(time._id)}
+                      onClick={() => handleDelete(item._id)}
                       className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700 transform hover:scale-105 transition duration-300"
                     >
                       Delete
@@ -176,4 +204,4 @@ function GameTime() {
   );
 }
 
-export default GameTime;
+export default CoinConversion;

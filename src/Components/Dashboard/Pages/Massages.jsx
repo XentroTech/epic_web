@@ -7,7 +7,6 @@ const Messages = ({ data }) => {
   const unreadMessageCount = data.filter((m) => m.isRead == false);
   const unreadMessage = unreadMessageCount.length;
   const handleIsRead = async (id, item) => {
-    console.log(id);
     setSelectedMessage(item);
     await isReadMessage(id).unwrap();
   };

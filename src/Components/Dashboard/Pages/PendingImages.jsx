@@ -9,11 +9,14 @@ import {
   useGetPendingImagesQuery,
 } from "../../../features/images/imageApi";
 import { useSelector } from "react-redux";
+import ConfirmationModal from "./ConfirmationModal";
 
 const PendingImages = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [country, setCountry] = useState("BD");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [imageToDelete, setImageToDelete] = useState(null);
   const { user: currentUser } = useSelector((state) => state.auth);
   // Fetch users from API
   const {
@@ -30,29 +33,11 @@ const PendingImages = () => {
 
   const images = data?.images || [];
   const totalPages = data?.totalPages || 1;
-
-  //handle delete Image
-  const [deleteImage] = useDeleteImageMutation();
-  const handleDeleteImage = (id) => {
-    deleteImage(id)
-      .unwrap()
-      .then((data) => {
-        if (data.success) {
-          pendingImagesRefetch();
-          toast.success(`Image deleted successfully!`, {
-            position: "top-right",
-          });
-        }
-      })
-      .catch((error) =>
-        toast.error(error.data.message, { position: "top-right" })
-      );
-  };
+  const imageCount = data?.imageCount || 0;
 
   //handle approve Image
   const [approveImage] = useApproveImageMutation();
   const handleApproveImage = (id) => {
-    console.log(id);
     approveImage(id)
       .unwrap()
       .then((data) => {
@@ -81,6 +66,38 @@ const PendingImages = () => {
             .toLowerCase()
             .includes(searchTerm.toLowerCase())))
   );
+  //modal open
+  const openModal = (id) => {
+    setImageToDelete(id);
+    setModalOpen(true);
+  };
+  // modal close
+  const closeModal = () => {
+    setModalOpen(false);
+    setImageToDelete(null);
+  };
+
+  //handle delete Image
+  const [deleteImage] = useDeleteImageMutation();
+  const confirmDelete = () => {
+    if (imageToDelete) {
+      deleteImage(imageToDelete)
+        .unwrap()
+        .then((data) => {
+          if (data.success) {
+            console.log(data);
+            toast.success(`Image deleted successfully!`, {
+              position: "top-right",
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error(error.data.message, { position: "top-right" });
+        });
+    }
+    closeModal();
+  };
 
   return (
     <div className="container mx-auto px-4 sm:px-8 py-8">
@@ -89,10 +106,15 @@ const PendingImages = () => {
       </h2>
       <div className="py-2">
         <h3 className="text-xl font-semibold leading-tight pb-4 text-slate-600 text-left">
-          Pending Images({images.length})
+          Pending Images({imageCount})
         </h3>
       </div>
-
+      <ConfirmationModal
+        isOpen={modalOpen}
+        onClose={closeModal}
+        onConfirm={confirmDelete}
+        message={"Do you want to delete this image?"}
+      />
       <div className=" w-full mb-4 flex justify-between items-center">
         <input
           type="text"
@@ -222,7 +244,7 @@ const PendingImages = () => {
                       </div>
                       <button
                         className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800  shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-xs px-5 py-2.5 text-center me-2 mb-2 transform hover:scale-105 transition duration-300"
-                        onClick={() => handleDeleteImage(image._id)}
+                        onClick={() => openModal(image._id)}
                       >
                         Delete
                       </button>

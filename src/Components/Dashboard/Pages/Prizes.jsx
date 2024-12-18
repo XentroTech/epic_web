@@ -44,6 +44,7 @@ function Prize() {
       newPrizeInfo.append("value", value);
       newPrizeInfo.append("price", price);
       newPrizeInfo.append("position", position);
+      console.log("entered into the function");
       if (imageFile) {
         newPrizeInfo.append("image_url", imageFile);
       }
@@ -58,7 +59,6 @@ function Prize() {
           });
         } else {
           await createPrizeInfo(newPrizeInfo).unwrap();
-          console.log("clicked");
           toast.success("Prize Info Created!", { position: "top-right" });
         }
 

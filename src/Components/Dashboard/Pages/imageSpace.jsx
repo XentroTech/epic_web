@@ -49,7 +49,6 @@ function ImageSpace() {
               position: "top-right",
             });
           } catch (err) {
-            console.log(err);
             toast.error(`${err?.data?.message}`, {
               position: "top-right",
             });

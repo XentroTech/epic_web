@@ -6,13 +6,17 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   useDeleteImageMutation,
   useGetLiveImagesQuery,
+  useMakeFeaturedImageMutation,
 } from "../../../features/images/imageApi";
 import { useSelector } from "react-redux";
+import ConfirmationModal from "./ConfirmationModal";
 
 const User = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [country, setCountry] = useState("BD");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [imageToDelete, setImageToDelete] = useState(null);
   const { user: currentUser } = useSelector((state) => state.auth);
 
   // Fetch users from API
@@ -22,26 +26,18 @@ const User = () => {
     country,
   });
 
+  const [makeFeaturedImage] = useMakeFeaturedImageMutation();
+  // handle featured
+  const handleFeatured = (id) => {
+    makeFeaturedImage(id).unwrap();
+    toast.success(`Image Featured successfully!`, {
+      position: "top-right",
+    });
+  };
+
   const images = data?.images || [];
   const totalPages = data?.totalPages || 1;
-
-  //handle delete Image
-  const [deleteUser] = useDeleteImageMutation();
-  const handleDeleteUser = (id) => {
-    deleteUser(id)
-      .unwrap()
-      .then((data) => {
-        refetch();
-        if (data.success) {
-          toast.success(`Image deleted successfully!`, {
-            position: "top-right",
-          });
-        }
-      })
-      .catch((error) =>
-        toast.error(error.data.message, { position: "top-right" })
-      );
-  };
+  const imageCount = data?.imageCount || 0;
 
   //filter for search
   const filteredImages = images.filter(
@@ -56,14 +52,53 @@ const User = () => {
             .toLowerCase()
             .includes(searchTerm.toLowerCase())))
   );
+  //modal open
+  const openModal = (id) => {
+    setImageToDelete(id);
+    setModalOpen(true);
+  };
+  // modal close
+  const closeModal = () => {
+    setModalOpen(false);
+    setImageToDelete(null);
+  };
+
+  //handle delete Image
+  const [deleteImage] = useDeleteImageMutation();
+  const confirmDelete = () => {
+    if (imageToDelete) {
+      deleteImage(imageToDelete)
+        .unwrap()
+        .then((data) => {
+          console.log(data);
+          if (data.success) {
+            toast.success(`Image deleted successfully!`, {
+              position: "top-right",
+            });
+            refetch();
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error(error.data.message, { position: "top-right" });
+        });
+    }
+    closeModal();
+  };
 
   return (
     <div className="container mx-auto px-4 sm:px-8 py-8">
       <div className="py-2">
         <h3 className="text-xl font-semibold leading-tight pb-4 text-slate-600 text-left">
-          Live Images({images.length})
+          Live Images({imageCount})
         </h3>
       </div>
+      <ConfirmationModal
+        isOpen={modalOpen}
+        onClose={closeModal}
+        onConfirm={confirmDelete}
+        message={"Do you want to delete this image?"}
+      />
 
       <div className=" w-full mb-4 flex justify-between items-center">
         <input
@@ -76,7 +111,7 @@ const User = () => {
 
         {currentUser?.role === "superadmin" ? (
           <div className="div">
-            <label htmlFor="role">Country: </label>
+            <label htmlFor="country">Country: </label>
             <select
               value={country}
               onChange={(e) => setCountry(e.target.value)}
@@ -206,9 +241,15 @@ const User = () => {
                     <div className="flex gap-3">
                       <button
                         className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800  shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-xs px-5 py-2.5 text-center me-2 mb-2 transform hover:scale-105 transition duration-300"
-                        onClick={() => handleDeleteUser(image._id)}
+                        onClick={() => openModal(image._id)}
                       >
                         Delete
+                      </button>
+                      <button
+                        className="text-white bg-gradient-to-r from-green-600 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800  shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-xs px-5 py-2.5 text-center me-2 mb-2 transform hover:scale-105 transition duration-300"
+                        onClick={() => handleFeatured(image._id)}
+                      >
+                        Featured
                       </button>
                       <Link to={`/dashboard/user/imageDetail/${image._id}`}>
                         <button className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800  shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-xs px-5 py-2.5 text-center me-2 mb-2 transform hover:scale-105 transition duration-300">

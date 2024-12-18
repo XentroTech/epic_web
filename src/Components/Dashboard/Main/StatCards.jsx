@@ -10,86 +10,66 @@ function StatCards() {
   const coinRevenue = convertCoins(coin.amount);
   const imageRevenue = convertCoins(image.earnings);
   const spaceRevenue = convertCoins(space.earnings);
+  //revenue details
+  const revenueDetails = (user, revenue, type) => {
+    if (user.role === "superadmin") {
+      if (type.country === "BD") {
+        return revenue.bdt;
+      } else {
+        return revenue.myr;
+      }
+    } else if (user.role === "admin") {
+      if (user.country === "BD") {
+        return revenue.bdt;
+      } else if (user.country === "MY") {
+        return revenue.myr;
+      }
+    }
+  };
+  //currency sign
+  const currencySign = (user, type) => {
+    if (user.role === "superadmin") {
+      if (type.country === "BD") {
+        return "BDT";
+      } else if (type.country === "MY") {
+        return "MY";
+      }
+    } else if (user.role === "admin") {
+      if (user.country === "BD") {
+        return "BDT";
+      } else if (user.country === "MY") {
+        return "MY";
+      }
+    }
+  };
+
   return (
     <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
       <Card
         title="Coin Revenue"
         value={`${coin?.amount} coins`}
-        revenue={`${
-          user.role === "superadmin"
-            ? coin.county === "BD"
-              ? coinRevenue.bdt
-              : coinRevenue.myr
-            : user.role === "admin"
-            ? user.country === "BD"
-              ? coinRevenue.bdt
-              : coinRevenue.myr
-            : ""
-        } ${
-          user.role === "superadmin"
-            ? coin.country === "BD"
-              ? "BDT"
-              : "MYR"
-            : user.role === "admin"
-            ? user.country === "BD"
-              ? "BDT"
-              : "MYR"
-            : ""
-        }`}
+        revenue={`${revenueDetails(user, coinRevenue, coin)} ${currencySign(
+          user,
+          coin
+        )}`}
         pillText="2.75%"
-        trend={coin?.earnings > 0 ? "up" : "down"}
+        trend={coin?.amount > 0 ? "up" : "down"}
       />
       <Card
         title="Image Revenue"
         value={`${image?.earnings} coins`}
-        revenue={`${
-          user.role === "superadmin"
-            ? image.county === "BD"
-              ? imageRevenue.bdt
-              : imageRevenue.myr
-            : user.role === "admin"
-            ? user.country === "BD"
-              ? imageRevenue.bdt
-              : imageRevenue.myr
-            : ""
-        }  ${
-          user.role === "superadmin"
-            ? image.country === "BD"
-              ? "BDT"
-              : "MYR"
-            : user.role === "admin"
-            ? user.country === "BD"
-              ? "BDT"
-              : "MYR"
-            : ""
-        }`}
+        revenue={`${revenueDetails(user, imageRevenue, image)} ${currencySign(
+          user,
+          image
+        )}`}
         pillText="1.01%"
         trend={image?.earnings > 0 ? "up" : "down"}
       />
       <Card
         title="Space Revenue"
         value={`${space?.earnings} coins`}
-        revenue={`${
-          user.role === "superadmin"
-            ? space.county === "BD"
-              ? spaceRevenue.bdt
-              : spaceRevenue.myr
-            : user.role === "admin"
-            ? user.country === "BD"
-              ? spaceRevenue.bdt
-              : spaceRevenue.myr
-            : ""
-        }  ${
-          user.role === "superadmin"
-            ? space.country === "BD"
-              ? "BDT"
-              : "MYR"
-            : user.role === "admin"
-            ? user.country === "BD"
-              ? "BDT"
-              : "MYR"
-            : ""
-        }`}
+        revenue={`${revenueDetails(user, spaceRevenue, space)} 
+         ${currencySign(user, space)}`}
         pillText="60.75%"
         trend={space?.earnings > 0 ? "up" : "down"}
       />

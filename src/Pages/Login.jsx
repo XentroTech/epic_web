@@ -18,7 +18,6 @@ const Login = () => {
     try {
       const userData = { email, password };
       const result = await loginUser(userData).unwrap();
-      console.log("Login successful", result);
       // Redirect to home page after login success
       navigate("/");
       toast.success("Login Successfull!", { position: "top-right" });

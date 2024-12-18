@@ -39,7 +39,7 @@ function Sponsor() {
       if (imageFile) {
         newSponsor.append("image_url", imageFile);
       }
-
+      console.log("entered into the function");
       try {
         if (editingIndex !== null) {
           await updateSponsor({
@@ -169,16 +169,17 @@ function Sponsor() {
                 />
               </div>
               <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700">
-                  Ad Location
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter Ad Location"
+                <label htmlFor="country">Ad Location: </label>
+                <select
                   value={adLocation}
                   onChange={(e) => setAdLocation(e.target.value)}
-                  className="w-full border border-gray-300 rounded-md p-2 mb-4"
-                />
+                  className="border rounded-md p-1 w-[300px] h-[50px] focus:outline-none focus:ring focus:border-green-400"
+                >
+                  <option value="select">Select </option>
+                  <option value="home">Home </option>
+                  <option value="home_two">Home 2</option>
+                  <option value="explore">Explore</option>
+                </select>
               </div>
             </div>
             <div className="flex gap-4 mb-4">

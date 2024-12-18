@@ -57,13 +57,11 @@ const UserProfile = () => {
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     if (files && files.length > 0) {
-      console.log(`File selected for ${name}:`, files[0]);
       setFormData({
         ...formData,
         [name]: files[0],
       });
     } else {
-      console.log(`${name} input is empty.`);
     }
   };
 

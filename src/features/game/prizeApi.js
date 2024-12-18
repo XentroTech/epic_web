@@ -20,7 +20,7 @@ export const prizeApi = apiSlice.injectEndpoints({
       query: ({ id, data }) => ({
         url: `/prize/${id}`,
         method: "PATCH",
-        body: data,
+        body: { data },
       }),
       invalidatesTags: ["Prize"],
     }),

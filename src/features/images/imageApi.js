@@ -47,7 +47,14 @@ export const imageApi = apiSlice.injectEndpoints({
     }),
     purchaseImage: builder.mutation({
       query: (id) => ({
-        url: `/image/purchase/`,
+        url: `/image/purchase/${id}`,
+        method: "POST",
+      }),
+      invalidatesTags: ["LiveImages", "Images"],
+    }),
+    makeFeaturedImage: builder.mutation({
+      query: (imageId) => ({
+        url: `/featured/${imageId}`,
         method: "POST",
       }),
       invalidatesTags: ["LiveImages", "Images"],
@@ -62,4 +69,5 @@ export const {
   useApproveImageMutation,
   useGetLiveImagesQuery,
   useGetPendingImagesQuery,
+  useMakeFeaturedImageMutation,
 } = imageApi;

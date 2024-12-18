@@ -29,7 +29,6 @@ const ForgotPasswordEmail = () => {
       toast.error(err.data.message, {
         position: "top-right",
       });
-      console.log(err);
     }
   };
 

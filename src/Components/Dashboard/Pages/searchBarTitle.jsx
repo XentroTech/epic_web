@@ -14,6 +14,7 @@ function SearchBarTitle() {
   const [editingIndex, setEditingIndex] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [error, setError] = useState("");
+  //fetching title data
   const { data, refetch } = useGetTitleQuery();
   const titles = data?.titles || [];
   const [
