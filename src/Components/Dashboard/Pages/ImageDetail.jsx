@@ -144,14 +144,18 @@ const ImageDetail = () => {
                   >
                     <AiFillDelete className="mr-2" /> Delete
                   </button>
-                  <Link to={"/dashboard/images"}>
-                    <button
-                      onClick={() => handleApproveImage(image?._id)}
-                      className="flex items-center bg-red-500 text-white px-5 py-3 rounded-lg hover:bg-red-700 hover:shadow-md transform hover:scale-105 transition duration-300"
-                    >
-                      <AiFillDelete className="mr-2" /> Live
-                    </button>
-                  </Link>
+                  {image.isLive === false ? (
+                    <Link to={"/dashboard/images"}>
+                      <button
+                        onClick={() => handleApproveImage(image?._id)}
+                        className="flex items-center bg-green-500 text-white px-5 py-3 rounded-lg hover:bg-red-700 hover:shadow-md transform hover:scale-105 transition duration-300"
+                      >
+                        <AiFillDelete className="mr-2" /> Live
+                      </button>
+                    </Link>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
             </div>

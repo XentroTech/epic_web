@@ -85,7 +85,6 @@ const PendingImages = () => {
         .unwrap()
         .then((data) => {
           if (data.success) {
-            console.log(data);
             toast.success(`Image deleted successfully!`, {
               position: "top-right",
             });

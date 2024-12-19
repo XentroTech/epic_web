@@ -14,7 +14,6 @@ const PushNotification = () => {
     await sendPushNotification({
       title,
       msg,
-      image: "https://dev.e-pic.co/uploads/epic_logo.png",
     })
       .unwrap()
       .then((data) => {
@@ -24,11 +23,12 @@ const PushNotification = () => {
           });
         }
         setTitle("");
-        setMessage("");
+        setMsg("");
       })
-      .catch((error) =>
-        toast.error(error?.data?.message, { position: "top-right" })
-      );
+      .catch((error) => {
+        console.log(error);
+        toast.error(error?.data?.message, { position: "top-right" });
+      });
 
     // sending same message in in app notification
     await sendNotification({

@@ -70,7 +70,6 @@ const User = () => {
       deleteImage(imageToDelete)
         .unwrap()
         .then((data) => {
-          console.log(data);
           if (data.success) {
             toast.success(`Image deleted successfully!`, {
               position: "top-right",
@@ -245,12 +244,12 @@ const User = () => {
                       >
                         Delete
                       </button>
-                      <button
+                      {/* <button
                         className="text-white bg-gradient-to-r from-green-600 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800  shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-xs px-5 py-2.5 text-center me-2 mb-2 transform hover:scale-105 transition duration-300"
                         onClick={() => handleFeatured(image._id)}
                       >
                         Featured
-                      </button>
+                      </button> */}
                       <Link to={`/dashboard/user/imageDetail/${image._id}`}>
                         <button className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800  shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-xs px-5 py-2.5 text-center me-2 mb-2 transform hover:scale-105 transition duration-300">
                           View

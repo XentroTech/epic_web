@@ -28,7 +28,6 @@ const User = () => {
     currentPage,
     country,
   });
-  console.log(country);
   const users = data?.users || [];
   const totalPages = data?.totalPages || 1;
   const totalUsers = data?.totalUsers || 0;

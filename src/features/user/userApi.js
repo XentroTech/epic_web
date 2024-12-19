@@ -130,13 +130,12 @@ export const userApi = apiSlice.injectEndpoints({
       query: (id) => ({
         url: `/user/transactions/${id}`,
       }),
-      providesTags: ["User"],
     }),
     getInactiveUsers: builder.query({
       query: () => ({
         url: `/user/inactive`,
       }),
-      providesTags: ["User"],
+      invalidatesTags: ["User"],
     }),
   }),
 });

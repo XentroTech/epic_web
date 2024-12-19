@@ -12,8 +12,8 @@ const ViewUser = () => {
   const user = data?.user || null;
 
   const { data: transactionData } = useGetTransactionDetailsQuery(id);
-  const transaction = transactionData?.transactions || [];
-
+  const transaction = transactionData?.result.transactions || [];
+  const totalImageCount = transactionData?.totalImageCount || [];
   return (
     <div className="min-h-screen bg-gray-100 p-4">
       {isLoading && <p>Loading...</p>}
@@ -58,27 +58,31 @@ const ViewUser = () => {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 px-6 pb-6">
             <StatCard
               title="Coins Purchased"
-              value={transaction.coins.totalPrice || 0}
+              value={transaction.coins?.totalPrice || 0}
             />
             <StatCard
               title="Uploaded Images"
-              value={user.uploaded_images.length || 0}
+              value={user?.uploaded_images.length || 0}
             />
             <StatCard
               title="Images Purchased"
-              value={user.purchased_images.length || 0}
+              value={user?.purchased_images.length || 0}
             />
             <StatCard
               title="Image revenue"
-              value={transaction.images.totalPrice || 0}
+              value={transaction.images?.totalPrice || 0}
             />
             <StatCard
               title="Image Space Purchased"
-              value={transaction.space.totalPrice || 0}
+              value={transaction.space?.totalPrice || 0}
+            />
+            <StatCard
+              title="Total Image Sold"
+              value={totalImageCount[0] || 0}
             />
             <StatCard
               title="Total Withdrawn"
-              value={`$${user.totalWithdraw || 0}`}
+              value={`$${user?.totalWithdraw || 0}`}
             />
           </div>
 

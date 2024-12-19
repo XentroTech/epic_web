@@ -44,7 +44,6 @@ function Prize() {
       newPrizeInfo.append("value", value);
       newPrizeInfo.append("price", price);
       newPrizeInfo.append("position", position);
-      console.log("entered into the function");
       if (imageFile) {
         newPrizeInfo.append("image_url", imageFile);
       }
