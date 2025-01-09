@@ -84,13 +84,13 @@ function GameTime() {
   };
 
   return (
-    <div className="w-[50%] mx-auto px-4 sm:px-8 py-8">
+    <div className="w-[50%] mx-auto px-4 sm:px-8 py-8 ">
       <h3 className="text-xl font-semibold leading-tight pb-4 text-slate-600 text-left"></h3>
       <div className="p-4">
-        <div className="flex justify-center items-center mx-auto">
+        <div className="flex justify-center items-center mx-auto ">
           <button
             onClick={() => setShowModal(true)}
-            className="text-xl  text-green-600 font-bold border border-green-600 rounded px-8 py-4 hover:bg-green-600 hover:text-white  transform hover:scale-105 transition duration-500"
+            className="text-xl  text-green-600 font-bold border border-green-600 rounded px-8 py-4 hover:bg-green-600 hover:text-white  transform  transition-colors duration-500"
           >
             <span>Set Game Time</span> +
           </button>
@@ -98,7 +98,7 @@ function GameTime() {
 
         {/* Modal */}
         {showModal && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             {error && <p className="bg-red-500 text-white">{error}</p>}
             <div className="bg-white rounded-lg p-6 w-80">
               <h2 className="text-xl font-bold mb-4 text-green-600">
@@ -132,7 +132,7 @@ function GameTime() {
         )}
 
         {/* Table of coin management */}
-        <div className="mt-6 overflow-x-auto shadow-md">
+        <div className="mt-6 overflow-x-auto shadow-md z-10">
           <table className="min-w-full bg-white border border-gray-200">
             <thead>
               <tr>

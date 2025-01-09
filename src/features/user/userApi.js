@@ -137,6 +137,11 @@ export const userApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
+    getReferredUsersDetails: builder.query({
+      query: (id) => ({
+        url: `/user/referredUsers/${id}`,
+      }),
+    }),
   }),
 });
 
@@ -156,4 +161,5 @@ export const {
   useUpdateUserProfileMutation,
   useGetTransactionDetailsQuery,
   useGetInactiveUsersQuery,
+  useGetReferredUsersDetailsQuery,
 } = userApi;

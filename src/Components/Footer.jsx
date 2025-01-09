@@ -46,10 +46,23 @@ export default function () {
                 </Link>
               </li>
               <li>
-                <a className="text-gray-600 hover:text-gray-800">Third Link</a>
+                <Link to={"/epic"}>
+                  <a className="text-gray-600 hover:text-gray-800">
+                    What is Epic
+                  </a>
+                </Link>
               </li>
               <li>
-                <a className="text-gray-600 hover:text-gray-800">Fourth Link</a>
+                <Link to={"/faq"}>
+                  <a className="text-gray-600 hover:text-gray-800">FAQ</a>
+                </Link>
+              </li>
+              <li>
+                <Link to={"/tips"}>
+                  <a className="text-gray-600 hover:text-gray-800">
+                    Tips & Tricks
+                  </a>
+                </Link>
               </li>
             </nav>
           </div>
@@ -59,7 +72,11 @@ export default function () {
             </h2>
             <nav className="list-none mb-10">
               <li>
-                <a className="text-gray-600 hover:text-gray-800">First Link</a>
+                <Link to={"/share"}>
+                  <a className="text-gray-600 hover:text-gray-800 hidden">
+                    Download App
+                  </a>
+                </Link>
               </li>
               <li>
                 <a className="text-gray-600 hover:text-gray-800">Second Link</a>

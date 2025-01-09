@@ -23,7 +23,7 @@ const Login = () => {
       toast.success("Login Successfull!", { position: "top-right" });
     } catch (err) {
       const newError =
-        err.data?.message || "Too many login request please try later";
+        loginError.data?.message || "Too many login request please try later";
       setError(newError);
       console.error("Failed to login", err);
     }

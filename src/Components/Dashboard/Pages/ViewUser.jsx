@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import {
+  useGetReferredUsersDetailsQuery,
   useGetTransactionDetailsQuery,
   useGetUserQuery,
 } from "../../../features/user/userApi";
@@ -10,7 +11,8 @@ const ViewUser = () => {
   const { id } = useParams();
   const { data, isLoading, isError, error } = useGetUserQuery(id);
   const user = data?.user || null;
-
+  const { data: referredUsers } = useGetReferredUsersDetailsQuery(id);
+  const users = referredUsers?.users || null;
   const { data: transactionData } = useGetTransactionDetailsQuery(id);
   const transaction = transactionData?.result.transactions || [];
   const totalImageCount = transactionData?.totalImageCount || [];
@@ -84,6 +86,27 @@ const ViewUser = () => {
               title="Total Withdrawn"
               value={`$${user?.totalWithdraw || 0}`}
             />
+          </div>
+          {/* referred users */}
+          <div className="container mx-auto">
+            <p className="m-8 font-semibold">
+              Referred Users:({users?.length}){" "}
+            </p>
+            <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-3 justify-center items-center p-5">
+              {users?.map((user) => (
+                <div
+                  key={user._id}
+                  className="grid items-center justify-center"
+                >
+                  <img
+                    src={user.profile_pic}
+                    alt="pic"
+                    className="size-8 shrink-0 rounded-full"
+                  />
+                  <p>{user.name}</p>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Admin Actions */}

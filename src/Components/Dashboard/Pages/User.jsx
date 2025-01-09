@@ -133,12 +133,10 @@ const User = () => {
           User Management
         </h2>
         <h2 className="text-sm font-bold leading-tight pb-4 text-green-600">
-          Total User :<span className="text-gray-600"> ({totalUsers})</span>{" "}
-          Super Admin:{" "}
-          <span className="text-gray-600">({superadmin.length})</span> Admin:{" "}
-          <span className="text-gray-600">({admin.length})</span> Moderator:{" "}
-          <span className="text-gray-600">({moderator.length})</span> User:{" "}
-          <span className="text-gray-600">({user.length})</span>
+          Total User :<span className="text-gray-600"> ({totalUsers})</span>
+          Admin: <span className="text-gray-600">({admin.length})</span>{" "}
+          Moderator: <span className="text-gray-600">({moderator.length})</span>{" "}
+          User: <span className="text-gray-600">({user.length})</span>
         </h2>
       </div>
       {/* confirm delete modal */}

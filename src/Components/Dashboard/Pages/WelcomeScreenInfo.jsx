@@ -76,7 +76,7 @@ function WelcomeScreenInfo() {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           {error && <p className="bg-red-500 text-white">{error}</p>}
           <div className="bg-white rounded-lg p-6 w-80">
             <h2 className="text-xl font-bold mb-4 text-green-600">
@@ -131,7 +131,7 @@ function WelcomeScreenInfo() {
       )}
 
       {/* Table of coin management */}
-      <div className="mt-6 overflow-x-auto shadow-md">
+      <div className="mt-6 overflow-x-auto shadow-md z-10">
         <table className="min-w-full bg-white border border-gray-200">
           <thead>
             <tr>
