@@ -9,8 +9,10 @@ function Images() {
   return (
     <div>
       <PendingImages />
-      {["superadmin", "admin"].includes(user.role) && <LiveImages />}
-      {["superadmin", "admin"].includes(user.role) && <Category />}
+      {["superadmin", "admin", "moderator"].includes(user.role) && (
+        <LiveImages />
+      )}
+      {["superadmin", "admin", "moderator"].includes(user.role) && <Category />}
     </div>
   );
 }

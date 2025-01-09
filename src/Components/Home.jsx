@@ -16,7 +16,7 @@ export default function Home() {
       <Sections />
       <Features />
       <AppInfo />
-      <Contact />
+      {/* <Contact /> */}
       <Footer />
     </div>
   );

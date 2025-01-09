@@ -4,8 +4,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useGetGameLeaderBoardQuery } from "../../../features/game/gameTimeApi";
 
 const GameLeaderBoard = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-
+  let now = new Date();
+  const [selectedDate, setSelectedDate] = useState(now);
   // Format date as 'YYYY-MM-DD'
   const formattedDate = selectedDate
     ? selectedDate.toISOString().split("T")[0]
@@ -15,7 +15,6 @@ const GameLeaderBoard = () => {
   const { data, error, isLoading } = useGetGameLeaderBoardQuery({
     date: formattedDate,
   });
-
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg">
       <h1 className="text-2xl font-bold text-center text-green-600 mb-6">
@@ -55,7 +54,7 @@ const GameLeaderBoard = () => {
           </div>
 
           {/* Leaderboard Content */}
-          {data.leaderBoard.map((item, index) => (
+          {data?.leaderBoard.map((item, index) => (
             <div
               key={item._id}
               className="flex items-center bg-gray-50 p-4 rounded-lg shadow-sm hover:bg-gray-100 transition-all"

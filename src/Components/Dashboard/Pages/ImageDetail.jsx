@@ -1,6 +1,7 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
+  useApproveImageMutation,
   useDeleteImageMutation,
   useGetImageQuery,
 } from "../../../features/images/imageApi";
@@ -30,7 +31,22 @@ const ImageDetail = () => {
         toast.error(error.data.message, { position: "top-right" })
       );
   };
-
+  //handle approve Image
+  const [approveImage] = useApproveImageMutation();
+  const handleApproveImage = (id) => {
+    approveImage(id)
+      .unwrap()
+      .then((data) => {
+        if (data.success) {
+          toast.success(`Image has been approved!`, {
+            position: "top-right",
+          });
+        }
+      })
+      .catch((error) =>
+        toast.error(error.data.message, { position: "top-right" })
+      );
+  };
   return (
     <>
       {isLoading ? (
@@ -84,7 +100,11 @@ const ImageDetail = () => {
                 </p>
                 <p className="text-lg font-semibold mb-3 text-gray-700">
                   Uploaded At:{" "}
-                  <span className="font-light"> {image?.uploaded_at}</span>
+                  <span className="font-light">
+                    {image?.uploaded_at
+                      ? new Date(image.uploaded_at).toLocaleString()
+                      : "N/A"}
+                  </span>
                 </p>
                 <p className="text-lg font-semibold mb-3 text-gray-700">
                   <AiFillCamera className="inline-block mr-2 text-gray-600" />
@@ -104,10 +124,7 @@ const ImageDetail = () => {
                 </p>
                 <p className="text-lg font-semibold mb-3 text-gray-700">
                   Captured Date:{" "}
-                  <span className="font-light">
-                    {" "}
-                    {new Date(image?.captured_date).toLocaleDateString()}
-                  </span>
+                  <span className="font-light">{image?.captured_date}</span>
                 </p>
                 <p className="text-lg font-semibold mb-3 text-gray-700">
                   Image Id: <span className="font-light"> {image?._id}</span>
@@ -120,12 +137,26 @@ const ImageDetail = () => {
                   </span>
                 </p>
 
-                <button
-                  onClick={() => handleDeleteImage(image?._id)}
-                  className="flex items-center bg-red-500 text-white px-5 py-3 rounded-lg hover:bg-red-700 hover:shadow-md transform hover:scale-105 transition duration-300"
-                >
-                  <AiFillDelete className="mr-2" /> Delete
-                </button>
+                <div className="flex gap-5 justify-center items-center">
+                  <button
+                    onClick={() => handleDeleteImage(image?._id)}
+                    className="flex items-center bg-red-500 text-white px-5 py-3 rounded-lg hover:bg-red-700 hover:shadow-md transform hover:scale-105 transition duration-300"
+                  >
+                    <AiFillDelete className="mr-2" /> Delete
+                  </button>
+                  {image.isLive === false ? (
+                    <Link to={"/dashboard/images"}>
+                      <button
+                        onClick={() => handleApproveImage(image?._id)}
+                        className="flex items-center bg-green-500 text-white px-5 py-3 rounded-lg hover:bg-red-700 hover:shadow-md transform hover:scale-105 transition duration-300"
+                      >
+                        <AiFillDelete className="mr-2" /> Live
+                      </button>
+                    </Link>
+                  ) : (
+                    ""
+                  )}
+                </div>
               </div>
             </div>
             <p className="text-lg font-semibold mb-3 text-gray-700 text-justify p-4">

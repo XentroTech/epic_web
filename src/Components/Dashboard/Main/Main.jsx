@@ -1,3 +1,4 @@
+import DashboardWelcome from "../Pages/DashboardWelcome";
 import Finance from "../Pages/Finance";
 import GameManagement from "../Pages/GameManagement";
 import ImageDetail from "../Pages/ImageDetail";
@@ -16,7 +17,7 @@ function Main() {
     <div>
       <TopBar />
       <Routes>
-        <Route path="/" element={<Grid />} />
+        <Route path="/revenue" element={<Grid />} />
         <Route path="user" element={<UserManagement />} />
         <Route path="images" element={<Images />} />
         <Route path="games" element={<GameManagement />} />
@@ -25,6 +26,7 @@ function Main() {
         <Route path="/notification" element={<Notification />} />
         <Route path="/finance" element={<Finance />} />
         <Route path="/support" element={<SupportAndContact />} />
+        <Route path="/" element={<DashboardWelcome />} />
       </Routes>
     </div>
   );

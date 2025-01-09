@@ -25,8 +25,6 @@ function DashboardStats() {
   const { data: spaceData, refetch: refetchSpace } =
     useGetSpaceRevenueQuery(interval);
   const coin = coinData?.totals || [];
-  console.log(coinData?.totals || "nothing");
-  console.log(coin);
 
   useEffect(() => {
     // Refetch data when the interval changes
@@ -42,6 +40,7 @@ function DashboardStats() {
         setCoinTotals({
           count: coin.totalCount,
           earnings: coin.totalEarnings,
+          amount: coin.totalAmount,
         })
       );
     }

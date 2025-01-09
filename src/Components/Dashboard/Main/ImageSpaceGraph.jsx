@@ -13,6 +13,7 @@ import {
 import {
   useGetImageRevenueQuery,
   useGetSpaceRevenueQuery,
+  useGetYearsQuery,
 } from "../../../features/dashboardStat/revenueApi";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -22,18 +23,31 @@ import {
 
 function ImageSpaceGraph() {
   const [interval, setInterval] = useState("daily");
-
+  const [country, setCountry] = useState("BD");
+  const currentYear = new Date().getFullYear();
+  const [year, setYear] = useState(currentYear);
+  const [availableYear, setAvailableYear] = useState([]);
+  const { user: currentUser } = useSelector((state) => state.auth);
   // Fetch data for image and space revenues
-  const { data: imageData, refetch: refetchImage } =
-    useGetImageRevenueQuery(interval);
-  const { data: spaceData, refetch: refetchSpace } =
-    useGetSpaceRevenueQuery(interval);
+  const { data: imageData, refetch: refetchImage } = useGetImageRevenueQuery({
+    interval,
+    country,
+    year,
+  });
+  const { data: spaceData, refetch: refetchSpace } = useGetSpaceRevenueQuery({
+    interval,
+    country,
+    year,
+  });
+  const { data: years } = useGetYearsQuery();
+  const allYears = years ? years : [];
   const dispatch = useDispatch();
   useEffect(() => {
-    // Refetch data when the interval changes
+    // Refetch data when the interval or country changes
+    setAvailableYear(allYears.totalYears);
     refetchImage();
     refetchSpace();
-  }, [interval]);
+  }, [interval, country, year]);
 
   useEffect(() => {
     // Update Redux state when data changes
@@ -43,6 +57,7 @@ function ImageSpaceGraph() {
         setImageTotals({
           count: imageData.totals.totalCount,
           earnings: imageData.totals.totalEarnings,
+          country: country,
         })
       );
     }
@@ -52,6 +67,7 @@ function ImageSpaceGraph() {
         setSpaceTotals({
           count: spaceData.totals.totalCount,
           earnings: spaceData.totals.totalEarnings,
+          country: country,
         })
       );
     }
@@ -89,39 +105,80 @@ function ImageSpaceGraph() {
         <h3 className="flex items-center gap-1.5 font-medium">
           <FiImage /> Image and Space Revenue
         </h3>
-        <div className="mt-2">
-          <button
-            className={`px-4 py-1 mr-2 ${
-              interval === "daily" ? "bg-green-600 text-white" : "bg-gray-200"
-            }`}
-            onClick={() => setInterval("daily")}
-          >
-            Daily
-          </button>
-          <button
-            className={`px-4 py-1 ${
-              interval === "weekly" ? "bg-green-600 text-white" : "bg-gray-200"
-            }`}
-            onClick={() => setInterval("weekly")}
-          >
-            Weekly
-          </button>
-          <button
-            className={`px-4 py-1 mr-2 ${
-              interval === "monthly" ? "bg-green-600 text-white" : "bg-gray-200"
-            }`}
-            onClick={() => setInterval("monthly")}
-          >
-            Monthly
-          </button>
-          <button
-            className={`px-4 py-1 mr-2 ${
-              interval === "yearly" ? "bg-green-600 text-white" : "bg-gray-200"
-            }`}
-            onClick={() => setInterval("yearly")}
-          >
-            Yearly
-          </button>
+        <div className="mt-2 flex justify-between items-center">
+          <div className="div">
+            <button
+              className={`px-4 py-1 mr-2 ${
+                interval === "daily" ? "bg-green-600 text-white" : "bg-gray-200"
+              }`}
+              onClick={() => setInterval("daily")}
+            >
+              Daily
+            </button>
+            <button
+              className={`px-4 py-1 ${
+                interval === "weekly"
+                  ? "bg-green-600 text-white"
+                  : "bg-gray-200"
+              }`}
+              onClick={() => setInterval("weekly")}
+            >
+              Weekly
+            </button>
+            <button
+              className={`px-4 py-1 mr-2 ${
+                interval === "monthly"
+                  ? "bg-green-600 text-white"
+                  : "bg-gray-200"
+              }`}
+              onClick={() => setInterval("monthly")}
+            >
+              Monthly
+            </button>
+            <button
+              className={`px-4 py-1 mr-2 ${
+                interval === "yearly"
+                  ? "bg-green-600 text-white"
+                  : "bg-gray-200"
+              }`}
+              onClick={() => setInterval("yearly")}
+            >
+              Yearly
+            </button>
+          </div>
+          <div className="flex justify-center items-center gap-8">
+            <div className="country">
+              {currentUser?.role === "superadmin" ? (
+                <div className="div w-[60px]">
+                  <select
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    className="border rounded-md p-1 w-[80px] h-[50px] focus:outline-none focus:ring focus:border-green-400"
+                  >
+                    <option value="BD">BD</option>
+                    <option value="MY">MY</option>
+                  </select>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+            <div className="year">
+              <div className="div w-[60px]">
+                {/* {interval === "year" ? ( */}
+                <select
+                  value={year}
+                  onChange={(e) => setYear(e.target.value)}
+                  className="border rounded-md p-1 w-[70px] h-[50px] focus:outline-none focus:ring focus:border-green-400"
+                >
+                  {availableYear &&
+                    availableYear.map((year) => (
+                      <option value={year}>{year}</option>
+                    ))}
+                </select>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div className="h-64 px-4">

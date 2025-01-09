@@ -76,8 +76,8 @@ export const userApi = apiSlice.injectEndpoints({
     }),
 
     allUsers: builder.query({
-      query: ({ searchQuery = "", role, currentPage = 1 }) =>
-        `/user?query=${searchQuery}&role=${role}&page=${currentPage}&limit=10`,
+      query: ({ searchQuery = "", role, currentPage = 1, country }) =>
+        `/user?query=${searchQuery}&role=${role}&page=${currentPage}&limit=10&country=${country}`,
       providesTags: ["Users"],
     }),
 
@@ -126,6 +126,22 @@ export const userApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Users"],
     }),
+    getTransactionDetails: builder.query({
+      query: (id) => ({
+        url: `/user/transactions/${id}`,
+      }),
+    }),
+    getInactiveUsers: builder.query({
+      query: () => ({
+        url: `/user/inactive`,
+      }),
+      invalidatesTags: ["User"],
+    }),
+    getReferredUsersDetails: builder.query({
+      query: (id) => ({
+        url: `/user/referredUsers/${id}`,
+      }),
+    }),
   }),
 });
 
@@ -143,4 +159,7 @@ export const {
   useVerifyOtpMutation,
   useResetPasswordMutation,
   useUpdateUserProfileMutation,
+  useGetTransactionDetailsQuery,
+  useGetInactiveUsersQuery,
+  useGetReferredUsersDetailsQuery,
 } = userApi;

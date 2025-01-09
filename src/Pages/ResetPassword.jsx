@@ -16,7 +16,6 @@ const ResetPassword = () => {
   const [restPassword, { error: resetError }] = useResetPasswordMutation();
   const { resetEmail } = useSelector((state) => state.auth);
   const [error, setError] = useState("");
-  console.log(resetEmail);
   // Handle password reset
   const handleResetPassword = async (e) => {
     e.preventDefault();
@@ -29,11 +28,9 @@ const ResetPassword = () => {
         email: resetEmail,
         password,
       }).unwrap();
-      console.log(result);
       toast.success(`Password Reset Successfully!`, { position: "top-right" });
       navigate("/login");
     } catch (err) {
-      console.log(err);
       toast.error(err.data.message, { position: "top-right" });
     }
   };

@@ -18,13 +18,12 @@ const Login = () => {
     try {
       const userData = { email, password };
       const result = await loginUser(userData).unwrap();
-      console.log("Login successful", result);
       // Redirect to home page after login success
       navigate("/");
       toast.success("Login Successfull!", { position: "top-right" });
     } catch (err) {
       const newError =
-        err.data?.message || "Too many login request please try later";
+        loginError.data?.message || "Too many login request please try later";
       setError(newError);
       console.error("Failed to login", err);
     }

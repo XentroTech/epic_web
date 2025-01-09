@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  coin: { count: 0, earnings: 0 },
-  image: { count: 0, earnings: 0 },
-  space: { count: 0, earnings: 0 },
+  coin: { count: 0, earnings: 0, amount: 0, country: "" },
+  image: { count: 0, earnings: 0, amount: 0, country: "" },
+  space: { count: 0, earnings: 0, amount: 0, country: "" },
 };
 
 const totalSlice = createSlice({

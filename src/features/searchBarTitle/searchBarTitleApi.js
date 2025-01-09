@@ -6,7 +6,7 @@ export const searchBarTitleApi = apiSlice.injectEndpoints({
       query: (title) => ({
         url: "/searchBarTitle/create",
         method: "POST",
-        body: title,
+        body: { title },
       }),
     }),
     getTitle: builder.query({

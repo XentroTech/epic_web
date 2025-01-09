@@ -33,9 +33,9 @@ export const gameTimeApi = apiSlice.injectEndpoints({
     }),
     getGameLeaderBoard: builder.query({
       query: ({ date }) => ({
-        url: `/game/leaderBoard`,
-        method: "POST",
-        body: { date },
+        url: `/game/leaderBoard?date=${date}`,
+        method: "GET",
+        // body: { date },
       }),
     }),
   }),

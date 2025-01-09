@@ -20,7 +20,7 @@ export const sponsorApi = apiSlice.injectEndpoints({
       query: ({ id, data }) => ({
         url: `/sponsor/update/${id}`,
         method: "PATCH",
-        body: data,
+        body: { data },
       }),
       invalidatesTags: ["Sponsor"],
     }),

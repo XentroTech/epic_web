@@ -7,13 +7,18 @@ import {
   useDeleteUserMutation,
   useUpdateUserRoleMutation,
 } from "../../../features/user/userApi";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import ConfirmationModal from "./ConfirmationModal";
 
 const User = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
   const [role, setRole] = useState("");
+  const [country, setCountry] = useState("BD");
+  // redux store
   const { user: currentUser } = useSelector((state) => state.auth);
 
   // Fetch users from API
@@ -21,11 +26,12 @@ const User = () => {
     searchQuery: searchTerm,
     role,
     currentPage,
+    country,
   });
-
   const users = data?.users || [];
   const totalPages = data?.totalPages || 1;
-
+  const totalUsers = data?.totalUsers || 0;
+  const userRole = data?.userRole || [];
   // Handle role update
   const [
     updateUserRole,
@@ -47,21 +53,36 @@ const User = () => {
         toast.error(roleError.data.message, { position: "top-right" })
       );
   };
+
+  //modal open
+  const openModal = (id) => {
+    setUserToDelete(id);
+    setModalOpen(true);
+  };
+  // modal close
+  const closeModal = () => {
+    setModalOpen(false);
+    setUserToDelete(null);
+  };
+
   //handle delete user
   const [deleteUser] = useDeleteUserMutation();
-  const handleDeleteUser = (user, id) => {
-    deleteUser(id)
-      .unwrap()
-      .then((data) => {
-        if (data.success) {
-          toast.success(`User deleted successfully!`, {
-            position: "top-right",
-          });
-        }
-      })
-      .catch((error) =>
-        toast.error(error.data.message, { position: "top-right" })
-      );
+  const confirmDelete = () => {
+    if (userToDelete) {
+      deleteUser(userToDelete)
+        .unwrap()
+        .then((data) => {
+          if (data.success) {
+            toast.success(`User deleted successfully!`, {
+              position: "top-right",
+            });
+          }
+        })
+        .catch((error) =>
+          toast.error(error.data.message, { position: "top-right" })
+        );
+    }
+    closeModal();
   };
   // handle activate or deactivate user
   const [
@@ -82,7 +103,6 @@ const User = () => {
         }
       })
       .catch((error) => {
-        console.log(error);
         if (activationIsError) {
           toast.error(activationError.data.message, { position: "top-right" });
         }
@@ -90,29 +110,66 @@ const User = () => {
   };
 
   //filter for search
-  const filteredUsers = users.filter(
-    (user) =>
-      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.mobileNo.includes(searchTerm)
-  );
-
+  const filteredUsers = users
+    .filter((user) => user.isActive)
+    .filter(
+      (user) =>
+        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.mobileNo.includes(searchTerm)
+    );
+  const userCount = (userRole) => {
+    const superadmin = userRole.filter((u) => u.role === "superadmin");
+    const admin = userRole.filter((u) => u.role === "admin");
+    const moderator = userRole.filter((u) => u.role === "moderator");
+    const user = userRole.filter((u) => u.role === "user");
+    return { superadmin, admin, moderator, user };
+  };
+  const { superadmin, admin, moderator, user } = userCount(userRole);
   return (
     <div className="container mx-auto px-4 sm:px-8 py-8">
       <div className="py-2">
         <h2 className="text-2xl font-bold leading-tight pb-4 text-green-600">
           User Management
         </h2>
+        <h2 className="text-sm font-bold leading-tight pb-4 text-green-600">
+          Total User :<span className="text-gray-600"> ({totalUsers})</span>
+          Admin: <span className="text-gray-600">({admin.length})</span>{" "}
+          Moderator: <span className="text-gray-600">({moderator.length})</span>{" "}
+          User: <span className="text-gray-600">({user.length})</span>
+        </h2>
       </div>
-
+      {/* confirm delete modal */}
+      <ConfirmationModal
+        isOpen={modalOpen}
+        onClose={closeModal}
+        onConfirm={confirmDelete}
+        message={"Do you want to delete the user?"}
+      />
       <div className="relative w-full mb-4 flex justify-between items-center">
         <input
           type="text"
           placeholder="Search users by name, email or mobile no..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className=" lg:w-2/3 md:w-2/4 px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-green-400"
+          className=" w-[600px] px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-green-400"
         />
+        {currentUser?.role === "superadmin" ? (
+          <div className="div">
+            <label htmlFor="country">Country: </label>
+            <select
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+              className="border rounded-md p-1 w-[300px] h-[50px] focus:outline-none focus:ring focus:border-green-400"
+            >
+              <option value="all">All</option>
+              <option value="BD">Bangladesh</option>
+              <option value="MY">Malaysia</option>
+            </select>
+          </div>
+        ) : (
+          ""
+        )}
         <label htmlFor="role">Choose Role:</label>
         <select
           value={role}
@@ -253,10 +310,11 @@ const User = () => {
                       </button>
                       <button
                         className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800  shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-xs px-5 py-2.5 text-center me-2 mb-2 transform hover:scale-105 transition duration-300"
-                        onClick={() => handleDeleteUser(user, user._id)}
+                        onClick={() => openModal(user._id)}
                       >
                         Delete
                       </button>
+
                       <Link to={`/dashboard/user/profile/${user._id}`}>
                         <button className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800  shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-xs px-5 py-2.5 text-center me-2 mb-2 transform hover:scale-105 transition duration-300">
                           View

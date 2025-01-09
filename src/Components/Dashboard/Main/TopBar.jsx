@@ -1,5 +1,7 @@
 import { useSelector } from "react-redux";
 import AccountToggle from "./AccountToggle";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 const formatDate = (date) => {
   const options = {
@@ -30,18 +32,32 @@ const formatDate = (date) => {
 function TopBar() {
   const { user } = useSelector((state) => state.auth);
   const currentDate = new Date();
+  const navigate = useNavigate();
 
   return (
     <div className="border-b px-4 mb-4 mt-2 pb-4 border-stone-200">
       <div className="flex items-center justify-between p-0.5">
         <div>
-          <span className="text-sm font-bold block">
-            Good morning, {user.role}
-          </span>
+          <span className="text-sm font-bold block">Welcome, {user.role}</span>
           <span className="text-xs block text-stone-500">
             <p>{formatDate(currentDate)}</p>
           </span>
+          <div className="div flex pt-2">
+            <FiChevronLeft
+              onClick={() => {
+                navigate(-1);
+              }}
+              className="cursor-pointer"
+            />
+            <FiChevronRight
+              onClick={() => {
+                navigate(1);
+              }}
+              className="cursor-pointer"
+            />
+          </div>
         </div>
+
         <div>
           <AccountToggle />
         </div>

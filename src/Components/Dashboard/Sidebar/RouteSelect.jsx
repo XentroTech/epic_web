@@ -17,13 +17,24 @@ function RouteSelect() {
 
   return (
     <div className="flex flex-col gap-4">
-      <Link to="/dashboard">
-        <NavItem
-          Icon={FiHome}
-          selected={location.pathname === "/dashboard"}
-          title="Dashboard"
-        />
-      </Link>
+      {/* {["moderator"].includes(user.role) && (
+        <Link to="/dashboard">
+          <NavItem
+            Icon={FiHome}
+            selected={location.pathname === "/dashboard"}
+            title="Dashboard"
+          />
+        </Link>
+      )} */}
+      {["admin", "superadmin"].includes(user.role) && (
+        <Link to="/dashboard/revenue">
+          <NavItem
+            Icon={FiHome}
+            selected={location.pathname === "/dashboard/revenue"}
+            title="Dashboard Revenue"
+          />
+        </Link>
+      )}
 
       {["admin", "superadmin"].includes(user.role) && (
         <Link to="/dashboard/user">
@@ -43,7 +54,7 @@ function RouteSelect() {
         />
       </Link>
 
-      {["admin", "superadmin"].includes(user.role) && (
+      {["admin", "superadmin", "moderator"].includes(user.role) && (
         <Link to="/dashboard/games">
           <NavItem
             Icon={FiPlay}

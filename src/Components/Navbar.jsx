@@ -3,7 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../features/user/userApi";
 import { userLoggedOut } from "../features/user/userAuthSlice";
-import { FiUser } from "react-icons/fi"; // Import an icon for profile if desired
+import {
+  FiActivity,
+  FiBarChart,
+  FiBookOpen,
+  FiHome,
+  FiLogOut,
+  FiServer,
+  FiUser,
+} from "react-icons/fi"; // Import an icon for profile if desired
 
 export default function Navbar() {
   const { user } = useSelector((state) => state.auth || {});
@@ -63,6 +71,43 @@ export default function Navbar() {
               {isMenuOpen && (
                 <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md z-10">
                   <ul className="py-2">
+                    {user?.role &&
+                      ["superadmin", "admin", "moderator"].includes(
+                        user.role
+                      ) && (
+                        <li>
+                          <a
+                            href="/dashboard"
+                            className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                          >
+                            <FiBarChart className="inline mr-1" /> Dashboard
+                          </a>
+                        </li>
+                      )}
+                    <li>
+                      <a
+                        href="#"
+                        className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                      >
+                        <FiHome className="inline mr-1" /> Home
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                      >
+                        <FiBookOpen className="inline mr-1" /> About
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                      >
+                        <FiServer className="inline mr-1" /> Service
+                      </a>
+                    </li>
                     <li>
                       <a
                         href="/profile" // Link to the user's profile
@@ -76,6 +121,7 @@ export default function Navbar() {
                         onClick={handleSignOut}
                         className="block px-4 py-2 text-gray-800 hover:bg-gray-100 w-full text-left"
                       >
+                        <FiLogOut className="inline mr-1" />
                         Logout
                       </button>
                     </li>
@@ -120,54 +166,7 @@ export default function Navbar() {
         <div
           className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
           id="navbar-sticky"
-        >
-          <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-            <li>
-              <a
-                href="/"
-                className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
-                aria-current="page"
-              >
-                Home
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-              >
-                About
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-              >
-                Services
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-              >
-                Contact
-              </a>
-            </li>
-            {user?.role &&
-              ["superadmin", "admin", "moderator"].includes(user.role) && (
-                <li>
-                  <a
-                    href="/dashboard"
-                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                  >
-                    Dashboard
-                  </a>
-                </li>
-              )}
-          </ul>
-        </div>
+        ></div>
       </div>
     </nav>
   );

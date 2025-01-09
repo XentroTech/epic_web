@@ -2,26 +2,52 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSendPushNotificationMutation } from "../../../features/notification/pushNotificationApi";
+import { useSendNotificationMutation } from "../../../features/notification/notificationApi";
 const PushNotification = () => {
   const [title, setTitle] = useState("");
   const [msg, setMsg] = useState("");
   const [sendPushNotification] = useSendPushNotificationMutation();
+  const [sendNotification] = useSendNotificationMutation();
   //handle send notification
 
   const handleSendNotification = async () => {
-    await sendPushNotification({ title, msg })
+    await sendPushNotification({
+      title,
+      msg,
+    })
       .unwrap()
       .then((data) => {
         if (data.success) {
-          toast.success(`Notifications has been sent to the users!`, {
+          toast.success(`Push Notifications has been sent to the users!`, {
             position: "top-right",
           });
         }
         setTitle("");
-        setMessage("");
+        setMsg("");
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error(error?.data?.message, { position: "top-right" });
+      });
+
+    // sending same message in in app notification
+    await sendNotification({
+      title,
+      message: msg,
+      image: "https://dev.e-pic.co/uploads/epic_logo.png",
+    })
+      .unwrap()
+      .then((data) => {
+        if (data.success) {
+          toast.success(`App Notifications has been sent to the users!`, {
+            position: "top-right",
+          });
+        }
+        setTitle("");
+        setMsg("");
       })
       .catch((error) =>
-        toast.error(error?.data?.message, { position: "top-right" })
+        toast.error(error.data.message, { position: "top-right" })
       );
   };
 

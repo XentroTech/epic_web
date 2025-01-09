@@ -6,9 +6,14 @@ const AppNotification = () => {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [sendNotification] = useSendNotificationMutation();
+  let image = "https://dev.e-pic.co/uploads/epic_logo.png";
   //handle send notification
   const handleSendNotification = async () => {
-    await sendNotification({ title, message })
+    await sendNotification({
+      title,
+      message,
+      image,
+    })
       .unwrap()
       .then((data) => {
         if (data.success) {
@@ -26,13 +31,8 @@ const AppNotification = () => {
 
   return (
     <div className="container mx-auto px-4 sm:px-8 py-8">
-      <div className="py-2">
-        <h2 className="text-2xl font-bold leading-tight pb-4 text-green-600">
-          Notification Management
-        </h2>
-      </div>
       <h2 className="text-xl font-bold leading-tight pb-4 text-red-600">
-        Send Notification to all user
+        Send In app Notification to all user
       </h2>
       <div className="flex flex-col justify-center items-center w-[500px]">
         <div className=" w-full mb-4">

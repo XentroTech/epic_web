@@ -9,6 +9,12 @@ import ForgotPasswordEmail from "./Pages/ForgotPasswordEmail";
 import VerifyOtp from "./Pages/VerifyOtp";
 import ResetPassword from "./Pages/ResetPassword";
 import UserProfile from "./Pages/UserProfile";
+import PrivacyPolicy from "./Components/PrivacyPolicy";
+import TermsOfUse from "./Components/TermsOfUse";
+import WhatIsEpic from "./Components/WhatIsEpic";
+import FAQ from "./Components/FAQ";
+import TipsAndTricks from "./Components/TipsAndTricks";
+import DownloadApp from "./Components/DownloadApp";
 
 function App() {
   return (
@@ -24,6 +30,12 @@ function App() {
           <Route path="/verifyOtp" element={<VerifyOtp />} />
           <Route path="/resetPassword" element={<ResetPassword />} />
           <Route path="/profile" element={<UserProfile />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsOfUse />} />
+          <Route path="/epic" element={<WhatIsEpic />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/tips" element={<TipsAndTricks />} />
+          <Route path="/share/*" element={<DownloadApp />} />
         </Routes>
         <ToastContainer />
       </Router>
