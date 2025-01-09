@@ -3,13 +3,17 @@ import React from "react";
 const TermsAndConditions = () => {
   return (
     <div className="container mx-auto px-4 py-8 max-w-3xl text-justify">
-      <h1 className="text-3xl font-bold mb-4">E-Pic Privacy Policy</h1>
+      <h1 className="text-3xl font-bold mb-4 text-green-600">
+        E-Pic Privacy Policy
+      </h1>
       <p className="mb-6 text-lg">
         Your privacy matters. Protect yourself with a secure VPN router.
         Sponsored
       </p>
 
-      <h2 className="text-2xl font-semibold mb-2">1. Introduction</h2>
+      <h2 className="text-2xl font-semibold mb-2 text-green-600">
+        1. Introduction
+      </h2>
       <p className="mb-6">
         This privacy policy applies to the E-Pic app (hereby referred to as
         "Application") for mobile devices that was created by E-Pic (hereby
@@ -17,7 +21,7 @@ const TermsAndConditions = () => {
         intended for use "AS IS".
       </p>
 
-      <h2 className="text-2xl font-semibold mb-2">
+      <h2 className="text-2xl font-semibold mb-2 text-green-600">
         2. Information Collection and Use
       </h2>
       <p className="mb-6">
@@ -38,7 +42,9 @@ const TermsAndConditions = () => {
         of your mobile device.
       </p>
 
-      <h3 className="text-xl font-semibold mb-2">Geolocation Services</h3>
+      <h3 className="text-xl font-semibold mb-2 text-green-600">
+        Geolocation Services
+      </h3>
       <p className="mb-6">
         The Application collects your device's location, which helps the Service
         Provider determine your approximate geographical location and make use
@@ -78,7 +84,9 @@ const TermsAndConditions = () => {
         in this privacy policy.
       </p>
 
-      <h2 className="text-2xl font-semibold mb-2">3. Third Party Access</h2>
+      <h2 className="text-2xl font-semibold mb-2 text-green-600">
+        3. Third Party Access
+      </h2>
       <p className="mb-6">
         Only aggregated, anonymized data is periodically transmitted to external
         services to aid the Service Provider in improving the Application and
@@ -118,7 +126,9 @@ const TermsAndConditions = () => {
         </li>
       </ul>
 
-      <h2 className="text-2xl font-semibold mb-2">4. Opt-Out Rights</h2>
+      <h2 className="text-2xl font-semibold mb-2 text-green-600">
+        4. Opt-Out Rights
+      </h2>
       <p className="mb-6">
         You can stop all collection of information by the Application easily by
         uninstalling it. You may use the standard uninstall processes as may be
@@ -126,7 +136,9 @@ const TermsAndConditions = () => {
         marketplace or network.
       </p>
 
-      <h2 className="text-2xl font-semibold mb-2">5. Data Retention Policy</h2>
+      <h2 className="text-2xl font-semibold mb-2 text-green-600">
+        5. Data Retention Policy
+      </h2>
       <p className="mb-6">
         The Service Provider will retain User Provided data for as long as you
         use the Application and for a reasonable time thereafter. If you'd like
@@ -138,7 +150,9 @@ const TermsAndConditions = () => {
         and they will respond in a reasonable time.
       </p>
 
-      <h2 className="text-2xl font-semibold mb-2">6. Children</h2>
+      <h2 className="text-2xl font-semibold mb-2 text-green-600">
+        6. Children
+      </h2>
       <p className="mb-6">
         The Service Provider does not use the Application to knowingly solicit
         data from or market to children under the age of 13.
@@ -158,7 +172,9 @@ const TermsAndConditions = () => {
         ) so that they will be able to take the necessary actions.
       </p>
 
-      <h2 className="text-2xl font-semibold mb-2">7. Security</h2>
+      <h2 className="text-2xl font-semibold mb-2 text-green-600">
+        7. Security
+      </h2>
       <p className="mb-6">
         The Service Provider is concerned about safeguarding the confidentiality
         of your information. The Service Provider provides physical, electronic,
@@ -166,7 +182,7 @@ const TermsAndConditions = () => {
         processes and maintains.
       </p>
 
-      <h2 className="text-2xl font-semibold mb-2">8. Changes</h2>
+      <h2 className="text-2xl font-semibold mb-2 text-green-600">8. Changes</h2>
       <p className="mb-6">
         This Privacy Policy may be updated from time to time for any reason. The
         Service Provider will notify you of any changes to the Privacy Policy by
@@ -177,14 +193,18 @@ const TermsAndConditions = () => {
 
       <p className="mb-6">This privacy policy is effective as of 2024-12-01</p>
 
-      <h2 className="text-2xl font-semibold mb-2">9. Your Consent</h2>
+      <h2 className="text-2xl font-semibold mb-2 text-green-600">
+        9. Your Consent
+      </h2>
       <p className="mb-6">
         By using the Application, you are consenting to the processing of your
         information as set forth in this Privacy Policy now and as amended by
         us.
       </p>
 
-      <h2 className="text-2xl font-semibold mb-2">10. Contact Us</h2>
+      <h2 className="text-2xl font-semibold mb-2 text-green-600">
+        10. Contact Us
+      </h2>
       <p className="mb-6">
         If you have any questions regarding privacy while using the Application,
         or have questions about the practices, please contact the Service

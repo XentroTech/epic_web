@@ -3,13 +3,15 @@ import React from "react";
 const TermsOfUse = () => {
   return (
     <div className="container mx-auto px-4 py-8 max-w-3xl">
-      <h1 className="text-3xl font-bold mb-6">E-Pic Terms of Use</h1>
+      <h1 className="text-3xl font-bold mb-6 text-green-600">
+        E-Pic Terms of Use
+      </h1>
       <p className="mb-6 text-lg">
         Your privacy matters. Protect yourself with a secure VPN router.
         Sponsored
       </p>
 
-      <h2 className="text-2xl font-semibold mb-4">
+      <h2 className="text-2xl font-semibold mb-4 text-green-600">
         Effective Date: December 1, 2024
       </h2>
 
@@ -21,14 +23,16 @@ const TermsOfUse = () => {
         using the Application.
       </p>
 
-      <h2 className="text-2xl font-semibold mb-2">1. Acceptance of Terms</h2>
+      <h2 className="text-2xl font-semibold mb-2 text-green-600">
+        1. Acceptance of Terms
+      </h2>
       <p className="mb-6">
         By downloading, installing, or using the Application, you agree to
         comply with and be legally bound by these Terms. If you do not agree to
         these Terms, you should not access or use the Application.
       </p>
 
-      <h2 className="text-2xl font-semibold mb-2">
+      <h2 className="text-2xl font-semibold mb-2 text-green-600">
         2. License and Restrictions
       </h2>
       <p className="mb-6 font-semibold">License Grant:</p>
@@ -54,7 +58,7 @@ const TermsOfUse = () => {
         </li>
       </ul>
 
-      <h2 className="text-2xl font-semibold mb-2">
+      <h2 className="text-2xl font-semibold mb-2 text-green-600">
         3. User Accounts and Registration
       </h2>
       <p className="mb-6 font-semibold">Account Creation:</p>
@@ -75,7 +79,9 @@ const TermsOfUse = () => {
         violate these Terms or engage in prohibited activities.
       </p>
 
-      <h2 className="text-2xl font-semibold mb-2">4. Content Guidelines</h2>
+      <h2 className="text-2xl font-semibold mb-2 text-green-600">
+        4. Content Guidelines
+      </h2>
       <p className="mb-6 font-semibold">User-Generated Content:</p>
       <p className="mb-6">
         You retain ownership of any photos or content you upload. However, by
@@ -97,7 +103,7 @@ const TermsOfUse = () => {
         and repeated violations can result in account suspension.
       </p>
 
-      <h2 className="text-2xl font-semibold mb-2">
+      <h2 className="text-2xl font-semibold mb-2 text-green-600">
         5. Purchases and Financial Transactions
       </h2>
       <p className="mb-6 font-semibold">Picoins:</p>
@@ -122,7 +128,7 @@ const TermsOfUse = () => {
         verified technical issue or unauthorized transaction.
       </p>
 
-      <h2 className="text-2xl font-semibold mb-2">
+      <h2 className="text-2xl font-semibold mb-2 text-green-600">
         6. Competitions and Leaderboards
       </h2>
       <p className="mb-6 font-semibold">Daily and Weekly Competitions:</p>
@@ -143,14 +149,16 @@ const TermsOfUse = () => {
         modify competition rules and prize structures.
       </p>
 
-      <h2 className="text-2xl font-semibold mb-2">7. Third-Party Services</h2>
+      <h2 className="text-2xl font-semibold mb-2 text-green-600">
+        7. Third-Party Services
+      </h2>
       <p className="mb-6">
         The Application may utilize third-party services, such as Google Play
         Services, subject to their own terms and conditions. E-Pic is not
         responsible for third-party services or their performance.
       </p>
 
-      <h2 className="text-2xl font-semibold mb-2">
+      <h2 className="text-2xl font-semibold mb-2 text-green-600">
         8. Privacy and Data Processing
       </h2>
       <p className="mb-6 font-semibold">Data Collection:</p>
@@ -165,7 +173,9 @@ const TermsOfUse = () => {
         affect the Application’s functionality.
       </p>
 
-      <h2 className="text-2xl font-semibold mb-2">9. Contribution License</h2>
+      <h2 className="text-2xl font-semibold mb-2 text-green-600">
+        9. Contribution License
+      </h2>
       <p className="mb-6">
         You and E-Pic agree that we may access, store, process, and use any
         information and personal data that you provide, including your choices
@@ -184,7 +194,7 @@ const TermsOfUse = () => {
         the Application.
       </p>
 
-      <h2 className="text-2xl font-semibold mb-2">
+      <h2 className="text-2xl font-semibold mb-2 text-green-600">
         10. Limitations of Liability
       </h2>
       <p className="mb-6 font-semibold">No Warranties:</p>
@@ -207,7 +217,7 @@ const TermsOfUse = () => {
         </li>
       </ul>
 
-      <h2 className="text-2xl font-semibold mb-2">
+      <h2 className="text-2xl font-semibold mb-2 text-green-600">
         11. Updates and Termination
       </h2>
       <p className="mb-6 font-semibold">Updates:</p>
@@ -223,7 +233,7 @@ const TermsOfUse = () => {
         your device.
       </p>
 
-      <h2 className="text-2xl font-semibold mb-2">
+      <h2 className="text-2xl font-semibold mb-2 text-green-600">
         12. Changes to These Terms
       </h2>
       <p className="mb-6">
@@ -232,14 +242,18 @@ const TermsOfUse = () => {
         acceptance of the revised Terms.
       </p>
 
-      <h2 className="text-2xl font-semibold mb-2">13. Governing Law</h2>
+      <h2 className="text-2xl font-semibold mb-2 text-green-600">
+        13. Governing Law
+      </h2>
       <p className="mb-6">
         These Terms are governed by the laws of Malaysia. Any disputes arising
         from these Terms or your use of the Application will be subject to the
         exclusive jurisdiction of Malaysian courts.
       </p>
 
-      <h2 className="text-2xl font-semibold mb-2">14. Contact Us</h2>
+      <h2 className="text-2xl font-semibold mb-2 text-green-600">
+        14. Contact Us
+      </h2>
       <p className="mb-6">
         If you have any questions or suggestions regarding these Terms, please
         contact us at:{" "}

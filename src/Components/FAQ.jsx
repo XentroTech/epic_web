@@ -149,6 +149,26 @@ const FAQ = () => {
       ],
     },
     {
+      category: "Supported Devices and Platforms",
+      questions: [
+        {
+          question: " What devices are compatible with the platform?",
+          answer:
+            "Our platform is compatible with:Mobile Devices: Android and iOS smartphones.Desktops/Laptops: Windows, macOS, and Linux operating systems.Tablets: Android and iOS tablets.",
+        },
+        {
+          question: "Can I access the platform through a web browser?",
+          answer:
+            "Yes, the platform is fully accessible through modern web browsers like Chrome, Safari, Firefox, and Edge. but you cant play game on web browser game only available on mobile app",
+        },
+        {
+          question: " Will the platform work on low-end devices?",
+          answer:
+            "The platform is optimized to work on a wide range of devices, including low-end smartphones and older desktops. However, a stable internet connection is recommended for a smooth experience.Q8: What should I do if the platform lags on my device?Ensure your device meets the minimum requirements.Clear cache and temporary files.Update the app or browser to the latest version.Restart your device.",
+        },
+      ],
+    },
+    {
       category: "Notification System",
       questions: [
         {
