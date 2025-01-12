@@ -1,17 +1,9 @@
 import React, { useState } from "react";
+import { FiBarChart, FiBookOpen, FiHome, FiLogOut, FiServer, FiUser } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../features/user/userApi";
 import { userLoggedOut } from "../features/user/userAuthSlice";
-import {
-  FiActivity,
-  FiBarChart,
-  FiBookOpen,
-  FiHome,
-  FiLogOut,
-  FiServer,
-  FiUser,
-} from "react-icons/fi"; // Import an icon for profile if desired
 
 export default function Navbar() {
   const { user } = useSelector((state) => state.auth || {});
@@ -19,10 +11,8 @@ export default function Navbar() {
   const navigate = useNavigate();
   const [logout] = useLogoutMutation();
 
-  // State to manage submenu visibility
   const [isMenuOpen, setMenuOpen] = useState(false);
 
-  // Handle logout
   const handleSignOut = async () => {
     try {
       await logout().unwrap();
@@ -36,19 +26,18 @@ export default function Navbar() {
   return (
     <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
       <div className="max-w-screen-3xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+        <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <img
-            src="https://flowbite.com/docs/images/logo.svg"
+            src="/epic_coin.png"
             className="h-8"
-            alt="Flowbite Logo"
+            alt="Epic Logo"
           />
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
             Epic
           </span>
-        </a>
+        </Link>
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           {user ? (
-            // Circular image with dropdown for logged in users
             <div className="relative">
               <button
                 onClick={() => setMenuOpen(!isMenuOpen)}
@@ -56,15 +45,15 @@ export default function Navbar() {
               >
                 {user.profile_pic ? (
                   <img
-                    src={user.profile_pic} // Assume you have a profile picture URL
+                    src={user.profile_pic}
                     alt="User"
-                    className="size-8 rounded-full shrink-0 bg-theme shadow"
+                    className="w-8 h-8 rounded-full shrink-0 bg-theme shadow"
                   />
                 ) : (
                   <img
-                    src="https://api.dicebear.com/9.x/notionists/svg" // Assume you have a profile picture URL
+                    src="https://api.dicebear.com/9.x/notionists/svg"
                     alt="User"
-                    className="size-8 rounded-full shrink-0 bg-theme shadow"
+                    className="w-8 h-8 rounded-full shrink-0 bg-theme shadow"
                   />
                 )}
               </button>
@@ -76,45 +65,45 @@ export default function Navbar() {
                         user.role
                       ) && (
                         <li>
-                          <a
-                            href="/dashboard"
+                          <Link
+                            to="/dashboard"
                             className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
                           >
                             <FiBarChart className="inline mr-1" /> Dashboard
-                          </a>
+                          </Link>
                         </li>
                       )}
                     <li>
-                      <a
-                        href="#"
+                      <Link
+                        to="/"
                         className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
                       >
                         <FiHome className="inline mr-1" /> Home
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a
-                        href="#"
+                      <Link
+                        to="/about"
                         className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
                       >
                         <FiBookOpen className="inline mr-1" /> About
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a
-                        href="#"
+                      <Link
+                        to="/service"
                         className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
                       >
                         <FiServer className="inline mr-1" /> Service
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a
-                        href="/profile" // Link to the user's profile
+                      <Link
+                        to="/profile"
                         className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
                       >
                         <FiUser className="inline mr-1" /> Profile
-                      </a>
+                      </Link>
                     </li>
                     <li>
                       <button
@@ -171,3 +160,4 @@ export default function Navbar() {
     </nav>
   );
 }
+

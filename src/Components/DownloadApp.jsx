@@ -2,7 +2,7 @@ import React from "react";
 
 function DownloadApp() {
   return (
-    <div className="container mx-auto  ">
+    <section className="container mx-auto  ">
       <h1 className="text-center text-green-600 py-24 font-bold text-3xl">
         Download App
       </h1>{" "}
@@ -37,7 +37,7 @@ function DownloadApp() {
           </span>
         </button>
       </div>
-    </div>
+    </section>
   );
 }
 

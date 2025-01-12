@@ -139,7 +139,7 @@ const FAQ = () => {
         {
           question: "What is the cost of additional gallery space?",
           answer:
-            "Additional space pricing is as follows: 5 pictures = 5 RM , 10 pictures = 8 RM,20 pictures = 15 RM,50 pictures = 35 RM,100 pictures = 50 RM",
+            "Additional space pricing is as follows:  5 pictures = 5 RM , 10 pictures = 8 RM,20 pictures = 15 RM,50 pictures = 35 RM,100 pictures = 50 RM",
         },
         {
           question: "Can artists showcase their art?",
@@ -191,30 +191,30 @@ const FAQ = () => {
         {/* Title */}
         <header className="text-center mb-8">
           <h1 className="text-4xl font-bold text-green-600">Epic FAQ</h1>
-          <p className="text-lg text-green-800">Frequently Asked Questions</p>
+          <p className="text-lg text-black p-4">Frequently Asked Questions</p>
         </header>
 
         {/* Two-Column Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {faqs.map((section, index) => (
-            <div key={index} className="bg-white p-6 rounded-lg shadow-lg">
-              <h2 className="text-2xl text-green-600 font-semibold border-b border-[#eab71a] pb-2 mb-4">
+            <div key={index} className=" p-6 rounded-lg shadow-lg  bg-green-500">
+              <h2 className="text-2xl text-slate-800 font-semibold border-b border-white pb-2 mb-4">
                 {section.category}
               </h2>
-              <div className="space-y-4">
+              <div className="space-y-4 ">
                 {section.questions.map((item, i) => (
                   <div key={i}>
                     <button
                       className="w-full text-left font-medium text-lg flex justify-between items-center"
                       onClick={() => toggleFAQ(`${index}-${i}`)}
                     >
-                      <span className="text-gray-600">{item.question}</span>
+                      <span className="text-slate-700">{item.question}</span>
                       <span className="ml-4 text-gray-800">
                         {activeIndex === `${index}-${i}` ? "-" : "+"}
                       </span>
                     </button>
                     {activeIndex === `${index}-${i}` && (
-                      <p className="mt-2 text-gray-400">{item.answer}</p>
+                      <p className="mt-2 text-gray-800">{item.answer}</p>
                     )}
                   </div>
                 ))}
