@@ -1,10 +1,17 @@
 import React, { useState } from "react";
-import { FiBarChart, FiBookOpen, FiHome, FiLogOut, FiServer, FiUser } from "react-icons/fi";
+import {
+  FiBarChart,
+  FiBookOpen,
+  FiHome,
+  FiLogOut,
+  FiServer,
+  FiUser,
+} from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../features/user/userApi";
 import { userLoggedOut } from "../features/user/userAuthSlice";
-
+import logo1 from "../assets/logo1.png";
 export default function Navbar() {
   const { user } = useSelector((state) => state.auth || {});
   const dispatch = useDispatch();
@@ -24,15 +31,14 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+    <nav className="px-6 sm:px-8 md:px-12 xl:px-18 bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
       <div className="max-w-screen-3xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <img
-            src="/epic_coin.png"
-            className="h-8"
-            alt="Epic Logo"
-          />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+        <Link
+          to="/"
+          className="flex items-center space-x-1 rtl:space-x-reverse"
+        >
+          <img src={logo1} className="h-16" alt="Logo" />
+          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white text-[#016655] font-bold">
             Epic
           </span>
         </Link>
@@ -160,4 +166,3 @@ export default function Navbar() {
     </nav>
   );
 }
-
