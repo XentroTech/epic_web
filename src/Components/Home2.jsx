@@ -29,6 +29,7 @@ export default function Home() {
     category: selectedCategory,
   });
   const images = imageData?.images || [];
+  console.log();
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -146,7 +147,7 @@ export default function Home() {
                   }}
                 >
                   <img
-                    src={image.url}
+                    src={image.image_url}
                     alt={image.description}
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />

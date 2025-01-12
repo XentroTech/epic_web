@@ -7,7 +7,7 @@ const Categories = ({ onCategorySelect }) => {
   const [visibleCategories, setVisibleCategories] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
   const categories = categoryData?.categories || [];
-  const itemsToShow = 5; // Number of categories to show at once
+  const itemsToShow = 5;
 
   useEffect(() => {
     if (categories) {
