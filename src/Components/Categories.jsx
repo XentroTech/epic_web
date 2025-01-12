@@ -37,7 +37,7 @@ const Categories = ({ onCategorySelect }) => {
     );
 
   return (
-    <div className="relative flex items-center justify-center">
+    <div className="relative flex items-center justify-center max-w-[380px] md:max-w-full  overflow-hidden">
       <button
         onClick={handlePrev}
         className="absolute left-0 bg-white p-2 rounded-full shadow-md z-10 disabled:opacity-50"
@@ -51,7 +51,7 @@ const Categories = ({ onCategorySelect }) => {
           <button
             key={category.id}
             onClick={() => onCategorySelect(category.id)}
-            className="px-4 py-2 bg-white text-[#016655] rounded-full border transition-colors hover:bg-[#016655] hover:text-white"
+            className="px-2 md:px-4 py-2 bg-white text-[#016655] rounded-full border transition-colors hover:bg-[#016655] hover:text-white"
           >
             {category.name}
           </button>

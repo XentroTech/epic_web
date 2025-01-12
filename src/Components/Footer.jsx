@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import logo1 from "../assets/logo1.png";
 export default function Footer() {
   return (
-    <footer className="px-6 sm:px-8 md:px-12 xl:px-24 bg-gray-100">
+    <footer className="px-6 sm:px-8 md:px-12 xl:px-24 bg-gray-100 text-center md:text-start">
       <div className=" px-6 py-8 ">
-        <div className="grid grid-cols-1 md:grid-cols-4 xl:grid-cols-4 justify-center  mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-4 justify-start  mx-auto">
           <div className="w-full mb-6 md:mb-0">
-            <div className="flex flex-col justify-center items-center">
+            <div className="flex flex-col justify-start items-center">
               <img src={logo1} className="h-20" alt="Logo" />
               <h2 className="text-gray-700 text-lg font-bold mb-4 text-[#016655]">
                 Epic
@@ -35,51 +35,25 @@ export default function Footer() {
                   Terms Of Use
                 </Link>
               </li>
-              <li className="mt-3">
-                <Link to="/epic" className="text-gray-600 hover:text-gray-800">
-                  What is Epic
-                </Link>
-              </li>
+
               <li className="mt-3">
                 <Link to="/faq" className="text-gray-600 hover:text-gray-800">
                   FAQ
-                </Link>
-              </li>
-              <li className="mt-3">
-                <Link to="/tips" className="text-gray-600 hover:text-gray-800">
-                  Tips & Tricks
                 </Link>
               </li>
             </nav>
           </div>
           <div className="w-full md:w-1/4 mb-6 md:mb-0">
             <h3 className="text-gray-700 font-bold mb-2 text-[#016655]">
-              Quick Links
+              About
             </h3>
             <nav className="list-none mb-10">
               <li className="mt-3">
-                <Link
-                  to="/privacy"
-                  className="text-gray-600 hover:text-gray-800"
-                >
-                  Privacy and Policy
-                </Link>
-              </li>
-              <li className="mt-3">
-                <Link to="/terms" className="text-gray-600 hover:text-gray-800">
-                  Terms Of Use
-                </Link>
-              </li>
-              <li className="mt-3">
                 <Link to="/epic" className="text-gray-600 hover:text-gray-800">
                   What is Epic
                 </Link>
               </li>
-              <li className="mt-3">
-                <Link to="/faq" className="text-gray-600 hover:text-gray-800">
-                  FAQ
-                </Link>
-              </li>
+
               <li className="mt-3">
                 <Link to="/tips" className="text-gray-600 hover:text-gray-800">
                   Tips & Tricks
@@ -87,12 +61,16 @@ export default function Footer() {
               </li>
             </nav>
           </div>
-          <div className="w-full md:w-1/4 mb-6 md:mb-0">
+          <div className="w-full md:w-1/4 mb-6 md:mb-0 ">
             <h3 className="text-gray-700 font-bold mb-2 text-[#016655]">
               Follow Us
             </h3>
-            <div className="flex mt-4">
-              <a href="#" className="mr-6 text-gray-600">
+            <div className="flex mt-4 justify-center md:justify-start">
+              <a
+                href="https://www.facebook.com/epichub2025"
+                target="_blank"
+                className="mr-6 text-gray-600"
+              >
                 <svg
                   fill="currentColor"
                   strokeLinecap="round"
@@ -135,7 +113,7 @@ export default function Footer() {
         </div>
         <div className="border-t border-gray-200 py-4 mt-8 text-center">
           <p className="text-sm text-gray-500">
-            © 2023 Epic. All rights reserved.
+            © {new Date().getFullYear()} Epic. All rights reserved.
           </p>
         </div>
       </div>

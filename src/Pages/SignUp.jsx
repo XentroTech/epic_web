@@ -12,9 +12,9 @@ const SignUp = () => {
     email: "",
     password: "",
     mobileNo: "",
+    country: "",
   });
   const navigate = useNavigate();
-
   const [signup, { isLoading, isError, error }] = useSignupMutation();
 
   const handleChange = (e) => {
@@ -59,7 +59,7 @@ const SignUp = () => {
       <div className="flex items-center justify-center flex-1 p-6">
         <form
           onSubmit={handleSubmit}
-          className="w-full max-w-lg h-[680px] space-y-4 bg-white p-10 rounded-lg shadow-lg"
+          className="w-full max-w-lg h-auto space-y-4 bg-white p-10 rounded-lg shadow-lg"
         >
           <h2 className="text-2xl font-bold text-green-600 text-center">
             Signup
@@ -137,13 +137,29 @@ const SignUp = () => {
               type="tel"
               name="mobileNo"
               id="mobileNo"
-              value={signupData.mobile}
+              value={signupData.mobileNo}
               onChange={handleChange}
               className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-200"
               required
             />
           </div>
-
+          <div>
+            <label className="block mb-1 text-sm font-medium" htmlFor="country">
+              Country
+            </label>
+            <select
+              value={signupData.country}
+              id="country"
+              name="country"
+              onChange={handleChange}
+              className="border rounded-md p-3 w-full  focus:outline-none focus:ring focus:border-green-400"
+              required
+            >
+              <option value="select">Select</option>
+              <option value="BD">BD</option>
+              <option value="MY">MY</option>
+            </select>
+          </div>
           <button
             type="submit"
             className={`w-full py-3 rounded transition p-3 ${

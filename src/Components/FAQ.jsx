@@ -190,14 +190,19 @@ const FAQ = () => {
       <div className="max-w-6xl mx-auto px-4">
         {/* Title */}
         <header className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-green-600">Epic FAQ</h1>
-          <p className="text-lg text-black p-4">Frequently Asked Questions</p>
+          <h1 className="text-4xl font-bold text-[#016655]">Epic FAQ</h1>
+          <p className="text-lg text-[#016644] p-4">
+            Frequently Asked Questions
+          </p>
         </header>
 
         {/* Two-Column Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {faqs.map((section, index) => (
-            <div key={index} className=" p-6 rounded-lg shadow-lg  bg-green-500">
+            <div
+              key={index}
+              className=" p-6 rounded-lg shadow-lg  bg-[#016655]"
+            >
               <h2 className="text-2xl text-slate-800 font-semibold border-b border-white pb-2 mb-4">
                 {section.category}
               </h2>
@@ -208,13 +213,13 @@ const FAQ = () => {
                       className="w-full text-left font-medium text-lg flex justify-between items-center"
                       onClick={() => toggleFAQ(`${index}-${i}`)}
                     >
-                      <span className="text-slate-700">{item.question}</span>
+                      <span className="text-slate-800">{item.question}</span>
                       <span className="ml-4 text-gray-800">
                         {activeIndex === `${index}-${i}` ? "-" : "+"}
                       </span>
                     </button>
                     {activeIndex === `${index}-${i}` && (
-                      <p className="mt-2 text-gray-800">{item.answer}</p>
+                      <p className="mt-2 text-white">{item.answer}</p>
                     )}
                   </div>
                 ))}

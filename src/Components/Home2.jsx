@@ -75,19 +75,21 @@ export default function Home() {
                 placeholder="Search for images..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full p-4 pr-12 text-gray-900 border-0 rounded-full text-lg focus:ring-2 focus:ring-green-400"
+                className="w-full p-3 md:p-4 pr-12 text-gray-900 border-0 rounded-full text-lg focus:ring-2 focus:ring-green-400"
               />
               <button
                 type="submit"
-                className="absolute right-4 top-1/2 -translate-y-1/2 bg-[#016655] text-white rounded-full px-8 py-3 hover:bg-green-600 transition-colors"
+                className="absolute right-4 top-1/2 -translate-y-1/2 bg-[#016655] text-white rounded-full px-6 md:px-8 py-1.5 md:py-3 hover:bg-green-600 transition-colors"
               >
-                <FiSearch className="w-6 h-6" />
+                <FiSearch className="w-5 md:w-6 h-5 md:h-6" />
               </button>
             </div>
           </form>
           {/* Trending Topics */}
           <div className="flex flex-wrap justify-center items-center gap-3 mb-8">
-            <span className="text-green-200 mr-2">Trending:</span>
+            <span className="text-green-200 mr-2 hidden md:block">
+              Trending:
+            </span>
             {trendingTopics.map((topic) => (
               <button
                 key={topic}
@@ -101,8 +103,8 @@ export default function Home() {
         </div>
       </section>
       {/* Categories */}
-      <div className=" flex flex-col justify-center items-center py-24">
-        <h2 className="category text-3xl font-bold text-[#016655] font bold py-12">
+      <div className=" flex flex-col justify-center items-center py-24 max-w-2xl md:max-w-3xl xl:max-w-4xl mx-auto">
+        <h2 className="category text-xl lg:text-3xl font-bold text-[#016655] font bold py-12">
           Choose Categories
         </h2>
         <Categories onCategorySelect={handleCategorySelect} />
@@ -110,7 +112,7 @@ export default function Home() {
       {/* Images Grid Section */}
       <section className="py-16 px-4">
         <div className="container mx-auto max-w-7xl">
-          <h2 className="text-3xl font-bold mb-8 text-[#016655]">
+          <h2 className="text-xl md:text-3xl font-bold mb-8 text-[#016655]">
             {selectedCategory
               ? `${selectedCategory} Images`
               : "Featured Resources"}
@@ -188,15 +190,15 @@ export default function Home() {
       {/* Features Section */}
       <section className="py-16 px-4 bg-gray-50">
         <div className="container mx-auto max-w-6xl">
-          <h2 className="text-3xl font-bold text-center mb-12 text-[#016655]">
+          <h2 className=" text-xl md:text-3xl font-bold text-center mb-12 text-[#016655]">
             Why Choose Us
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="w-16 h-16 bg-[#016655] rounded-full flex items-center justify-center mx-auto mb-4">
-                <FiImage className="w-8 h-8 text-white" />
+                <FiImage className=" w-6 h-6 md:w-8 md:h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-2 text-[#016655]">
+              <h3 className="text-lg md:text-xl font-semibold mb-2 text-[#016655]">
                 High Quality Resources
               </h3>
               <p className="text-gray-600">
@@ -206,9 +208,9 @@ export default function Home() {
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-[#016655] rounded-full flex items-center justify-center mx-auto mb-4">
-                <FiGrid className="w-8 h-8 text-white" />
+                <FiGrid className="w-6 h-6 md:w-8 md:h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-2 text-[#016655]">
+              <h3 className="text-lg md:text-xl font-semibold mb-2 text-[#016655]">
                 New Content Daily
               </h3>
               <p className="text-gray-600">
@@ -218,9 +220,9 @@ export default function Home() {
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-[#016655] rounded-full flex items-center justify-center mx-auto mb-4">
-                <FiVideo className="w-8 h-8 text-white" />
+                <FiVideo className="w-6 h-6 md:w-8 md:h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-2 text-[#016655]">
+              <h3 className="text-lg md:text-xl font-semibold mb-2 text-[#016655]">
                 Simple Licensing
               </h3>
               <p className="text-gray-600">

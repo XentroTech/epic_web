@@ -4,7 +4,7 @@ import { userLoggedIn, userLoggedOut } from "../user/userAuthSlice";
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://dev.e-pic.co/api/v1/",
+    baseUrl: "http://localhost:3000/api/v1/",
     prepareHeaders: async (headers, { getState, endpoint }) => {
       const token = getState()?.auth?.token;
       if (token) {
