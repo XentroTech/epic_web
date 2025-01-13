@@ -20,8 +20,6 @@ function Contest() {
   const { data: postsData } = useGetPostsQuery();
   const [createPost, { error }] = useCreatePostMutation();
   const posts = postsData?.posts || [];
-
-  //   console.log(name, title, description, imageFile, phone, model);
   // handlePost
   const handlePost = async () => {
     if (name && title && description && imageFile && phone && model) {
@@ -34,14 +32,20 @@ function Contest() {
       if (imageFile) {
         postInfo.append("imageUrl", imageFile);
       }
-      //   console.log(postInfo);
-      //   console.log(name, title);
+
       try {
-        console.log(Object.fromEntries(postInfo));
-        await createPost(Object.fromEntries(postInfo)).unwrap();
+        await createPost(postInfo).unwrap();
         toast.success("Post Successfully !", {
           position: "top-right",
         });
+
+        setShowModal(false);
+        setName("");
+        setTitle("");
+        setDescription("");
+        setPhone("");
+        setModel("");
+        setImageFile(null);
       } catch (error) {
         toast.error(error.data.message, {
           position: "top-right",
@@ -72,15 +76,17 @@ function Contest() {
         <img src={contestImg} alt="contest-banner" className="w-full h-auto" />
       </section>
       {/* participant section */}
-      <section>
+      <section className="bg-gray-800 text-white">
         <div className="participant">
           <h1 className="text-3xl text-[#016655] font-bold text-center py-12">
             Participate In Our Contest
           </h1>
-          <div className="flex justify-center items center gap-3">
+          <div className="container mx-auto flex justify-between items center gap-3 py-24">
             <div className="content">
-              <h2>Participate and win</h2>
-              <p>Participate and Shine in photography world </p>
+              <h2 className="text-3xl">Participate and win</h2>
+              <p className="text-gray-400">
+                Participate and Shine in photography world{" "}
+              </p>
             </div>
             {/* modal */}
             <div className="modal">
@@ -186,8 +192,9 @@ function Contest() {
         </div>
       </section>
       {/* image section */}
-      <section>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[200px]">
+      <section className="py-20">
+        <h1 className="text-center text-3xl font-bold">images</h1>
+        <div className="py-[100px] grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[200px]">
           {posts.map((post, index) => {
             return (
               <div
