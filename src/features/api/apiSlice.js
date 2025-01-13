@@ -42,7 +42,12 @@ export const apiSlice = createApi({
       }
     },
   }),
-  tagTypes: ["Images, PendingImages, LiveImages, ImagesSpace", "Coin"],
+  tagTypes: [
+    "Images, PendingImages, LiveImages, ImagesSpace",
+    "Coin",
+    // "Prize",
+    "Post",
+  ],
 
   endpoints: (builder) => ({}),
 });

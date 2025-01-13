@@ -104,7 +104,7 @@ export default function Home() {
       </section>
       {/* Categories */}
       <div className=" flex flex-col justify-center items-center py-24 max-w-2xl md:max-w-3xl xl:max-w-4xl mx-auto">
-        <h2 className="category text-xl lg:text-3xl font-bold text-[#016655] font bold py-12">
+        <h2 className="category text-xl  md:text-4xl font-bold text-[#016655] font bold py-12">
           Choose Categories
         </h2>
         <Categories onCategorySelect={handleCategorySelect} />
@@ -162,7 +162,7 @@ export default function Home() {
                         className="w-full bg-white text-gray-800 px-4 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors"
                         onClick={(e) => {
                           e.stopPropagation();
-                          window.open(image.url, "_blank");
+                          window.open(image.image_url, "_blank");
                         }}
                       >
                         Download

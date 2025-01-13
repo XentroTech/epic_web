@@ -53,13 +53,13 @@ export default function Navbar() {
                   <img
                     src={user.profile_pic}
                     alt="User"
-                    className="w-8 h-8 rounded-full shrink-0 bg-theme shadow"
+                    className="w-8 h-8 rounded-full shrink-0 bg-[#016655] shadow"
                   />
                 ) : (
                   <img
                     src="https://api.dicebear.com/9.x/notionists/svg"
                     alt="User"
-                    className="w-8 h-8 rounded-full shrink-0 bg-theme shadow"
+                    className="w-8 h-8 rounded-full shrink-0 bg-[#016655] shadow"
                   />
                 )}
               </button>

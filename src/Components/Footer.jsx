@@ -49,6 +49,14 @@ export default function Footer() {
             </h3>
             <nav className="list-none mb-10">
               <li className="mt-3">
+                <Link
+                  to="/contest"
+                  className="text-gray-600 hover:text-gray-800"
+                >
+                  Contest Page
+                </Link>
+              </li>
+              <li className="mt-3">
                 <Link to="/epic" className="text-gray-600 hover:text-gray-800">
                   What is Epic
                 </Link>

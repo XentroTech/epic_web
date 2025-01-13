@@ -15,6 +15,7 @@ import WhatIsEpic from "./Components/WhatIsEpic";
 import FAQ from "./Components/FAQ";
 import TipsAndTricks from "./Components/TipsAndTricks";
 import DownloadApp from "./Components/DownloadApp";
+import Contest from "./Pages/Contest";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="/faq" element={<FAQ />} />
           <Route path="/tips" element={<TipsAndTricks />} />
           <Route path="/share/*" element={<DownloadApp />} />
+          <Route path="/contest" element={<Contest />} />
         </Routes>
         <ToastContainer />
       </Router>
