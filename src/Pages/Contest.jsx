@@ -8,6 +8,7 @@ import {
   useCreatePostMutation,
   useGetPostsQuery,
 } from "../features/contest/contestPostApi";
+import { Link } from "react-router-dom";
 function Contest() {
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
@@ -93,8 +94,8 @@ function Contest() {
               {showModal && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                   {/* {error && <p className="bg-red-500 text-white">{error}</p>} */}
-                  <div className="bg-white rounded-lg p-6 w-100">
-                    <h2 className="text-xl font-bold mb-4 text-green-600">
+                  <div className="bg-gray-500 rounded-lg p-6 w-50 shadow-lg">
+                    <h2 className="text-xl font-bold mb-4 text-white">
                       Post Your Image
                     </h2>
 
@@ -111,7 +112,7 @@ function Contest() {
                         onClick={() =>
                           document.getElementById("file-input").click()
                         }
-                        className="mx-auto border hover:text-white p-4 rounded-md hover:bg-green-700 flex items-center justify-center"
+                        className="mx-auto border hover:text-white p-4 rounded-md hover:bg-gray-700 flex items-center justify-center"
                       >
                         Image
                         <BiPlus />
@@ -126,14 +127,14 @@ function Contest() {
                       placeholder="Enter Name"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="w-full border border-gray-300 rounded-md p-2 mb-4"
+                      className="w-full border border-gray-300 rounded-md p-2 mb-4 bg-gray-500"
                     />
                     <input
                       type="text"
                       placeholder="Enter Title"
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
-                      className="w-full border border-gray-300 rounded-md p-2 mb-4"
+                      className="w-full border border-gray-300 rounded-md p-2 mb-4 bg-gray-500"
                     />
 
                     <input
@@ -142,38 +143,38 @@ function Contest() {
                       value={description}
                       id="value"
                       onChange={(e) => setDescription(e.target.value)}
-                      className="w-full border border-gray-300 rounded-md p-2 mb-4"
+                      className="w-full border border-gray-300 rounded-md p-2 mb-4 bg-gray-500"
                     />
 
                     <input
                       type="text"
-                      placeholder="Enter Phone Name"
+                      placeholder="Enter Phone Brand"
                       value={phone}
                       id="value"
                       onChange={(e) => setPhone(e.target.value)}
-                      className="w-full border border-gray-300 rounded-md p-2 mb-4"
+                      className="w-full border border-gray-300 rounded-md p-2 mb-4 bg-gray-500"
                     />
 
                     <input
                       type="text"
-                      placeholder="Enter Phon model"
+                      placeholder="Enter Phone model"
                       value={model}
                       id="value"
                       onChange={(e) => setModel(e.target.value)}
-                      className="w-full border border-gray-300 rounded-md p-2 mb-4"
+                      className="w-full border border-gray-300 rounded-md p-2 mb-4 bg-gray-500"
                     />
 
                     <div className="flex items-center justify-center gap-3 pt-2">
                       <button
                         onClick={handlePost}
-                        className="w-full bg-[#016655] text-white p-2 rounded-md hover:bg-[#016644]"
+                        className="w-full bg-transparent border text-white p-2 rounded-md hover:bg-gray-700"
                       >
                         Post
                         {/* {editingIndex !== null ? "Update" : "Create"} */}
                       </button>
                       <button
                         onClick={handleCloseModal}
-                        className="w-full bg-red-600 text-white p-2 rounded-md hover:bg-red-700"
+                        className="w-full bg-transparent border text-white p-2 rounded-md hover:bg-gray-700"
                       >
                         Close
                       </button>
@@ -192,37 +193,35 @@ function Contest() {
         </div>
       </section>
       {/* image section */}
-      <section className="py-20">
-        <h1 className="text-center text-3xl font-bold">images</h1>
-        <div className="py-[100px] grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[200px]">
+      <section className="py-20 bg-gray-600">
+        <h1 className="text-center text-3xl font-bold">Contest</h1>
+        <div className="py-[100px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8  xl:max-w-5xl mx-auto">
           {posts.map((post, index) => {
             return (
-              <div
-                key={index}
-                className={`group relative rounded-lg overflow-hidden cursor-pointers`}
-                onClick={() => setSelectedImage(image)}
-                role="button"
-                tabIndex={0}
-                // onKeyDown={(e) => {
-                //   if (e.key === "Enter" || e.key === " ") {
-                //     e.preventDefault();
-                //     setSelectedImage(image);
-                //   }
-                // }}
-              >
-                <img
-                  src={post.imageUrl}
-                  alt={post.description}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <p className="text-white text-sm mb-2 line-clamp-2">
-                      {post.description}
-                    </p>
+              <Link to={`/contest/image/${post._id}`}>
+                <div
+                  key={index}
+                  className={`group relative  overflow-hidden cursor-pointers`}
+                  onClick={() => setSelectedImage(image)}
+                  role="button"
+                >
+                  <img
+                    src={post.imageUrl}
+                    alt={post.description}
+                    className="w-full h-full  transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <div className="bg-black w-full h-[30px] opacity-100 absolute z-30">
+                    <p>vote</p>
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="absolute bottom-0 left-0 right-0 p-4">
+                      <p className="text-white text-sm mb-2 line-clamp-2">
+                        {post.description}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>

@@ -16,6 +16,7 @@ import FAQ from "./Components/FAQ";
 import TipsAndTricks from "./Components/TipsAndTricks";
 import DownloadApp from "./Components/DownloadApp";
 import Contest from "./Pages/Contest";
+import ContestImage from "./Pages/ContestImage";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path="/tips" element={<TipsAndTricks />} />
           <Route path="/share/*" element={<DownloadApp />} />
           <Route path="/contest" element={<Contest />} />
+          <Route path="/contest/image/:id" element={<ContestImage />} />
         </Routes>
         <ToastContainer />
       </Router>
