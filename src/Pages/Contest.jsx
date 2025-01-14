@@ -26,39 +26,54 @@ function Contest() {
   const posts = postsData?.posts || [];
   // handlePost
   const handlePost = async () => {
-    if (name && title && description && imageFile && phone && model) {
-      const postInfo = new FormData();
-      postInfo.append("name", name);
-      postInfo.append("title", title);
-      postInfo.append("description", description);
-      postInfo.append("phone", phone);
-      postInfo.append("model", model);
-      if (imageFile) {
-        postInfo.append("imageUrl", imageFile);
-      }
-
-      try {
-        await createPost(postInfo).unwrap();
-        toast.success("Post Successfully !", {
-          position: "top-right",
-        });
-
-        setShowModal(false);
-        setName("");
-        setTitle("");
-        setDescription("");
-        setPhone("");
-        setModel("");
-        setImageFile(null);
-      } catch (error) {
-        toast.error(error.data.message, {
-          position: "top-right",
-        });
-      }
-    } else {
-      console.log("all info required");
+    const user = auth.currentUser; 
+    
+    if (!user) {
+      history.push('/login'); 
+      return;  
+    }
+  
+    if (!name || !title || !description || !imageFile || !phone || !model) {
+      console.log("All fields are required");
+      toast.error("Please fill in all fields.", {
+        position: "top-right",
+      });
+      return;  
+    }
+  
+    setShowModal(true);
+  
+    const postInfo = new FormData();
+    postInfo.append("name", name);
+    postInfo.append("title", title);
+    postInfo.append("description", description);
+    postInfo.append("phone", phone);
+    postInfo.append("model", model);
+    if (imageFile) {
+      postInfo.append("imageUrl", imageFile);
+    }
+  
+    try {
+      await createPost(postInfo).unwrap();
+      
+      toast.success("Post Created Successfully!", {
+        position: "top-right",
+      });
+  
+      setShowModal(false);
+      setName("");
+      setTitle("");
+      setDescription("");
+      setPhone("");
+      setModel("");
+      setImageFile(null);
+    } catch (error) {
+      toast.error(error?.data?.message || "An error occurred", {
+        position: "top-right",
+      });
     }
   };
+  
   //handle close modal
   const handleCloseModal = () => {
     setShowModal(false);
