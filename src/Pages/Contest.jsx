@@ -1,14 +1,18 @@
-import React, { useState } from "react";
-import contestImg from "../assets/contest.jpg";
+import { signInWithPopup } from 'firebase/auth';
+import React, { useEffect, useState } from "react";
 import { BiPlus } from "react-icons/bi";
+import { useHistory } from 'react-router-dom';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import contestImg from "../assets/contest.jpg";
 import {
   useCreatePostMutation,
   useGetPostsQuery,
 } from "../features/contest/contestPostApi";
+import { auth, provider } from './firebase';
 function Contest() {
+   const [user, setUser] = useState(null);
+  const history = useHistory();
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
   const [title, setTitle] = useState("");
@@ -69,6 +73,25 @@ function Contest() {
   const handleImageChange = (e) => {
     setImageFile(e.target.files[0]);
   };
+
+  // Handle Google login on page load
+  useEffect(() => {
+    const loginUser = async () => {
+      try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        setUser(user);
+        console.log('Logged in user:', user);
+        history.push('/contest');
+      } catch (error) {
+        console.error('Error during login:', error);
+      }
+    };
+
+    if (!user) {
+      loginUser();
+    }
+  }, [user, history]);
   return (
     <div>
       {/* banner section */}
@@ -200,15 +223,15 @@ function Contest() {
               <div
                 key={index}
                 className={`group relative rounded-lg overflow-hidden cursor-pointers`}
-                onClick={() => setSelectedImage(image)}
-                role="button"
-                tabIndex={0}
-                // onKeyDown={(e) => {
-                //   if (e.key === "Enter" || e.key === " ") {
-                //     e.preventDefault();
-                //     setSelectedImage(image);
-                //   }
-                // }}
+                // onClick={() => setSelectedImage(image)}
+                // role="button"
+                // tabIndex={0}
+                // // onKeyDown={(e) => {
+                // //   if (e.key === "Enter" || e.key === " ") {
+                // //     e.preventDefault();
+                // //     setSelectedImage(image);
+                // //   }
+                // // }}
               >
                 <img
                   src={post.imageUrl}
