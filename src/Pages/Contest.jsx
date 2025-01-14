@@ -231,40 +231,49 @@ function Contest() {
       </section>
       {/* image section */}
       <section className="py-20">
-        <h1 className="text-center text-3xl font-bold">images</h1>
-        <div className="py-[100px] grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[200px]">
-          {posts.map((post, index) => {
-            return (
-              <div
-                key={index}
-                className={`group relative rounded-lg overflow-hidden cursor-pointers`}
-                // onClick={() => setSelectedImage(image)}
-                // role="button"
-                // tabIndex={0}
-                // // onKeyDown={(e) => {
-                // //   if (e.key === "Enter" || e.key === " ") {
-                // //     e.preventDefault();
-                // //     setSelectedImage(image);
-                // //   }
-                // // }}
-              >
-                <img
-                  src={post.imageUrl}
-                  alt={post.description}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <p className="text-white text-sm mb-2 line-clamp-2">
-                      {post.description}
-                    </p>
-                  </div>
-                </div>
+  <h1 className="text-center text-3xl font-bold">Images</h1>
+  <div className="py-[100px] grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[200px]">
+    {posts.map((post, index) => {
+      return (
+        <div
+          key={index}
+          className="group relative rounded-lg overflow-hidden cursor-pointer"
+        >
+          <img
+            src={post.imageUrl}
+            alt={post.description}
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+          
+          {/* Overlay with description and buttons */}
+          <div className="absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="absolute bottom-0 left-0 right-0 p-4 flex justify-between items-center">
+              {/* Description */}
+              <p className="text-white text-sm mb-2 line-clamp-2">{post.description}</p>
+              
+              {/* Buttons */}
+              <div className="flex gap-2">
+                {/* Vote Button */}
+                <button className="bg-[#016655] text-white px-3 py-1 rounded-md hover:bg-[#014a44]">
+                  Vote
+                </button>
+
+                {/* Share Button */}
+                <button
+                  className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600"
+                  onClick={() => copyToClipboard(post.imageUrl)}
+                >
+                  Share
+                </button>
               </div>
-            );
-          })}
+            </div>
+          </div>
         </div>
-      </section>
+      );
+    })}
+  </div>
+</section>
+
     </div>
   );
 }
