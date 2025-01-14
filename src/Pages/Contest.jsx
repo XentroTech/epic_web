@@ -1,15 +1,19 @@
-import React, { useState } from "react";
-import contestImg from "../assets/contest.jpg";
+import React, { useEffect, useState } from "react";
 import { BiPlus } from "react-icons/bi";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import contestImg from "../assets/contest.jpg";
 import {
   useCreatePostMutation,
   useGetPostsQuery,
 } from "../features/contest/contestPostApi";
-import { Link } from "react-router-dom";
+import { signInWithPopup } from "firebase/auth";
+import { auth, provider } from "../../firebase";
+import { useCreateContestUserMutation } from "../features/contest/contestUserApi";
 function Contest() {
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
   const [title, setTitle] = useState("");
@@ -21,41 +25,60 @@ function Contest() {
   const { data: postsData } = useGetPostsQuery();
   const [createPost, { error }] = useCreatePostMutation();
   const posts = postsData?.posts || [];
+  //create user model instance with google user info
+  const [createContestUser, { error: contestUserError }] =
+    useCreateContestUserMutation();
+
   // handlePost
   const handlePost = async () => {
-    if (name && title && description && imageFile && phone && model) {
-      const postInfo = new FormData();
-      postInfo.append("name", name);
-      postInfo.append("title", title);
-      postInfo.append("description", description);
-      postInfo.append("phone", phone);
-      postInfo.append("model", model);
-      if (imageFile) {
-        postInfo.append("imageUrl", imageFile);
-      }
+    const user = auth.currentUser;
 
-      try {
-        await createPost(postInfo).unwrap();
-        toast.success("Post Successfully !", {
-          position: "top-right",
-        });
+    if (!user) {
+      navigate("/login");
+      return;
+    }
 
-        setShowModal(false);
-        setName("");
-        setTitle("");
-        setDescription("");
-        setPhone("");
-        setModel("");
-        setImageFile(null);
-      } catch (error) {
-        toast.error(error.data.message, {
-          position: "top-right",
-        });
-      }
-    } else {
-      console.log("all info required");
+    if (!name || !title || !description || !imageFile || !phone || !model) {
+      console.log("All fields are required");
+      toast.error("Please fill in all fields.", {
+        position: "top-right",
+      });
+      return;
+    }
+
+    setShowModal(true);
+
+    const postInfo = new FormData();
+    postInfo.append("name", name);
+    postInfo.append("title", title);
+    postInfo.append("description", description);
+    postInfo.append("phone", phone);
+    postInfo.append("model", model);
+    if (imageFile) {
+      postInfo.append("imageUrl", imageFile);
+    }
+
+    try {
+      await createPost(postInfo).unwrap();
+
+      toast.success("Post Created Successfully!", {
+        position: "top-right",
+      });
+
+      setShowModal(false);
+      setName("");
+      setTitle("");
+      setDescription("");
+      setPhone("");
+      setModel("");
+      setImageFile(null);
+    } catch (error) {
+      toast.error(error?.data?.message || "An error occurred", {
+        position: "top-right",
+      });
     }
   };
+
   //handle close modal
   const handleCloseModal = () => {
     setShowModal(false);
@@ -70,6 +93,40 @@ function Contest() {
   const handleImageChange = (e) => {
     setImageFile(e.target.files[0]);
   };
+
+  // Handle Google login on page load
+
+  const isPopUpOpen = false;
+
+  const loginUser = async () => {
+    if (isPopUpOpen) return;
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      console.log(user);
+      setUser(user);
+      const contestUserName = user.displayName;
+      const contestUserEmail = user.email;
+      const contestUserImage = user.photoURL;
+      console.log(contestUserName, contestUserEmail, contestUserImage);
+      await createContestUser({
+        name: contestUserName,
+        email: contestUserEmail,
+        image_url: contestUserImage,
+      }).unwrap();
+      console.log("Logged in user:", user);
+    } catch (error) {
+      console.error("Error during login:", error);
+      if (contestUserError) {
+        console.log(contestUserError.data.message);
+      }
+    }
+  };
+
+  if (!user) {
+    loginUser();
+  }
+
   return (
     <div>
       {/* banner section */}
@@ -193,31 +250,45 @@ function Contest() {
         </div>
       </section>
       {/* image section */}
-      <section className="py-20 bg-gray-600">
-        <h1 className="text-center text-3xl font-bold">Contest</h1>
-        <div className="py-[100px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8  xl:max-w-5xl mx-auto">
+      <section className="py-20">
+        <h1 className="text-center text-3xl font-bold">Images</h1>
+        <div className="py-[100px] grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[200px]">
           {posts.map((post, index) => {
             return (
               <Link to={`/contest/image/${post._id}`}>
                 <div
                   key={index}
-                  className={`group relative  overflow-hidden cursor-pointers`}
-                  onClick={() => setSelectedImage(image)}
-                  role="button"
+                  className="group relative rounded-lg overflow-hidden cursor-pointer"
                 >
                   <img
                     src={post.imageUrl}
                     alt={post.description}
-                    className="w-full h-full  transition-transform duration-300 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
-                  <div className="bg-black w-full h-[30px] opacity-100 absolute z-30">
-                    <p>vote</p>
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
+
+                  {/* Overlay with description and buttons */}
+                  <div className="absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="absolute bottom-0 left-0 right-0 p-4 flex justify-between items-center">
+                      {/* Description */}
                       <p className="text-white text-sm mb-2 line-clamp-2">
                         {post.description}
                       </p>
+
+                      {/* Buttons */}
+                      <div className="flex gap-2">
+                        {/* Vote Button */}
+                        <button className="bg-[#016655] text-white px-3 py-1 rounded-md hover:bg-[#014a44]">
+                          Vote
+                        </button>
+
+                        {/* Share Button */}
+                        <button
+                          className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600"
+                          onClick={() => copyToClipboard(post.imageUrl)}
+                        >
+                          Share
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>

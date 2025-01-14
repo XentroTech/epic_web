@@ -45,8 +45,8 @@ export const apiSlice = createApi({
   tagTypes: [
     "Images, PendingImages, LiveImages, ImagesSpace",
     "Coin",
-    // "Prize",
     "Post",
+    "ContestUser",
   ],
 
   endpoints: (builder) => ({}),

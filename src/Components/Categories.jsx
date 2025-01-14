@@ -47,9 +47,9 @@ const Categories = ({ onCategorySelect }) => {
         <FiChevronLeft className="w-6 h-6" />
       </button>
       <div className="flex space-x-4 py-4 px-12">
-        {visibleCategories.map((category) => (
+        {visibleCategories.map((category, index) => (
           <button
-            key={category.id}
+            key={index}
             onClick={() => onCategorySelect(category.id)}
             className="px-2 md:px-4 py-2 bg-white text-[#016655] rounded-full border transition-colors hover:bg-[#016655] hover:text-white"
           >
